@@ -1,0 +1,3 @@
+[submodule "BrotliSharpLib"]
+	path = BrotliSharpLib
+	url = https://github.com/RealityRipple/BrotliSharpLib.git
