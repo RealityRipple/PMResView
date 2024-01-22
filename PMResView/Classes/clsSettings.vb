@@ -131,4 +131,13 @@
       SaveSetting("Size", "Height", value.Height)
     End Set
   End Property
+
+  Public Shared Property TreeWidth As Integer
+    Get
+      Return Int(ReadSetting("Size", "Tree", "200"))
+    End Get
+    Set(value As Integer)
+      SaveSetting("Size", "Tree", value)
+    End Set
+  End Property
 End Class

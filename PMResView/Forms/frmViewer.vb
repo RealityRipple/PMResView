@@ -38,6 +38,7 @@
   Private regCulture As Boolean = False
   Private regCase As Boolean = False
   Private regHistory As New List(Of String)
+  Private isLoaded As Boolean = False
 
 #Region "Menus"
 #Region "File"
@@ -451,6 +452,7 @@
   Private Sub frmViewer_Shown(sender As Object, e As System.EventArgs) Handles Me.Shown
     regHistory.Add("^.*$")
     Me.Size = Settings.WindowSize
+    pnlMain.SplitterDistance = Settings.TreeWidth
     Select Case Settings.IconMethod
       Case View.LargeIcon : mnuViewIconsLarge.PerformClick()
       Case View.SmallIcon : mnuViewIconsSmall.PerformClick()
@@ -470,6 +472,7 @@
     ToggleFlat()
     mnuViewTree.Checked = Settings.TreeView
     ToggleTree(mnuViewTree.Checked)
+    isLoaded = True
   End Sub
 
   Private Sub frmViewer_Resize(sender As Object, e As System.EventArgs) Handles Me.Resize
@@ -481,6 +484,7 @@
 
   Private Sub frmViewer_ResizeEnd(sender As Object, e As System.EventArgs) Handles Me.ResizeEnd
     If Me.WindowState = FormWindowState.Maximized Then Return
+    If Not isLoaded Then Return
     Settings.WindowSize = Me.Size
   End Sub
 
@@ -560,6 +564,11 @@
   End Sub
 
 #End Region
+
+  Private Sub pnlMain_SplitterMoved(sender As System.Object, e As System.Windows.Forms.SplitterEventArgs) Handles pnlMain.SplitterMoved
+    If Not isLoaded Then Return
+    Settings.TreeWidth = pnlMain.SplitterDistance
+  End Sub
 
   Private Sub tvExplorer_AfterSelect(sender As System.Object, e As System.Windows.Forms.TreeViewEventArgs) Handles tvExplorer.AfterSelect
     If tBusy Then Return
