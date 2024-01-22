@@ -574,13 +574,6 @@
     mnuContextFile.Show(tvExplorer, e.Location)
   End Sub
 
-  'Private Sub tvExplorer_MouseUp(sender As Object, e As System.Windows.Forms.MouseEventArgs) Handles tvExplorer.MouseUp
-  '  If Not e.Button = Windows.Forms.MouseButtons.Right Then Return
-  '  If tvExplorer.SelectedNode Is Nothing Then Return
-  '  mnuContextOpen.Visible = True
-  '  mnuContextFile.Show(tvExplorer, e.Location)
-  'End Sub
-
   Private Sub lvFiles_ColumnClick(sender As Object, e As System.Windows.Forms.ColumnClickEventArgs) Handles lvFiles.ColumnClick
     Select Case e.Column
       Case 0 : mnuViewSortName.PerformClick()
