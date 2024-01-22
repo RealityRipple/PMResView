@@ -377,7 +377,7 @@ Partial Class frmViewer
     Me.pnlMain.Panel2.Controls.Add(Me.lvFiles)
     Me.pnlMain.Panel2MinSize = 200
     Me.pnlMain.Size = New System.Drawing.Size(704, 279)
-    Me.pnlMain.SplitterDistance = 124
+    Me.pnlMain.SplitterDistance = 200
     Me.pnlMain.TabIndex = 0
     '
     'tvExplorer
@@ -390,7 +390,7 @@ Partial Class frmViewer
     Me.tvExplorer.Name = "tvExplorer"
     Me.tvExplorer.SelectedImageIndex = 0
     Me.tvExplorer.ShowLines = False
-    Me.tvExplorer.Size = New System.Drawing.Size(124, 279)
+    Me.tvExplorer.Size = New System.Drawing.Size(200, 279)
     Me.tvExplorer.TabIndex = 0
     '
     'imlFolderTree
@@ -412,7 +412,7 @@ Partial Class frmViewer
     Me.lvFiles.Location = New System.Drawing.Point(0, 0)
     Me.lvFiles.Name = "lvFiles"
     Me.lvFiles.ShowGroups = False
-    Me.lvFiles.Size = New System.Drawing.Size(576, 279)
+    Me.lvFiles.Size = New System.Drawing.Size(500, 279)
     Me.lvFiles.SmallImageList = Me.imlFileList
     Me.lvFiles.TabIndex = 0
     Me.lvFiles.UseCompatibleStateImageBehavior = False
