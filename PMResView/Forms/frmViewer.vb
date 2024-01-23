@@ -1401,13 +1401,20 @@
     Next
     If zFSE Is Nothing Then Return
     Dim zDir As ZIP.FileSystemDirectory = zFSE
-    Dim sProps As String = "Full Path: " & zDir.Name
+    Dim sTitle As String = IO.Path.GetFileName(zDir.Name)
+    If zDir.Name = IO.Path.DirectorySeparatorChar Then sTitle = sArchiveName
+    Dim sProps As String
+    If zDir.Name = IO.Path.DirectorySeparatorChar Then
+      sProps = "Full Path: " & sArchivePath
+    Else
+      sProps = "Full Path: " & zDir.Name
+    End If
     sProps &= vbNewLine & "Real Size: " & ByteSize(zDir.UncompressedLength) & " (" & zDir.UncompressedLength & " bytes)"
     sProps &= vbNewLine & "Compressed: " & ByteSize(zDir.CompressedLength) & " (" & Math.Floor((zDir.CompressedLength / zDir.UncompressedLength) * 100) & "%)"
     sProps &= vbNewLine & "Contains " & zDir.FileCount & " file(s) and " & zDir.DirectoryCount & " folder(s)"
     Dim fr As Decimal = zDir.CompressedLength / zDir.UncompressedLength
     If fr > 1 Then fr = -1
-    SuperMsgBox(Me, "Directory Properties", Microsoft.WindowsAPICodePack.Dialogs.TaskDialogStandardIcon.Information, IO.Path.GetFileName(zDir.Name), sProps, Microsoft.WindowsAPICodePack.Dialogs.TaskDialogStandardButtons.Close, , , fr)
+    SuperMsgBox(Me, "Directory Properties", Microsoft.WindowsAPICodePack.Dialogs.TaskDialogStandardIcon.Information, sTitle, sProps, Microsoft.WindowsAPICodePack.Dialogs.TaskDialogStandardButtons.Close, , , fr)
   End Sub
 #End Region
 End Class
