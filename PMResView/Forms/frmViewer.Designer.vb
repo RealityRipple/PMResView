@@ -194,28 +194,33 @@ Partial Class frmViewer
     '
     'mnuEditAll
     '
+    Me.mnuEditAll.Enabled = False
     Me.mnuEditAll.Index = 0
     Me.mnuEditAll.Shortcut = System.Windows.Forms.Shortcut.CtrlA
     Me.mnuEditAll.Text = "Select &All"
     '
     'mnuEditNone
     '
+    Me.mnuEditNone.Enabled = False
     Me.mnuEditNone.Index = 1
     Me.mnuEditNone.Shortcut = System.Windows.Forms.Shortcut.ShiftDel
     Me.mnuEditNone.Text = "&Deselect All"
     '
     'mnuEditInvert
     '
+    Me.mnuEditInvert.Enabled = False
     Me.mnuEditInvert.Index = 2
     Me.mnuEditInvert.Text = "&Invert Selection"
     '
     'mnuEditSelect
     '
+    Me.mnuEditSelect.Enabled = False
     Me.mnuEditSelect.Index = 3
     Me.mnuEditSelect.Text = "&Select..."
     '
     'mnuEditDeselect
     '
+    Me.mnuEditDeselect.Enabled = False
     Me.mnuEditDeselect.Index = 4
     Me.mnuEditDeselect.Text = "&Deselect..."
     '
@@ -226,11 +231,13 @@ Partial Class frmViewer
     '
     'mnuEditSelType
     '
+    Me.mnuEditSelType.Enabled = False
     Me.mnuEditSelType.Index = 6
     Me.mnuEditSelType.Text = "Select by &Type"
     '
     'mnuEditDeselType
     '
+    Me.mnuEditDeselType.Enabled = False
     Me.mnuEditDeselType.Index = 7
     Me.mnuEditDeselType.Text = "Deselect by T&ype"
     '

@@ -969,6 +969,15 @@
       mnuFileOpenFile.Enabled = False
       mnuFileExtractFile.Enabled = False
       mnuFilePropertiesFile.Enabled = False
+
+      mnuEditAll.Enabled = False
+      mnuEditNone.Enabled = False
+      mnuEditInvert.Enabled = False
+      mnuEditSelect.Enabled = False
+      mnuEditDeselect.Enabled = False
+      mnuEditSelType.Enabled = False
+      mnuEditDeselType.Enabled = False
+
       cmdExtract.Enabled = False
       cmdProperties.Enabled = False
       Return
@@ -1015,6 +1024,14 @@
     mnuFilePropertiesFile.Enabled = lvFiles.SelectedItems.Count = 1
     cmdExtract.Enabled = lvFiles.SelectedItems.Count > 0
     cmdProperties.Enabled = lvFiles.SelectedItems.Count = 1
+
+    mnuEditAll.Enabled = lvFiles.SelectedItems.Count < lvFiles.Items.Count
+    mnuEditNone.Enabled = lvFiles.SelectedItems.Count > 0
+    mnuEditInvert.Enabled = True
+    mnuEditSelect.Enabled = lvFiles.SelectedItems.Count < lvFiles.Items.Count
+    mnuEditDeselect.Enabled = lvFiles.SelectedItems.Count > 0
+    mnuEditSelType.Enabled = lvFiles.SelectedItems.Count < lvFiles.Items.Count
+    mnuEditDeselType.Enabled = lvFiles.SelectedItems.Count > 0
   End Sub
 #End Region
 
