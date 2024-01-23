@@ -39,6 +39,7 @@
   Private regCase As Boolean = False
   Private regHistory As New List(Of String)
   Private isLoaded As Boolean = False
+  Private sExtractHistory As New List(Of String)
 
 #Region "Menus"
 #Region "File"
@@ -449,6 +450,17 @@
 #End Region
 
 #Region "UI"
+  Private Sub frmViewer_FormClosing(sender As Object, e As System.Windows.Forms.FormClosingEventArgs) Handles Me.FormClosing
+    If sExtractHistory.LongCount < 1 Then Return
+    For I As Long = 0 To sExtractHistory.LongCount - 1
+      Dim sTemp As String = IO.Path.Combine(My.Computer.FileSystem.SpecialDirectories.Temp, sExtractHistory(I))
+      If Not IO.File.Exists(sTemp) Then Continue For
+      Try
+        IO.File.Delete(sTemp)
+      Catch ex As Exception
+      End Try
+    Next
+  End Sub
 
   Private Sub frmViewer_Shown(sender As Object, e As System.EventArgs) Handles Me.Shown
     regHistory.Add("^.*$")
@@ -1087,24 +1099,32 @@
       If zFile.GetType Is GetType(ZIP.FileSystemDirectory) Then
         RenderDir(zFile.Name)
       Else
-        Dim sTemp As String = IO.Path.Combine(My.Computer.FileSystem.SpecialDirectories.Temp, IO.Path.GetFileName(zFile.Name))
+        Dim sName As String = IO.Path.GetFileName(zFile.Name)
+        Dim iCopy As Integer = 0
+        Dim sTemp As String = IO.Path.Combine(My.Computer.FileSystem.SpecialDirectories.Temp, sName)
+        While IO.File.Exists(sTemp)
+          iCopy += 1
+          sName = iCopy & "-" & IO.Path.GetFileName(zFile.Name)
+          sTemp = IO.Path.Combine(My.Computer.FileSystem.SpecialDirectories.Temp, sName)
+        End While
         My.Computer.FileSystem.WriteAllBytes(sTemp, CType(zFile, ZIP.FileSystemFile).Data, False)
+        If Not sExtractHistory.Contains(sName) Then sExtractHistory.Add(sName)
         NativeMethods.ShellExecute(0, vbNullString, sTemp, vbNullString, vbNullString, vbNormalFocus)
       End If
     Else
-      Dim sNames As New List(Of String)
       For I As Integer = 0 To lvFiles.SelectedItems.Count - 1
         Dim zFile As ZIP.FileSystemEntry = lvFiles.SelectedItems(I).Tag
         If zFile.GetType Is GetType(ZIP.FileSystemDirectory) Then Continue For
         Dim sName As String = IO.Path.GetFileName(zFile.Name)
         Dim iCopy As Integer = 0
-        While sNames.Contains(sName)
+        Dim sTemp As String = IO.Path.Combine(My.Computer.FileSystem.SpecialDirectories.Temp, sName)
+        While IO.File.Exists(sTemp)
           iCopy += 1
           sName = iCopy & "-" & IO.Path.GetFileName(zFile.Name)
+          sTemp = IO.Path.Combine(My.Computer.FileSystem.SpecialDirectories.Temp, sName)
         End While
-        sNames.Add(sName)
-        Dim sTemp As String = IO.Path.Combine(My.Computer.FileSystem.SpecialDirectories.Temp, sName)
         My.Computer.FileSystem.WriteAllBytes(sTemp, CType(zFile, ZIP.FileSystemFile).Data, False)
+        If Not sExtractHistory.Contains(sName) Then sExtractHistory.Add(sName)
         NativeMethods.ShellExecute(0, vbNullString, sTemp, vbNullString, vbNullString, vbNormalFocus)
       Next
     End If
