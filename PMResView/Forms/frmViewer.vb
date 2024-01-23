@@ -477,7 +477,11 @@
   End Sub
 
   Private Sub frmViewer_Resize(sender As Object, e As System.EventArgs) Handles Me.Resize
-    Dim newWidth As Integer = pnlUI.TopToolStripPanel.ClientRectangle.Width - (cmdBack.Width + cmdForward.Width + cmdUp.Width + sepSpace1.Width + lblAddress.Width + cmdGo.Width + sepSpace2.Width + cmdExtract.Width + cmdProperties.Width + 12)
+    Dim newWidth As Integer = pnlUI.TopToolStripPanel.ClientRectangle.Width - 12
+    For I As Integer = 0 To tbNav.Items.Count - 1
+      If tbNav.Items(I).Name = txtAddress.Name Then Continue For
+      newWidth -= tbNav.Items(I).Width
+    Next
     If newWidth < 150 Then newWidth = 150
     If newWidth > 400 Then newWidth = 400
     If Not txtAddress.Width = newWidth Then txtAddress.Width = newWidth
