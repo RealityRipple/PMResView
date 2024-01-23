@@ -487,6 +487,10 @@
     mnuViewTree.Checked = Settings.TreeView
     ToggleTree(mnuViewTree.Checked)
     isLoaded = True
+    If My.Application.CommandLineArgs.LongCount = 1 Then
+      Dim sLoad As String = My.Application.CommandLineArgs(0)
+      If IO.File.Exists(sLoad) Then LoadFile(sLoad)
+    End If
   End Sub
 
   Private Sub frmViewer_Resize(sender As Object, e As System.EventArgs) Handles Me.Resize
