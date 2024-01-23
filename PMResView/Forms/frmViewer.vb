@@ -1075,11 +1075,15 @@
     pbActivity.Visible = True
     Dim bArchive() As Byte = IO.File.ReadAllBytes(path)
     zArchive = ZIP.ReadFileSystem(bArchive, AddressOf ShowProgress)
-    If zArchive.Length = 0 Then Return
     lblSelUncompressed.Text = "0 bytes"
     lblSelSize.Visible = True
     lblSelSize.Text = "0 bytes"
     lblSelCount.Text = "No objects selected"
+    If zArchive.Length = 0 Then
+      pbActivity.Visible = False
+      SuperMsgBox(Me, "Error", Microsoft.WindowsAPICodePack.Dialogs.TaskDialogStandardIcon.Error, "Unable to load.", "No files could be extracted from the archive.", Microsoft.WindowsAPICodePack.Dialogs.TaskDialogStandardButtons.Ok, path)
+      Return
+    End If
     RenderArchive()
     pbActivity.Visible = False
   End Sub
