@@ -1,11 +1,14 @@
 ﻿Public Class Settings
+  Private Shared mSavePath As String = Nothing
   Private Shared Function SavePath() As String
+    If Not mSavePath = Nothing Then Return mSavePath
     Dim sPath As String = My.Application.Info.DirectoryPath
     Try
       CreateAllSubdirs(sPath)
       My.Computer.FileSystem.WriteAllText(IO.Path.Combine(sPath, "test.del"), "delete me", False)
       My.Computer.FileSystem.DeleteFile(IO.Path.Combine(sPath, "test.del"))
-      Return IO.Path.Combine(sPath, "config.ini")
+      mSavePath = IO.Path.Combine(sPath, "config.ini")
+      Return mSavePath
     Catch ex As Exception
     End Try
     sPath = IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), My.Application.Info.CompanyName, My.Application.Info.ProductName)
@@ -13,11 +16,13 @@
       CreateAllSubdirs(sPath)
       My.Computer.FileSystem.WriteAllText(IO.Path.Combine(sPath, "test.del"), "delete me", False)
       My.Computer.FileSystem.DeleteFile(IO.Path.Combine(sPath, "test.del"))
-      Return IO.Path.Combine(sPath, "config.ini")
+      mSavePath = IO.Path.Combine(sPath, "config.ini")
+      Return mSavePath
     Catch ex As Exception
 
     End Try
-    Return Nothing
+    mSavePath = ""
+    Return mSavePath
   End Function
 
   Private Shared Sub SaveSetting(sGroup As String, sSetting As String, sValue As String)
