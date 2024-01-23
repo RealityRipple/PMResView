@@ -59,6 +59,7 @@
       If Not cdlOpen.ShowDialog(Me.Handle) = Microsoft.WindowsAPICodePack.Dialogs.CommonFileDialogResult.Ok Then Return
       mnuFileCloseArchive.PerformClick()
       LoadFile(cdlOpen.FileName)
+      lvFiles.Focus()
     End Using
 
   End Sub
