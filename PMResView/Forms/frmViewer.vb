@@ -635,6 +635,19 @@
     If canOpen Then lvFiles_Open()
   End Sub
 
+  Private Sub lvFiles_DragDrop(sender As Object, e As System.Windows.Forms.DragEventArgs) Handles lvFiles.DragDrop
+    If Not e.Data.GetDataPresent(DataFormats.FileDrop, False) Then Return
+    Dim eData As String() = e.Data.GetData(DataFormats.FileDrop, False)
+    If eData Is Nothing OrElse Not eData.LongLength = 1 Then Return
+    If Not IO.File.Exists(eData(0)) Then Return
+    LoadFile(eData(0))
+  End Sub
+
+  Private Sub lvFiles_DragEnter(sender As Object, e As System.Windows.Forms.DragEventArgs) Handles lvFiles.DragEnter
+    If Not e.Data.GetDataPresent(DataFormats.FileDrop, False) Then Return
+    e.Effect = DragDropEffects.Copy
+  End Sub
+
   Private Sub lvFiles_MouseUp(sender As Object, e As System.Windows.Forms.MouseEventArgs) Handles lvFiles.MouseUp
     If Not e.Button = Windows.Forms.MouseButtons.Right Then Return
     If lvFiles.SelectedItems.Count < 1 Then

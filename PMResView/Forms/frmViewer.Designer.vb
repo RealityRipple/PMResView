@@ -411,6 +411,7 @@ Partial Class frmViewer
     '
     'lvFiles
     '
+    Me.lvFiles.AllowDrop = True
     Me.lvFiles.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.colName, Me.colType, Me.colSize, Me.colCompression})
     Me.lvFiles.Dock = System.Windows.Forms.DockStyle.Fill
     Me.lvFiles.HideSelection = False
