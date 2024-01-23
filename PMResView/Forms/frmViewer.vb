@@ -251,6 +251,7 @@
     mnuViewIconsTile.Checked = False
     lvFiles.View = View.Details
     Settings.IconMethod = View.Details
+    ResizeColumns()
   End Sub
 
   Private Sub mnuViewIconsTile_Click(sender As System.Object, e As System.EventArgs) Handles mnuViewIconsTile.Click, mnuContextViewIconsTile.Click
