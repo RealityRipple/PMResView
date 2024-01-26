@@ -1081,7 +1081,7 @@
     sArchiveDir = IO.Path.DirectorySeparatorChar
     sArchivePath = path
     sArchiveName = IO.Path.GetFileName(path)
-    Me.Text = "PMRes Viewer - [" & sArchiveName & "]"
+    Me.Text = "PMRes Viewer - [" & path & "]"
     lblSelUncompressed.Text = "0%"
     lblSelSize.Visible = False
     lblSelCount.Text = "Reading Archive Structure..."
