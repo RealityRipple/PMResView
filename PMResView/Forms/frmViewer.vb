@@ -1422,6 +1422,7 @@
       'file properties
       Dim zFile As ZIP.FileSystemFile = zFSE
       Dim sProps As String = "Full Path: " & zFile.Name
+      sProps &= vbNewLine & vbNewLine & "File Type: " & zFile.FileType
       sProps &= vbNewLine & vbNewLine & "Real Size: " & ByteSize(zFile.UncompressedLength) & " (" & zFile.UncompressedLength & " bytes)"
       If zFile.Compression = 0 Then
         sProps &= vbNewLine & "Uncompressed"
