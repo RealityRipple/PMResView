@@ -1415,7 +1415,7 @@
       sProps &= vbNewLine & "Contains " & zDir.FileCount & " file(s) and " & zDir.DirectoryCount & " folder(s)"
       Dim fr As Decimal = zDir.CompressedLength / zDir.UncompressedLength
       If fr > 1 Then fr = -1
-      SuperMsgBox(Me, "Directory Properties", Microsoft.WindowsAPICodePack.Dialogs.TaskDialogStandardIcon.Information, IO.Path.GetFileName(zDir.Name), sProps, Microsoft.WindowsAPICodePack.Dialogs.TaskDialogStandardButtons.Close, , , fr)
+      SuperMsgBox(Me, "Folder Properties", Microsoft.WindowsAPICodePack.Dialogs.TaskDialogStandardIcon.Information, IO.Path.GetFileName(zDir.Name), sProps, Microsoft.WindowsAPICodePack.Dialogs.TaskDialogStandardButtons.Close, , , fr)
     ElseIf zFSE.GetType Is GetType(ZIP.FileSystemFile) Then
       'file properties
       Dim zFile As ZIP.FileSystemFile = zFSE
