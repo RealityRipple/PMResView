@@ -43,6 +43,7 @@
   End Class
   Public Class FileSystemFile
     Inherits FileSystemEntry
+    Public FileType As String
     Public Compression As UInt32
     Public Offset As UInt32
     Public CRC As UInt32
@@ -191,6 +192,7 @@
     zFile.CompressedLength = 0
     zFile.UncompressedLength = 0
     zFile.Flags = New FileFlags(0)
+    zFile.FileType = "File"
     Dim iPos As UInt64 = iStart
     If bData.LongLength <= iPos + 4 Then Return Nothing
     Dim iDWORD As UInt32 = BitConverter.ToUInt32(bData, iPos) : iPos += 4
@@ -250,6 +252,7 @@
     If bData.LongLength <= iPos + iFileName Then Return Nothing
     Dim sFileName As String = System.Text.Encoding.UTF8.GetString(bData, iPos, iFileName) : iPos += iFileName
     zFile.Name = IO.Path.DirectorySeparatorChar & sFileName.Replace("/", IO.Path.DirectorySeparatorChar)
+    If Not String.IsNullOrEmpty(zFile.Name) Then zFile.FileType = GetRegType(IO.Path.GetExtension(zFile.Name))
 
     If bData.LongLength <= iPos + iExtraField Then Return Nothing
     iPos += iExtraField
@@ -346,5 +349,35 @@
       Return Not crc
     End Function
   End Class
+
+  Private Shared KnownTypes As New Dictionary(Of String, String)
+  Private Shared Function GetRegType(sExt As String) As String
+    If String.IsNullOrEmpty(sExt) Then Return "File"
+    sExt = sExt.ToLower
+    If Not sExt.Substring(0, 1) = "." Then sExt = "." & sExt
+    If KnownTypes.ContainsKey(sExt) Then Return KnownTypes(sExt)
+    Dim rRegID As Microsoft.Win32.RegistryKey = My.Computer.Registry.ClassesRoot.OpenSubKey(sExt)
+    If rRegID Is Nothing Then
+      KnownTypes(sExt) = sExt.Substring(1).ToUpper & " File"
+      Return sExt.Substring(1).ToUpper & " File"
+    End If
+    Dim sRegID As String = rRegID.GetValue("", "UNSET")
+    If sRegID = "UNSET" Then
+      KnownTypes(sExt) = sExt.Substring(1).ToUpper & " File"
+      Return sExt.Substring(1).ToUpper & " File"
+    End If
+    Dim rRegVal As Microsoft.Win32.RegistryKey = My.Computer.Registry.ClassesRoot.OpenSubKey(sRegID)
+    If rRegVal Is Nothing Then
+      KnownTypes(sExt) = sExt.Substring(1).ToUpper & " File"
+      Return sExt.Substring(1).ToUpper & " File"
+    End If
+    Dim sRegVal As String = rRegVal.GetValue("", "UNSET")
+    If sRegVal = "UNSET" Then
+      KnownTypes(sExt) = sExt.Substring(1).ToUpper & " File"
+      Return sExt.Substring(1).ToUpper & " File"
+    End If
+    KnownTypes(sExt) = sRegVal
+    Return sRegVal
+  End Function
 #End Region
 End Class
