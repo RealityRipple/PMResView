@@ -1376,7 +1376,9 @@
         cdlSave.Title = "Extract File to Location..."
         cdlSave.InitialDirectory = My.Computer.FileSystem.SpecialDirectories.MyDocuments
         cdlSave.DefaultFileName = IO.Path.GetFileName(zFile.Name)
-        cdlSave.Filters.Add(New Microsoft.WindowsAPICodePack.Dialogs.CommonFileDialogFilter(IO.Path.GetExtension(zFile.Name).Substring(1).ToUpper & " Files", IO.Path.GetExtension(zFile.Name)))
+        If Not String.IsNullOrEmpty(IO.Path.GetExtension(zFile.Name)) Then
+          cdlSave.Filters.Add(New Microsoft.WindowsAPICodePack.Dialogs.CommonFileDialogFilter(zFile.FileType & "s", IO.Path.GetExtension(zFile.Name)))
+        End If
         cdlSave.Filters.Add(New Microsoft.WindowsAPICodePack.Dialogs.CommonFileDialogFilter("All Files", "*.*"))
         If Not cdlSave.ShowDialog(Me.Handle) = Microsoft.WindowsAPICodePack.Dialogs.CommonFileDialogResult.Ok Then Return
         toPath = cdlSave.FileName
