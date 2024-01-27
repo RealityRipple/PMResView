@@ -724,7 +724,8 @@
   Private Sub RenderArchive()
     tvExplorer.Nodes.Clear()
     tvExplorer.SuspendLayout()
-    tvExplorer.Nodes.Add(IO.Path.DirectorySeparatorChar, sArchiveName, "archive", "archive")
+    Dim tnArchive As TreeNode = tvExplorer.Nodes.Add(IO.Path.DirectorySeparatorChar, sArchiveName, "archive", "archive")
+    tnArchive.ToolTipText = "Size: 0 bytes" & vbNewLine & "Contents: Unknown"
     Dim sDirs As New List(Of String)
     For I As Long = 0 To zArchive.LongLength - 1
       If Not zArchive(I).GetType Is GetType(ZIP.FileSystemDirectory) Then Continue For
@@ -737,16 +738,21 @@
         zImg = "files"
       End If
       If zDir.Name = IO.Path.DirectorySeparatorChar Then
-
+        tnArchive.ToolTipText = "Type: Archive" & vbNewLine &
+                                "Size: " & ByteSize(zDir.UncompressedLength) & " (" & Math.Floor((zDir.CompressedLength / zDir.UncompressedLength) * 100) & "%)" & vbNewLine &
+                                "Contents: " & zDir.FileCount & " file" & IIf(zDir.FileCount = 1, "", "s") & ", " & zDir.DirectoryCount & " folder" & IIf(zDir.DirectoryCount = 1, "", "s")
       Else
         Dim zParent As TreeNode() = tvExplorer.Nodes.Find(IO.Path.GetDirectoryName(zDir.Name), True)
         If Not zParent.LongLength = 1 Then Stop
-        zParent(0).Nodes.Add(zDir.Name, IO.Path.GetFileName(zDir.Name), zImg, zImg)
+        Dim zChild As TreeNode = zParent(0).Nodes.Add(zDir.Name, IO.Path.GetFileName(zDir.Name), zImg, zImg)
+        zChild.ToolTipText = "Type: " & ZIP.GetRegTypeForDirectory() & vbNewLine &
+                             "Size: " & ByteSize(zDir.UncompressedLength) & " (" & Math.Floor((zDir.CompressedLength / zDir.UncompressedLength) * 100) & "%)" & vbNewLine &
+                             "Contents: " & zDir.FileCount & " file" & IIf(zDir.FileCount = 1, "", "s") & ", " & zDir.DirectoryCount & " folder" & IIf(zDir.DirectoryCount = 1, "", "s")
       End If
     Next
     txtAddress.AutoCompleteCustomSource.Clear()
     txtAddress.AutoCompleteCustomSource.AddRange(sDirs.ToArray)
-    If tvExplorer.Nodes.Count > 0 Then tvExplorer.Nodes(0).Expand()
+    tnArchive.Expand()
     tvExplorer.ResumeLayout()
     RenderDir(IO.Path.DirectorySeparatorChar)
   End Sub
@@ -855,7 +861,10 @@
         lvAdd.Tag = zArchive(I)
         Dim sType As String = "BLANK"
         If zArchive(I).GetType Is GetType(ZIP.FileSystemFile) Then
-          sType = AddIcon(zArchive(I).Name)
+          Dim ZFile As ZIP.FileSystemFile = zArchive(I)
+          sType = AddIcon(ZFile.Name)
+          lvAdd.ToolTipText = "Type: " & ZFile.FileType & vbNewLine &
+                              "Size: " & ByteSize(ZFile.UncompressedLength) & " (" & Math.Floor((ZFile.CompressedLength / ZFile.UncompressedLength) * 100) & "%)"
         ElseIf zArchive(I).GetType Is GetType(ZIP.FileSystemDirectory) Then
           Dim ZDir As ZIP.FileSystemDirectory = zArchive(I)
           If ZDir.DirectoryCount > 0 Then
@@ -865,6 +874,9 @@
           Else
             sType = "EMPTY"
           End If
+          lvAdd.ToolTipText = "Type: " & ZIP.GetRegTypeForDirectory() & vbNewLine &
+                              "Size: " & ByteSize(ZDir.UncompressedLength) & " (" & Math.Floor((ZDir.CompressedLength / ZDir.UncompressedLength) * 100) & "%)" & vbNewLine &
+                              "Contents: " & ZDir.FileCount & " file" & IIf(ZDir.FileCount = 1, "", "s") & ", " & ZDir.DirectoryCount & " folder" & IIf(ZDir.DirectoryCount = 1, "", "s")
         End If
         lvAdd.ImageKey = sType
         If sType = "BLANK" Then
@@ -890,7 +902,10 @@
         lvAdd.Tag = zArchive(I)
         Dim sType As String = "BLANK"
         If zArchive(I).GetType Is GetType(ZIP.FileSystemFile) Then
-          sType = AddIcon(zArchive(I).Name)
+          Dim ZFile As ZIP.FileSystemFile = zArchive(I)
+          sType = AddIcon(ZFile.Name)
+          lvAdd.ToolTipText = "Type: " & ZFile.FileType & vbNewLine &
+                              "Size: " & ByteSize(ZFile.UncompressedLength) & " (" & Math.Floor((ZFile.CompressedLength / ZFile.UncompressedLength) * 100) & "%)"
         ElseIf zArchive(I).GetType Is GetType(ZIP.FileSystemDirectory) Then
           Dim ZDir As ZIP.FileSystemDirectory = zArchive(I)
           If ZDir.DirectoryCount > 0 Then
@@ -900,6 +915,9 @@
           Else
             sType = "EMPTY"
           End If
+          lvAdd.ToolTipText = "Type: " & ZIP.GetRegTypeForDirectory() & vbNewLine &
+                              "Size: " & ByteSize(ZDir.UncompressedLength) & " (" & Math.Floor((ZDir.CompressedLength / ZDir.UncompressedLength) * 100) & "%)" & vbNewLine &
+                              "Contents: " & ZDir.FileCount & " file" & IIf(ZDir.FileCount = 1, "", "s") & ", " & ZDir.DirectoryCount & " folder" & IIf(ZDir.DirectoryCount = 1, "", "s")
         End If
         lvAdd.ImageKey = sType
         If sType = "BLANK" Then

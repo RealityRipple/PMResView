@@ -397,6 +397,7 @@ Partial Class frmViewer
     Me.tvExplorer.Name = "tvExplorer"
     Me.tvExplorer.SelectedImageIndex = 0
     Me.tvExplorer.ShowLines = False
+    Me.tvExplorer.ShowNodeToolTips = True
     Me.tvExplorer.Size = New System.Drawing.Size(200, 279)
     Me.tvExplorer.TabIndex = 0
     '
@@ -420,6 +421,7 @@ Partial Class frmViewer
     Me.lvFiles.Location = New System.Drawing.Point(0, 0)
     Me.lvFiles.Name = "lvFiles"
     Me.lvFiles.ShowGroups = False
+    Me.lvFiles.ShowItemToolTips = True
     Me.lvFiles.Size = New System.Drawing.Size(500, 279)
     Me.lvFiles.SmallImageList = Me.imlFileList
     Me.lvFiles.TabIndex = 0

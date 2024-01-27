@@ -379,5 +379,21 @@
     KnownTypes(sExt) = sRegVal
     Return sRegVal
   End Function
+
+  Public Shared Function GetRegTypeForDirectory() As String
+    If KnownTypes.ContainsKey("Directory") Then Return KnownTypes("Directory")
+    Dim rRegVal As Microsoft.Win32.RegistryKey = My.Computer.Registry.ClassesRoot.OpenSubKey("Directory")
+    If rRegVal Is Nothing Then
+      KnownTypes("Directory") = "File Folder"
+      Return "File Folder"
+    End If
+    Dim sRegVal As String = rRegVal.GetValue("", "UNSET")
+    If sRegVal = "UNSET" Then
+      KnownTypes("Directory") = "File Folder"
+      Return "File Folder"
+    End If
+    KnownTypes("Directory") = sRegVal
+    Return sRegVal
+  End Function
 #End Region
 End Class
