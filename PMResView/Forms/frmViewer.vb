@@ -1410,9 +1410,9 @@
       'folder properties
       Dim zDir As ZIP.FileSystemDirectory = zFSE
       Dim sProps As String = "Full Path: " & zDir.Name
-      sProps &= vbNewLine & "Real Size: " & ByteSize(zDir.UncompressedLength) & " (" & zDir.UncompressedLength & " bytes)"
+      sProps &= vbNewLine & vbNewLine & "Real Size: " & ByteSize(zDir.UncompressedLength) & " (" & zDir.UncompressedLength & " bytes)"
       sProps &= vbNewLine & "Compressed: " & ByteSize(zDir.CompressedLength) & " (" & Math.Floor((zDir.CompressedLength / zDir.UncompressedLength) * 100) & "%)"
-      sProps &= vbNewLine & "Contains " & zDir.FileCount & " file(s) and " & zDir.DirectoryCount & " folder(s)"
+      sProps &= vbNewLine & vbNewLine & "Contains " & zDir.FileCount & " file(s) and " & zDir.DirectoryCount & " folder(s)"
       Dim fr As Decimal = zDir.CompressedLength / zDir.UncompressedLength
       If fr > 1 Then fr = -1
       SuperMsgBox(Me, "Folder Properties", Microsoft.WindowsAPICodePack.Dialogs.TaskDialogStandardIcon.Information, IO.Path.GetFileName(zDir.Name), sProps, Microsoft.WindowsAPICodePack.Dialogs.TaskDialogStandardButtons.Close, , , fr)
@@ -1420,14 +1420,14 @@
       'file properties
       Dim zFile As ZIP.FileSystemFile = zFSE
       Dim sProps As String = "Full Path: " & zFile.Name
-      sProps &= vbNewLine & "Real Size: " & ByteSize(zFile.UncompressedLength) & " (" & zFile.UncompressedLength & " bytes)"
+      sProps &= vbNewLine & vbNewLine & "Real Size: " & ByteSize(zFile.UncompressedLength) & " (" & zFile.UncompressedLength & " bytes)"
       If zFile.Compression = 0 Then
         sProps &= vbNewLine & "Uncompressed"
       Else
         sProps &= vbNewLine & "Compressed: " & ByteSize(zFile.CompressedLength) & " (" & Math.Floor((zFile.CompressedLength / zFile.UncompressedLength) * 100) & "%)"
       End If
       'sProps &= vbNewLine & "Date: " & zFile.Modified.ToString("g")
-      sProps &= vbNewLine & "CRC32: 0x" & Hex(zFile.CRC)
+      sProps &= vbNewLine & vbNewLine & "CRC32: 0x" & Hex(zFile.CRC)
 
       Dim fr As Decimal = zFile.CompressedLength / zFile.UncompressedLength
       If fr > 1 Then fr = -1
@@ -1453,9 +1453,9 @@
     Else
       sProps = "Full Path: " & zDir.Name
     End If
-    sProps &= vbNewLine & "Real Size: " & ByteSize(zDir.UncompressedLength) & " (" & zDir.UncompressedLength & " bytes)"
+    sProps &= vbNewLine & vbNewLine & "Real Size: " & ByteSize(zDir.UncompressedLength) & " (" & zDir.UncompressedLength & " bytes)"
     sProps &= vbNewLine & "Compressed: " & ByteSize(zDir.CompressedLength) & " (" & Math.Floor((zDir.CompressedLength / zDir.UncompressedLength) * 100) & "%)"
-    sProps &= vbNewLine & "Contains " & zDir.FileCount & " file(s) and " & zDir.DirectoryCount & " folder(s)"
+    sProps &= vbNewLine & vbNewLine & "Contains " & zDir.FileCount & " file(s) and " & zDir.DirectoryCount & " folder(s)"
     Dim fr As Decimal = zDir.CompressedLength / zDir.UncompressedLength
     If fr > 1 Then fr = -1
     SuperMsgBox(Me, "Directory Properties", Microsoft.WindowsAPICodePack.Dialogs.TaskDialogStandardIcon.Information, sTitle, sProps, Microsoft.WindowsAPICodePack.Dialogs.TaskDialogStandardButtons.Close, , , fr)
