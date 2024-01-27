@@ -1411,7 +1411,9 @@
       Dim zDir As ZIP.FileSystemDirectory = zFSE
       Dim sProps As String = "Full Path: " & zDir.Name
       sProps &= vbNewLine & vbNewLine & "Real Size: " & ByteSize(zDir.UncompressedLength) & " (" & zDir.UncompressedLength & " bytes)"
-      sProps &= vbNewLine & "Compressed: " & ByteSize(zDir.CompressedLength) & " (" & Math.Floor((zDir.CompressedLength / zDir.UncompressedLength) * 100) & "%)"
+      If Not zDir.CompressedLength = zDir.UncompressedLength Then
+        sProps &= vbNewLine & "Compressed: " & ByteSize(zDir.CompressedLength) & " (" & Math.Floor((zDir.CompressedLength / zDir.UncompressedLength) * 100) & "%)"
+      End If
       sProps &= vbNewLine & vbNewLine & "Contains " & zDir.FileCount & " file(s) and " & zDir.DirectoryCount & " folder(s)"
       Dim fr As Decimal = zDir.CompressedLength / zDir.UncompressedLength
       If fr > 1 Then fr = -1
@@ -1454,7 +1456,9 @@
       sProps = "Full Path: " & zDir.Name
     End If
     sProps &= vbNewLine & vbNewLine & "Real Size: " & ByteSize(zDir.UncompressedLength) & " (" & zDir.UncompressedLength & " bytes)"
-    sProps &= vbNewLine & "Compressed: " & ByteSize(zDir.CompressedLength) & " (" & Math.Floor((zDir.CompressedLength / zDir.UncompressedLength) * 100) & "%)"
+    If Not zDir.CompressedLength = zDir.UncompressedLength Then
+      sProps &= vbNewLine & "Compressed: " & ByteSize(zDir.CompressedLength) & " (" & Math.Floor((zDir.CompressedLength / zDir.UncompressedLength) * 100) & "%)"
+    End If
     sProps &= vbNewLine & vbNewLine & "Contains " & zDir.FileCount & " file(s) and " & zDir.DirectoryCount & " folder(s)"
     Dim fr As Decimal = zDir.CompressedLength / zDir.UncompressedLength
     If fr > 1 Then fr = -1
