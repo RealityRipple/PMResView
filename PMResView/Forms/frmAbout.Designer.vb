@@ -129,7 +129,7 @@ Partial Class frmAbout
     Me.lblUpdate.Name = "lblUpdate"
     Me.lblUpdate.Size = New System.Drawing.Size(257, 17)
     Me.lblUpdate.TabIndex = 0
-    Me.lblUpdate.Text = "Compatible with Pale Moon 32"
+    Me.lblUpdate.Text = "Initializing update check"
     Me.lblUpdate.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
     '
     'lblCompany

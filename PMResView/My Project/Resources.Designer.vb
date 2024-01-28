@@ -231,11 +231,40 @@ Namespace My.Resources
         End Property
         
         '''<summary>
+        '''  Looks up a localized string similar to &lt;RSAKeyValue&gt;&lt;Modulus&gt;1z6tkBtIe7lQJ/wmX96Lw8jmcE2Ky3ovdqqyH2tamIf6CyTkx98e0X2i8DAglZz5pIyK7rnZjY/sZSbeIOSzx+R+FPla6UJA2brzZC51Crin6AsK67Zd989fw71NncyChW18GIa/TD1HnE5KBPUz+7iSzPgLtdxViT06Fo1GcZWyobA1cJ1R5bCVLYwpbyPLXf1TVRQhquoTrutJpNqXXgr4FrH2WhX6TWquuuK98+9tUKE4Q483g7DFxwW+Xq6oo9qvkgzTZzzq0STo9vpQWlg0SOPF+ggPa1cV8Rt2q8XqSjIymJhkcys7HSropVoxORiQXxjam52qgimU7sK6I79yzxflVg1Cx3xr1ySo0ud+y4DJaH9CJD1o3q59+RFScaJ2i71vj83eP7e8LVq0mEgcRAX4P8k6uHLDUIWnw7X0JKc7N4ugpeY5Ckxx0htamTZGKxiYvfILrvGi5hzIuS19NfshFSIJ/za86aPy+x [rest of string was truncated]&quot;;.
+        '''</summary>
+        Friend ReadOnly Property pubkey() As String
+            Get
+                Return ResourceManager.GetString("pubkey", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized resource of type System.Drawing.Bitmap.
+        '''</summary>
+        Friend ReadOnly Property throbber() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("throbber", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
+        '''<summary>
         '''  Looks up a localized resource of type System.Drawing.Bitmap.
         '''</summary>
         Friend ReadOnly Property up() As System.Drawing.Bitmap
             Get
                 Dim obj As Object = ResourceManager.GetObject("up", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized resource of type System.Drawing.Bitmap.
+        '''</summary>
+        Friend ReadOnly Property update() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("update", resourceCulture)
                 Return CType(obj,System.Drawing.Bitmap)
             End Get
         End Property
