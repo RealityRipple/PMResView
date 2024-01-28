@@ -120,6 +120,72 @@
     End Set
   End Property
 
+  Private Shared DefaultTextEditor As String() = {
+    IO.Path.Combine(My.Computer.FileSystem.SpecialDirectories.ProgramFiles, "Notepad++", "notepad++.exe"),
+    IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Windows), "notepad.exe")
+  }
+  Public Shared Property TextEditor As String
+    Get
+      Static sDefault As String
+      If String.IsNullOrEmpty(sDefault) Then
+        For I As Long = 0 To DefaultTextEditor.LongLength - 1
+          If Not IO.File.Exists(DefaultTextEditor(I)) Then Continue For
+          sDefault = DefaultTextEditor(I)
+          Exit For
+        Next
+      End If
+      Return ReadSetting("Editor", "Text", sDefault)
+    End Get
+    Set(value As String)
+      If Not IO.File.Exists(value) Then Return
+      SaveSetting("Editor", "Text", value)
+    End Set
+  End Property
+
+  Private Shared DefaultImageEditor As String() = {
+    IO.Path.Combine(My.Computer.FileSystem.SpecialDirectories.ProgramFiles, "GIMP 2", "bin", "gimp-2.10.exe"),
+    IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.System), "mspaint.exe")
+  }
+  Public Shared Property ImageEditor As String
+    Get
+      Static sDefault As String
+      If String.IsNullOrEmpty(sDefault) Then
+        For I As Long = 0 To DefaultImageEditor.LongLength - 1
+          If Not IO.File.Exists(DefaultImageEditor(I)) Then Continue For
+          sDefault = DefaultImageEditor(I)
+          Exit For
+        Next
+      End If
+      Return ReadSetting("Editor", "Image", sDefault)
+    End Get
+    Set(value As String)
+      If Not IO.File.Exists(value) Then Return
+      SaveSetting("Editor", "Image", value)
+    End Set
+  End Property
+
+  Private Shared DefaultBinaryEditor As String() = {
+    IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86), "XVI32", "XVI32.exe"),
+    IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Windows), "notepad.exe")
+  }
+  Public Shared Property BinaryEditor As String
+    Get
+      Static sDefault As String
+      If String.IsNullOrEmpty(sDefault) Then
+        For I As Long = 0 To DefaultBinaryEditor.LongLength - 1
+          If Not IO.File.Exists(DefaultBinaryEditor(I)) Then Continue For
+          sDefault = DefaultBinaryEditor(I)
+          Exit For
+        Next
+      End If
+      Return ReadSetting("Editor", "Binary", sDefault)
+    End Get
+    Set(value As String)
+      If Not IO.File.Exists(value) Then Return
+      SaveSetting("Editor", "Binary", value)
+    End Set
+  End Property
+
   Public Shared Property WindowSize As Size
     Get
       Dim szRet As New Size

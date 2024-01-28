@@ -210,6 +210,48 @@
     Next
     DoSelectionUpdate()
   End Sub
+
+  Private Sub mnuEditChooseEditorText_Click(sender As System.Object, e As System.EventArgs) Handles mnuEditChooseEditorText.Click
+    Using cdlOpen As New Microsoft.WindowsAPICodePack.Dialogs.CommonOpenFileDialog
+      Dim sTextEditor As String = Settings.TextEditor
+      cdlOpen.DefaultExtension = "exe"
+      cdlOpen.DefaultFileName = IO.Path.GetFileName(sTextEditor)
+      cdlOpen.Filters.Add(New Microsoft.WindowsAPICodePack.Dialogs.CommonFileDialogFilter("Applications", "*.exe"))
+      cdlOpen.Filters.Add(New Microsoft.WindowsAPICodePack.Dialogs.CommonFileDialogFilter("All Files", "*.*"))
+      cdlOpen.Title = "Select Custom Text Editor..."
+      cdlOpen.InitialDirectory = IO.Path.GetDirectoryName(sTextEditor)
+      If Not cdlOpen.ShowDialog(Me.Handle) = Microsoft.WindowsAPICodePack.Dialogs.CommonFileDialogResult.Ok Then Return
+      Settings.TextEditor = cdlOpen.FileName
+    End Using
+  End Sub
+
+  Private Sub mnuEditChooseEditorImages_Click(sender As System.Object, e As System.EventArgs) Handles mnuEditChooseEditorImages.Click
+    Using cdlOpen As New Microsoft.WindowsAPICodePack.Dialogs.CommonOpenFileDialog
+      Dim sImageEditor As String = Settings.ImageEditor
+      cdlOpen.DefaultExtension = "exe"
+      cdlOpen.DefaultFileName = IO.Path.GetFileName(sImageEditor)
+      cdlOpen.Filters.Add(New Microsoft.WindowsAPICodePack.Dialogs.CommonFileDialogFilter("Applications", "*.exe"))
+      cdlOpen.Filters.Add(New Microsoft.WindowsAPICodePack.Dialogs.CommonFileDialogFilter("All Files", "*.*"))
+      cdlOpen.Title = "Select Custom Image Editor..."
+      cdlOpen.InitialDirectory = IO.Path.GetDirectoryName(sImageEditor)
+      If Not cdlOpen.ShowDialog(Me.Handle) = Microsoft.WindowsAPICodePack.Dialogs.CommonFileDialogResult.Ok Then Return
+      Settings.ImageEditor = cdlOpen.FileName
+    End Using
+  End Sub
+
+  Private Sub mnuEditChooseEditorBinary_Click(sender As System.Object, e As System.EventArgs) Handles mnuEditChooseEditorBinary.Click
+    Using cdlOpen As New Microsoft.WindowsAPICodePack.Dialogs.CommonOpenFileDialog
+      Dim sBinaryEditor As String = Settings.BinaryEditor
+      cdlOpen.DefaultExtension = "exe"
+      cdlOpen.DefaultFileName = IO.Path.GetFileName(sBinaryEditor)
+      cdlOpen.Filters.Add(New Microsoft.WindowsAPICodePack.Dialogs.CommonFileDialogFilter("Applications", "*.exe"))
+      cdlOpen.Filters.Add(New Microsoft.WindowsAPICodePack.Dialogs.CommonFileDialogFilter("All Files", "*.*"))
+      cdlOpen.Title = "Select Custom Binary Data Editor..."
+      cdlOpen.InitialDirectory = IO.Path.GetDirectoryName(sBinaryEditor)
+      If Not cdlOpen.ShowDialog(Me.Handle) = Microsoft.WindowsAPICodePack.Dialogs.CommonFileDialogResult.Ok Then Return
+      Settings.BinaryEditor = cdlOpen.FileName
+    End Using
+  End Sub
 #End Region
 
 #Region "View"
@@ -408,6 +450,10 @@
     ElseIf mnuContextFile.SourceControl.Name = tvExplorer.Name Then
       RenderDir(mnuContextFile.Tag)
     End If
+  End Sub
+
+  Private Sub mnuContextFileEdit_Click(sender As System.Object, e As System.EventArgs) Handles mnuContextFileEdit.Click
+    lvFiles_Edit()
   End Sub
 
   Private Sub mnuContextFileExtract_Click(sender As System.Object, e As System.EventArgs) Handles mnuContextFileExtract.Click
@@ -632,6 +678,7 @@
   Private Sub tvExplorer_NodeMouseClick(sender As Object, e As System.Windows.Forms.TreeNodeMouseClickEventArgs) Handles tvExplorer.NodeMouseClick
     If Not e.Button = Windows.Forms.MouseButtons.Right Then Return
     mnuContextFileOpen.Enabled = True
+    mnuContextFileEdit.Visible = False
     mnuContextFileExpand.Visible = True
     mnuContextFileExpand.Enabled = Not e.Node.IsExpanded
     mnuContextFileExpandAll.Visible = True
@@ -726,6 +773,7 @@
       mnuContextFileExtract.DefaultItem = True
     End If
     mnuContextFileOpen.Enabled = canOpen
+    mnuContextFileEdit.Visible = lvFiles.SelectedItems.Count = 1 AndAlso lvFiles.SelectedItems(0).Tag.GetType Is GetType(ZIP.FileSystemFile)
     mnuContextFileExpand.Visible = False
     mnuContextFileExpandAll.Visible = False
     mnuContextFileCollapse.Visible = False
@@ -1225,6 +1273,56 @@
         NativeMethods.ShellExecute(0, vbNullString, sTemp, vbNullString, vbNullString, vbNormalFocus)
       Next
     End If
+  End Sub
+
+  Private Sub lvFiles_Edit()
+    If Not lvFiles.SelectedItems.Count = 1 Then Return
+    Dim zFSE As ZIP.FileSystemEntry = lvFiles.SelectedItems(0).Tag
+    If zFSE.GetType Is GetType(ZIP.FileSystemDirectory) Then Return
+    Dim fType As FileCat = DetermineFileCategory(zFSE)
+    Dim sEditor As String = Nothing
+    If fType = FileCat.Text Then
+      sEditor = Settings.TextEditor
+      If String.IsNullOrEmpty(sEditor) Then
+        SuperMsgBox(Me, "Select an Editor", Microsoft.WindowsAPICodePack.Dialogs.TaskDialogStandardIcon.Information, "Select a Text Editor first.", "Please choose a Custom Text Editor from the Edit menu before using the Edit command.", Microsoft.WindowsAPICodePack.Dialogs.TaskDialogStandardButtons.Ok)
+        Return
+      End If
+      If Not IO.File.Exists(sEditor) Then
+        SuperMsgBox(Me, "Select a Different Editor", Microsoft.WindowsAPICodePack.Dialogs.TaskDialogStandardIcon.Error, "Your selected Text Editor is missing.", "Please choose a new Custom Text editor from the Edit menu before using the Edit command.", Microsoft.WindowsAPICodePack.Dialogs.TaskDialogStandardButtons.Ok, "File """ & sEditor & """ not found.")
+        Return
+      End If
+    ElseIf fType = FileCat.Image Then
+      sEditor = Settings.ImageEditor
+      If String.IsNullOrEmpty(sEditor) Then
+        SuperMsgBox(Me, "Select an Editor", Microsoft.WindowsAPICodePack.Dialogs.TaskDialogStandardIcon.Information, "Select an Image Editor first.", "Please choose a Custom Image Editor from the Edit menu before using the Edit command.", Microsoft.WindowsAPICodePack.Dialogs.TaskDialogStandardButtons.Ok)
+        Return
+      End If
+      If Not IO.File.Exists(sEditor) Then
+        SuperMsgBox(Me, "Select a Different Editor", Microsoft.WindowsAPICodePack.Dialogs.TaskDialogStandardIcon.Error, "Your selected Image Editor is missing.", "Please choose a new Custom Image Editor from the Edit menu before using the Edit command.", Microsoft.WindowsAPICodePack.Dialogs.TaskDialogStandardButtons.Ok, "File """ & sEditor & """ not found.")
+        Return
+      End If
+    Else
+      sEditor = Settings.BinaryEditor
+      If String.IsNullOrEmpty(sEditor) Then
+        SuperMsgBox(Me, "Select an Editor", Microsoft.WindowsAPICodePack.Dialogs.TaskDialogStandardIcon.Information, "Select a Binary Data Editor first.", "Please choose a Custom Binary Data Editor from the Edit menu before using the Edit command.", Microsoft.WindowsAPICodePack.Dialogs.TaskDialogStandardButtons.Ok)
+        Return
+      End If
+      If Not IO.File.Exists(sEditor) Then
+        SuperMsgBox(Me, "Select a Different Editor", Microsoft.WindowsAPICodePack.Dialogs.TaskDialogStandardIcon.Error, "Your selected Binary Data Editor is missing.", "Please choose a new Custom Binary Data Editor from the Edit menu before using the Edit command.", Microsoft.WindowsAPICodePack.Dialogs.TaskDialogStandardButtons.Ok, "File """ & sEditor & """ not found.")
+        Return
+      End If
+    End If
+    Dim sName As String = IO.Path.GetFileName(zFSE.Name)
+    Dim iCopy As Integer = 0
+    Dim sTemp As String = IO.Path.Combine(My.Computer.FileSystem.SpecialDirectories.Temp, sName)
+    While IO.File.Exists(sTemp)
+      iCopy += 1
+      sName = iCopy & "-" & IO.Path.GetFileName(zFSE.Name)
+      sTemp = IO.Path.Combine(My.Computer.FileSystem.SpecialDirectories.Temp, sName)
+    End While
+    My.Computer.FileSystem.WriteAllBytes(sTemp, CType(zFSE, ZIP.FileSystemFile).Data, False)
+    If Not sExtractHistory.Contains(sName) Then sExtractHistory.Add(sName)
+    Process.Start(sEditor, sTemp)
   End Sub
 
   Private Sub lvFiles_Extract()

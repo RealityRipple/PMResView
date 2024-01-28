@@ -40,9 +40,14 @@ Partial Class frmViewer
     Me.mnuEditInvert = New System.Windows.Forms.MenuItem()
     Me.mnuEditSelect = New System.Windows.Forms.MenuItem()
     Me.mnuEditDeselect = New System.Windows.Forms.MenuItem()
-    Me.mnuEditSpace = New System.Windows.Forms.MenuItem()
+    Me.mnuEditSpace1 = New System.Windows.Forms.MenuItem()
     Me.mnuEditSelType = New System.Windows.Forms.MenuItem()
     Me.mnuEditDeselType = New System.Windows.Forms.MenuItem()
+    Me.mnuEditSpace2 = New System.Windows.Forms.MenuItem()
+    Me.mnuEditChooseEditor = New System.Windows.Forms.MenuItem()
+    Me.mnuEditChooseEditorText = New System.Windows.Forms.MenuItem()
+    Me.mnuEditChooseEditorImages = New System.Windows.Forms.MenuItem()
+    Me.mnuEditChooseEditorBinary = New System.Windows.Forms.MenuItem()
     Me.mnuView = New System.Windows.Forms.MenuItem()
     Me.mnuViewIcons = New System.Windows.Forms.MenuItem()
     Me.mnuViewIconsLarge = New System.Windows.Forms.MenuItem()
@@ -81,6 +86,7 @@ Partial Class frmViewer
     Me.pbActivity = New System.Windows.Forms.ToolStripProgressBar()
     Me.mnuContextFile = New System.Windows.Forms.ContextMenu()
     Me.mnuContextFileOpen = New System.Windows.Forms.MenuItem()
+    Me.mnuContextFileEdit = New System.Windows.Forms.MenuItem()
     Me.mnuContextFileExtract = New System.Windows.Forms.MenuItem()
     Me.mnuContextFileSpace1 = New System.Windows.Forms.MenuItem()
     Me.mnuContextFileExpand = New System.Windows.Forms.MenuItem()
@@ -195,7 +201,7 @@ Partial Class frmViewer
     'mnuEdit
     '
     Me.mnuEdit.Index = 1
-    Me.mnuEdit.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.mnuEditAll, Me.mnuEditNone, Me.mnuEditInvert, Me.mnuEditSelect, Me.mnuEditDeselect, Me.mnuEditSpace, Me.mnuEditSelType, Me.mnuEditDeselType})
+    Me.mnuEdit.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.mnuEditAll, Me.mnuEditNone, Me.mnuEditInvert, Me.mnuEditSelect, Me.mnuEditDeselect, Me.mnuEditSpace1, Me.mnuEditSelType, Me.mnuEditDeselType, Me.mnuEditSpace2, Me.mnuEditChooseEditor})
     Me.mnuEdit.Text = "&Edit"
     '
     'mnuEditAll
@@ -230,10 +236,10 @@ Partial Class frmViewer
     Me.mnuEditDeselect.Index = 4
     Me.mnuEditDeselect.Text = "D&eselect..."
     '
-    'mnuEditSpace
+    'mnuEditSpace1
     '
-    Me.mnuEditSpace.Index = 5
-    Me.mnuEditSpace.Text = "-"
+    Me.mnuEditSpace1.Index = 5
+    Me.mnuEditSpace1.Text = "-"
     '
     'mnuEditSelType
     '
@@ -246,6 +252,32 @@ Partial Class frmViewer
     Me.mnuEditDeselType.Enabled = False
     Me.mnuEditDeselType.Index = 7
     Me.mnuEditDeselType.Text = "Deselect by T&ype"
+    '
+    'mnuEditSpace2
+    '
+    Me.mnuEditSpace2.Index = 8
+    Me.mnuEditSpace2.Text = "-"
+    '
+    'mnuEditChooseEditor
+    '
+    Me.mnuEditChooseEditor.Index = 9
+    Me.mnuEditChooseEditor.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.mnuEditChooseEditorText, Me.mnuEditChooseEditorImages, Me.mnuEditChooseEditorBinary})
+    Me.mnuEditChooseEditor.Text = "&Choose Custom Editor"
+    '
+    'mnuEditChooseEditorText
+    '
+    Me.mnuEditChooseEditorText.Index = 0
+    Me.mnuEditChooseEditorText.Text = "For &Text..."
+    '
+    'mnuEditChooseEditorImages
+    '
+    Me.mnuEditChooseEditorImages.Index = 1
+    Me.mnuEditChooseEditorImages.Text = "For &Images..."
+    '
+    'mnuEditChooseEditorBinary
+    '
+    Me.mnuEditChooseEditorBinary.Index = 2
+    Me.mnuEditChooseEditorBinary.Text = "For &Binary Data..."
     '
     'mnuView
     '
@@ -513,16 +545,21 @@ Partial Class frmViewer
     '
     'mnuContextFile
     '
-    Me.mnuContextFile.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.mnuContextFileOpen, Me.mnuContextFileExtract, Me.mnuContextFileSpace1, Me.mnuContextFileExpand, Me.mnuContextFileExpandAll, Me.mnuContextFileCollapse, Me.mnuContextFileCollapseAll, Me.mnuContextFileSpace2, Me.mnuContextFileGo, Me.mnuContextFileProperties})
+    Me.mnuContextFile.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.mnuContextFileOpen, Me.mnuContextFileEdit, Me.mnuContextFileExtract, Me.mnuContextFileSpace1, Me.mnuContextFileExpand, Me.mnuContextFileExpandAll, Me.mnuContextFileCollapse, Me.mnuContextFileCollapseAll, Me.mnuContextFileSpace2, Me.mnuContextFileGo, Me.mnuContextFileProperties})
     '
     'mnuContextFileOpen
     '
     Me.mnuContextFileOpen.Index = 0
     Me.mnuContextFileOpen.Text = "&Open"
     '
+    'mnuContextFileEdit
+    '
+    Me.mnuContextFileEdit.Index = 1
+    Me.mnuContextFileEdit.Text = "E&dit..."
+    '
     'mnuContextFileExtract
     '
-    Me.mnuContextFileExtract.Index = 1
+    Me.mnuContextFileExtract.Index = 2
     Me.mnuContextFileExtract.Text = "&Extract..."
     '
     'mnuContextFileSpace1
@@ -846,7 +883,7 @@ Partial Class frmViewer
   Friend WithEvents mnuEditInvert As System.Windows.Forms.MenuItem
   Friend WithEvents mnuEditSelect As System.Windows.Forms.MenuItem
   Friend WithEvents mnuEditDeselect As System.Windows.Forms.MenuItem
-  Friend WithEvents mnuEditSpace As System.Windows.Forms.MenuItem
+  Friend WithEvents mnuEditSpace1 As System.Windows.Forms.MenuItem
   Friend WithEvents mnuEditSelType As System.Windows.Forms.MenuItem
   Friend WithEvents mnuEditDeselType As System.Windows.Forms.MenuItem
   Friend WithEvents mnuView As System.Windows.Forms.MenuItem
@@ -928,5 +965,11 @@ Partial Class frmViewer
   Friend WithEvents mnuContextFileCollapse As System.Windows.Forms.MenuItem
   Friend WithEvents mnuContextFileCollapseAll As System.Windows.Forms.MenuItem
   Friend WithEvents mnuContextFileSpace2 As System.Windows.Forms.MenuItem
+  Friend WithEvents mnuEditSpace2 As System.Windows.Forms.MenuItem
+  Friend WithEvents mnuEditChooseEditor As System.Windows.Forms.MenuItem
+  Friend WithEvents mnuContextFileEdit As System.Windows.Forms.MenuItem
+  Friend WithEvents mnuEditChooseEditorText As System.Windows.Forms.MenuItem
+  Friend WithEvents mnuEditChooseEditorImages As System.Windows.Forms.MenuItem
+  Friend WithEvents mnuEditChooseEditorBinary As System.Windows.Forms.MenuItem
 
 End Class
