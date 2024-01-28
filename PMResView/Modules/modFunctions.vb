@@ -8,7 +8,7 @@
     Dim sTitle As String = My.Application.Info.Title & " - " & Title
     If Microsoft.WindowsAPICodePack.Dialogs.TaskDialog.IsPlatformSupported Then
       Dim tD As New Microsoft.WindowsAPICodePack.Dialogs.TaskDialog
-      tD.OwnerWindowHandle = Parent.Handle
+      If Parent IsNot Nothing AndAlso Parent.IsHandleCreated Then tD.OwnerWindowHandle = Parent.Handle
       tD.Caption = sTitle
       tD.InstructionText = Header
       tD.Text = Message

@@ -105,6 +105,8 @@
     <Import Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ApplicationEvents.vb" />
+    <Compile Include="Classes\clsAuthenticode.vb" />
     <Compile Include="Classes\clsFTYP.vb" />
     <Compile Include="Classes\clsLinkLabel.vb">
       <SubType>Component</SubType>
