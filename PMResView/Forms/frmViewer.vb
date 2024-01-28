@@ -444,6 +444,12 @@
   End Sub
 
 
+  Private Sub mnuContextFileGo_Click(sender As System.Object, e As System.EventArgs) Handles mnuContextFileGo.Click
+    If Not mnuContextFile.SourceControl.Name = lvFiles.Name Then Return
+    If Not Settings.FlatView Then Return
+    RenderDir(IO.Path.GetDirectoryName(CType(lvFiles.SelectedItems(0).Tag, ZIP.FileSystemEntry).Name))
+  End Sub
+
   Private Sub mnuContextFileProperties_Click(sender As System.Object, e As System.EventArgs) Handles mnuContextFileProperties.Click
     If mnuContextFile.SourceControl.Name = lvFiles.Name Then
       lvFiles_Properties()
@@ -635,6 +641,7 @@
     mnuContextFileCollapseAll.Visible = True
     mnuContextFileCollapseAll.Enabled = e.Node.IsExpanded
     mnuContextFileSpace2.Visible = True
+    mnuContextFileGo.Visible = False
     mnuContextFileProperties.Enabled = True
     mnuContextFile.Tag = e.Node.Name
     mnuContextFile.Show(tvExplorer, e.Location)
@@ -724,6 +731,7 @@
     mnuContextFileCollapse.Visible = False
     mnuContextFileCollapseAll.Visible = False
     mnuContextFileSpace2.Visible = False
+    mnuContextFileGo.Visible = lvFiles.SelectedItems.Count = 1 AndAlso Settings.FlatView
     mnuContextFileProperties.Enabled = lvFiles.SelectedItems.Count = 1
     mnuContextFile.Tag = Nothing
     mnuContextFile.Show(lvFiles, e.Location)

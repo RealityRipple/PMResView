@@ -88,6 +88,7 @@ Partial Class frmViewer
     Me.mnuContextFileCollapse = New System.Windows.Forms.MenuItem()
     Me.mnuContextFileCollapseAll = New System.Windows.Forms.MenuItem()
     Me.mnuContextFileSpace2 = New System.Windows.Forms.MenuItem()
+    Me.mnuContextFileGo = New System.Windows.Forms.MenuItem()
     Me.mnuContextFileProperties = New System.Windows.Forms.MenuItem()
     Me.mnuContextView = New System.Windows.Forms.ContextMenu()
     Me.mnuContextViewIcons = New System.Windows.Forms.MenuItem()
@@ -512,7 +513,7 @@ Partial Class frmViewer
     '
     'mnuContextFile
     '
-    Me.mnuContextFile.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.mnuContextFileOpen, Me.mnuContextFileExtract, Me.mnuContextFileSpace1, Me.mnuContextFileExpand, Me.mnuContextFileExpandAll, Me.mnuContextFileCollapse, Me.mnuContextFileCollapseAll, Me.mnuContextFileSpace2, Me.mnuContextFileProperties})
+    Me.mnuContextFile.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.mnuContextFileOpen, Me.mnuContextFileExtract, Me.mnuContextFileSpace1, Me.mnuContextFileExpand, Me.mnuContextFileExpandAll, Me.mnuContextFileCollapse, Me.mnuContextFileCollapseAll, Me.mnuContextFileSpace2, Me.mnuContextFileGo, Me.mnuContextFileProperties})
     '
     'mnuContextFileOpen
     '
@@ -559,10 +560,15 @@ Partial Class frmViewer
     Me.mnuContextFileSpace2.Text = "-"
     Me.mnuContextFileSpace2.Visible = False
     '
+    'mnuContextFileGo
+    '
+    Me.mnuContextFileGo.Index = 9
+    Me.mnuContextFileGo.Text = "&Go to Folder"
+    Me.mnuContextFileGo.Visible = False
     '
     'mnuContextFileProperties
     '
-    Me.mnuContextFileProperties.Index = 9
+    Me.mnuContextFileProperties.Index = 10
     Me.mnuContextFileProperties.Text = "&Properties..."
     '
     'mnuContextView
@@ -916,6 +922,7 @@ Partial Class frmViewer
   Friend WithEvents mnuViewToolbar As System.Windows.Forms.MenuItem
   Friend WithEvents mnuContextHistory As System.Windows.Forms.ContextMenu
   Friend WithEvents tmrSelectionUpdate As System.Windows.Forms.Timer
+  Friend WithEvents mnuContextFileGo As System.Windows.Forms.MenuItem
   Friend WithEvents mnuContextFileExpand As System.Windows.Forms.MenuItem
   Friend WithEvents mnuContextFileExpandAll As System.Windows.Forms.MenuItem
   Friend WithEvents mnuContextFileCollapse As System.Windows.Forms.MenuItem
