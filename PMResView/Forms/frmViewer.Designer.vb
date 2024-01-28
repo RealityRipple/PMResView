@@ -228,7 +228,7 @@ Partial Class frmViewer
     '
     Me.mnuEditDeselect.Enabled = False
     Me.mnuEditDeselect.Index = 4
-    Me.mnuEditDeselect.Text = "&Deselect..."
+    Me.mnuEditDeselect.Text = "D&eselect..."
     '
     'mnuEditSpace
     '
