@@ -1441,6 +1441,7 @@
       Dim zFile As ZIP.FileSystemFile = zFSE
       Dim sProps As String = "Full Path: " & zFile.Name
       sProps &= vbNewLine & vbNewLine & "File Type: " & zFile.FileType
+      sProps &= vbNewLine & GetFileSnippet(zFile)
       sProps &= vbNewLine & vbNewLine & "Real Size: " & ByteSize(zFile.UncompressedLength) & " (" & zFile.UncompressedLength & " bytes)"
       If zFile.Compression = 0 Then
         sProps &= vbNewLine & "Uncompressed"
@@ -1483,5 +1484,199 @@
     If fr > 1 Then fr = -1
     SuperMsgBox(Me, "Directory Properties", Microsoft.WindowsAPICodePack.Dialogs.TaskDialogStandardIcon.Information, sTitle, sProps, Microsoft.WindowsAPICodePack.Dialogs.TaskDialogStandardButtons.Close, , , fr)
   End Sub
+
+  Private Function GetFileSnippet(ZFile As ZIP.FileSystemFile) As String
+    Dim catTypeLib As XPCOMTypeLib = GetFileCatTypeLib(ZFile)
+    If catTypeLib.Major > 0 Then
+      Return "  XPCOM TypeLib: Version " & catTypeLib.Major & "." & catTypeLib.Minor & vbNewLine &
+                     "  Interfaces: " & catTypeLib.InterfaceCount
+    End If
+
+    Using catRIFF As clsRIFF = GetFileCatRIFF(ZFile)
+      If catRIFF IsNot Nothing Then Return GetRIFFData(catRIFF)
+    End Using
+
+    Dim catFTYP As clsFTYP = GetFileCatFTYP(ZFile)
+    If catFTYP IsNot Nothing Then
+      Return "  Encoding: " & Join(catFTYP.Brands, ", ") & vbNewLine &
+             "  Resolution: " & catFTYP.Resolution.Width & "x" & catFTYP.Resolution.Height & " pixels" & vbNewLine &
+             "  Duration: " & MSToTime(catFTYP.Duration)
+    End If
+
+    Dim catImage As ImageData = GetFileCatImage(ZFile)
+    If Not String.IsNullOrEmpty(catImage.Format) Then
+      Return "  Image Format: " & catImage.Format & vbNewLine &
+             "  Dimensions: " & catImage.Dimensions.Width & "x" & catImage.Dimensions.Height & " pixels" & vbNewLine &
+             "  Color Quality: " & catImage.ColorQuality
+    End If
+
+    Dim catText As String = GetFileCatText(ZFile)
+    If Not String.IsNullOrEmpty(catText) Then
+      Dim lLines As Long = Array.FindAll(Of Byte)(ZFile.Data, New Predicate(Of Byte)(Function(t As Byte)
+                                                                                       Return t = 10
+                                                                                     End Function)).LongCount + 1
+      Return "  Encoding: " & catText & vbNewLine &
+             "  Contents: " & lLines & " lines"
+    End If
+
+    Return "  Contents: Unknown Binary Data"
+  End Function
+
+  Private Enum FileCat
+    Text
+    Image
+    Audio
+    Video
+    TypeLib
+    Binary
+  End Enum
+
+  Private Function DetermineFileCategory(ZFile As ZIP.FileSystemFile) As FileCat
+    If GetFileCatTypeLib(ZFile).Major > 0 Then Return FileCat.TypeLib
+    If GetFileCatRIFF(ZFile) IsNot Nothing Then Return FileCat.Audio
+    If GetFileCatFTYP(ZFile) IsNot Nothing Then Return FileCat.Video
+    If Not String.IsNullOrEmpty(GetFileCatImage(ZFile).Format) Then Return FileCat.Image
+    If Not String.IsNullOrEmpty(GetFileCatText(ZFile)) Then Return FileCat.Text
+    Return FileCat.Binary
+  End Function
+
+  Private Function GetFileCatText(ZFile As ZIP.FileSystemFile) As String
+    Dim bom0 As Byte = ZFile.Data(0)
+    Dim bom1 As Byte = ZFile.Data(1)
+    Dim bom2 As Byte = ZFile.Data(2)
+    Dim bom3 As Byte = ZFile.Data(3)
+    If bom0 = &HEF And bom1 = &HBB And bom2 = &HBF Then Return "UTF-8"
+    If bom0 = &H0 And bom1 = &H0 And bom2 = &HFE And bom3 = &HFF Then Return "UTF-32 (Big-Endian)"
+    If bom0 = &HFF And bom1 = &HFE And bom2 = &H0 And bom3 = &H0 Then Return "UTF-32"
+    If bom0 = &HFE And bom1 = &HFF Then Return "UTF-16 (Big-Endian)"
+    If bom0 = &HFF And bom1 = &HFE Then Return "UTF-16"
+    Dim lOver126 As Long = Array.FindAll(Of Byte)(ZFile.Data, New Predicate(Of Byte)(Function(t As Byte)
+                                                                                       Return t > 126 Or (t < 32 And Not (t = 13 Or t = 10 Or t = 9))
+                                                                                     End Function)).LongCount
+    If lOver126 = 0 Then Return "US-ASCII"
+    Dim tEnc As New List(Of System.Text.Encoding)
+    tEnc.Add(System.Text.Encoding.GetEncoding(UTF_32_LE))
+    tEnc.Add(System.Text.Encoding.GetEncoding(UTF_8))
+    tEnc.Add(System.Text.Encoding.GetEncoding(UTF_16_LE))
+    For Each testEnc As System.Text.Encoding In tEnc
+      Try
+        Dim sDecsTo As String = testEnc.GetString(ZFile.Data)
+        Dim bEncsTo As Byte() = testEnc.GetBytes(sDecsTo)
+        If Not bEncsTo.LongLength = ZFile.Data.LongLength Then Continue For
+        Dim noVariants As Boolean = True
+        For I As Long = 0 To ZFile.Data.LongLength - 1
+          If bEncsTo(I) = ZFile.Data(I) Then Continue For
+          noVariants = False
+          Exit For
+        Next
+        If noVariants Then Return testEnc.WebName.ToUpper
+      Catch ex As Exception
+      End Try
+    Next
+    Return Nothing
+  End Function
+
+  Private Structure ImageData
+    Public Format As String
+    Public Dimensions As Size
+    Public ColorQuality As String
+
+    Public Sub New(picture As Image)
+      Format = GetImageTypeName(picture.RawFormat)
+      Dimensions = New Size(picture.Width, picture.Height)
+      ColorQuality = GetImageTypeColors(picture.PixelFormat)
+    End Sub
+
+    Private Function GetImageTypeName(fmt As Imaging.ImageFormat) As String
+      Select Case fmt.Guid
+        Case Imaging.ImageFormat.Bmp.Guid : Return "Bitmap"
+        Case Imaging.ImageFormat.Emf.Guid : Return "Enhanced Metafile"
+        Case Imaging.ImageFormat.Exif.Guid : Return "Exchangeable Image File (Exif)"
+        Case Imaging.ImageFormat.Gif.Guid : Return "Graphics Interchange Format"
+        Case Imaging.ImageFormat.Icon.Guid : Return "Windows Icon"
+        Case Imaging.ImageFormat.Jpeg.Guid : Return "Joint Picture Experts Group"
+        Case Imaging.ImageFormat.Png.Guid : Return "Portable Network Graphics"
+        Case Imaging.ImageFormat.Tiff.Guid : Return "Tagged Image File Format (TIFF)"
+        Case Imaging.ImageFormat.Wmf.Guid : Return "Windows Metafile"
+        Case Imaging.ImageFormat.MemoryBmp.Guid : Return "Bitmap (Memory)"
+      End Select
+      Return "Unknown"
+    End Function
+
+    Private Function GetImageTypeColors(fmt As Imaging.PixelFormat) As String
+      Select Case fmt
+        Case Imaging.PixelFormat.Format1bppIndexed : Return "Monochrome"
+        Case Imaging.PixelFormat.Format4bppIndexed : Return "Indexed (4bit)"
+        Case Imaging.PixelFormat.Format8bppIndexed : Return "Indexed (8bit)"
+        Case Imaging.PixelFormat.Format16bppGrayScale : Return "Grayscale"
+        Case Imaging.PixelFormat.Format16bppRgb555 : Return "16bit RGB"
+        Case Imaging.PixelFormat.Format16bppRgb565 : Return "16bit (Extra Green)"
+        Case Imaging.PixelFormat.Format16bppArgb1555 : Return "16bit TRGB"
+        Case Imaging.PixelFormat.Format24bppRgb : Return "24bit RGB"
+        Case Imaging.PixelFormat.Format32bppRgb : Return "32bit RGB"
+        Case Imaging.PixelFormat.Format32bppArgb : Return "32bit ARGB"
+        Case Imaging.PixelFormat.Format32bppPArgb : Return "32bit Premultiplied ARGB"
+        Case Imaging.PixelFormat.Format48bppRgb : Return "48bit RGB"
+        Case Imaging.PixelFormat.Format64bppArgb : Return "64bit ARGB"
+        Case Imaging.PixelFormat.Format64bppPArgb : Return "64bit Premultiplied ARGB"
+      End Select
+      Stop
+      Return "Unknown"
+    End Function
+  End Structure
+
+  Private Function GetFileCatImage(ZFile As ZIP.FileSystemFile) As ImageData
+    Try
+      Using zStream As New IO.MemoryStream(ZFile.Data)
+        Using iImage As Image = Image.FromStream(zStream, True, True)
+          Return New ImageData(iImage)
+        End Using
+      End Using
+    Catch ex As Exception
+    End Try
+    Return Nothing
+  End Function
+
+  Private Function GetFileCatRIFF(ZFile As ZIP.FileSystemFile) As clsRIFF
+    Try
+      Dim cRiff As New clsRIFF(ZFile.Data)
+      If cRiff.IsValid Then Return cRiff
+    Catch ex As Exception
+    End Try
+    Return Nothing
+  End Function
+
+  Private Function GetFileCatFTYP(ZFile As ZIP.FileSystemFile) As clsFTYP
+    Try
+      Dim cFtyp As New clsFTYP(ZFile.Data)
+      If cFtyp.IsValid Then Return cFtyp
+    Catch ex As Exception
+    End Try
+    Return Nothing
+  End Function
+
+  Private Structure XPCOMTypeLib
+    Public Major As Byte
+    Public Minor As Byte
+    Public InterfaceCount As UInt16
+  End Structure
+
+  Private Function GetFileCatTypeLib(ZFile As ZIP.FileSystemFile) As XPCOMTypeLib
+    If ZFile.Data.LongLength < 16 Then Return Nothing
+    Dim zStr As String = System.Text.Encoding.GetEncoding(LATIN_1).GetString(ZFile.Data, 0, 16)
+    If Not zStr = "XPCOM" & vbLf & "TypeLib" & vbCr & vbLf & Chr(&H1A) Then Return Nothing
+    Dim lIdx As Long = 16
+    If ZFile.Data.LongLength <= lIdx + 1 Then Return Nothing
+    Dim bMajor As Byte = ZFile.Data(lIdx) : lIdx += 1
+    If ZFile.Data.LongLength <= lIdx + 1 Then Return Nothing
+    Dim bMinor As Byte = ZFile.Data(lIdx) : lIdx += 1
+    If ZFile.Data.LongLength <= lIdx + 2 Then Return Nothing
+    Dim iInterfaces As UInt16 = BitConverter.ToUInt16(ZFile.Data, lIdx) : lIdx += 2
+    Dim ret As XPCOMTypeLib
+    ret.Major = bMajor
+    ret.Minor = bMinor
+    ret.InterfaceCount = iInterfaces
+    Return ret
+  End Function
 #End Region
 End Class
