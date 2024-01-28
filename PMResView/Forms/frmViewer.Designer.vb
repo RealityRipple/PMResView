@@ -82,7 +82,12 @@ Partial Class frmViewer
     Me.mnuContextFile = New System.Windows.Forms.ContextMenu()
     Me.mnuContextFileOpen = New System.Windows.Forms.MenuItem()
     Me.mnuContextFileExtract = New System.Windows.Forms.MenuItem()
-    Me.mnuContextFileSpace = New System.Windows.Forms.MenuItem()
+    Me.mnuContextFileSpace1 = New System.Windows.Forms.MenuItem()
+    Me.mnuContextFileExpand = New System.Windows.Forms.MenuItem()
+    Me.mnuContextFileExpandAll = New System.Windows.Forms.MenuItem()
+    Me.mnuContextFileCollapse = New System.Windows.Forms.MenuItem()
+    Me.mnuContextFileCollapseAll = New System.Windows.Forms.MenuItem()
+    Me.mnuContextFileSpace2 = New System.Windows.Forms.MenuItem()
     Me.mnuContextFileProperties = New System.Windows.Forms.MenuItem()
     Me.mnuContextView = New System.Windows.Forms.ContextMenu()
     Me.mnuContextViewIcons = New System.Windows.Forms.MenuItem()
@@ -507,7 +512,7 @@ Partial Class frmViewer
     '
     'mnuContextFile
     '
-    Me.mnuContextFile.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.mnuContextFileOpen, Me.mnuContextFileExtract, Me.mnuContextFileSpace, Me.mnuContextFileProperties})
+    Me.mnuContextFile.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.mnuContextFileOpen, Me.mnuContextFileExtract, Me.mnuContextFileSpace1, Me.mnuContextFileExpand, Me.mnuContextFileExpandAll, Me.mnuContextFileCollapse, Me.mnuContextFileCollapseAll, Me.mnuContextFileSpace2, Me.mnuContextFileProperties})
     '
     'mnuContextFileOpen
     '
@@ -519,14 +524,45 @@ Partial Class frmViewer
     Me.mnuContextFileExtract.Index = 1
     Me.mnuContextFileExtract.Text = "&Extract..."
     '
-    'mnuContextFileSpace
+    'mnuContextFileSpace1
     '
-    Me.mnuContextFileSpace.Index = 2
-    Me.mnuContextFileSpace.Text = "-"
+    Me.mnuContextFileSpace1.Index = 3
+    Me.mnuContextFileSpace1.Text = "-"
+    '
+    'mnuContextFileExpand
+    '
+    Me.mnuContextFileExpand.Index = 4
+    Me.mnuContextFileExpand.Text = "E&xpand"
+    Me.mnuContextFileExpand.Visible = False
+    '
+    'mnuContextFileExpandAll
+    '
+    Me.mnuContextFileExpandAll.Index = 5
+    Me.mnuContextFileExpandAll.Text = "Expand &All"
+    Me.mnuContextFileExpandAll.Visible = False
+    '
+    'mnuContextFileCollapse
+    '
+    Me.mnuContextFileCollapse.Index = 6
+    Me.mnuContextFileCollapse.Text = "&Collapse"
+    Me.mnuContextFileCollapse.Visible = False
+    '
+    'mnuContextFileCollapseAll
+    '
+    Me.mnuContextFileCollapseAll.Index = 7
+    Me.mnuContextFileCollapseAll.Text = "Collap&se All"
+    Me.mnuContextFileCollapseAll.Visible = False
+    '
+    'mnuContextFileSpace2
+    '
+    Me.mnuContextFileSpace2.Index = 8
+    Me.mnuContextFileSpace2.Text = "-"
+    Me.mnuContextFileSpace2.Visible = False
+    '
     '
     'mnuContextFileProperties
     '
-    Me.mnuContextFileProperties.Index = 3
+    Me.mnuContextFileProperties.Index = 9
     Me.mnuContextFileProperties.Text = "&Properties..."
     '
     'mnuContextView
@@ -839,7 +875,7 @@ Partial Class frmViewer
   Friend WithEvents mnuContextFile As System.Windows.Forms.ContextMenu
   Friend WithEvents mnuContextFileOpen As System.Windows.Forms.MenuItem
   Friend WithEvents mnuContextFileExtract As System.Windows.Forms.MenuItem
-  Friend WithEvents mnuContextFileSpace As System.Windows.Forms.MenuItem
+  Friend WithEvents mnuContextFileSpace1 As System.Windows.Forms.MenuItem
   Friend WithEvents mnuContextFileProperties As System.Windows.Forms.MenuItem
   Friend WithEvents mnuViewIcons As System.Windows.Forms.MenuItem
   Friend WithEvents mnuViewIconsLarge As System.Windows.Forms.MenuItem
@@ -880,5 +916,10 @@ Partial Class frmViewer
   Friend WithEvents mnuViewToolbar As System.Windows.Forms.MenuItem
   Friend WithEvents mnuContextHistory As System.Windows.Forms.ContextMenu
   Friend WithEvents tmrSelectionUpdate As System.Windows.Forms.Timer
+  Friend WithEvents mnuContextFileExpand As System.Windows.Forms.MenuItem
+  Friend WithEvents mnuContextFileExpandAll As System.Windows.Forms.MenuItem
+  Friend WithEvents mnuContextFileCollapse As System.Windows.Forms.MenuItem
+  Friend WithEvents mnuContextFileCollapseAll As System.Windows.Forms.MenuItem
+  Friend WithEvents mnuContextFileSpace2 As System.Windows.Forms.MenuItem
 
 End Class

@@ -418,6 +418,32 @@
     End If
   End Sub
 
+
+  Private Sub mnuContextFileExpand_Click(sender As System.Object, e As System.EventArgs) Handles mnuContextFileExpand.Click
+    Dim aNodes As TreeNode() = tvExplorer.Nodes.Find(mnuContextFile.Tag, True)
+    If aNodes Is Nothing OrElse aNodes.LongLength = 0 Then Return
+    aNodes(0).Expand()
+  End Sub
+
+  Private Sub mnuContextFileExpandAll_Click(sender As System.Object, e As System.EventArgs) Handles mnuContextFileExpandAll.Click
+    Dim aNodes As TreeNode() = tvExplorer.Nodes.Find(mnuContextFile.Tag, True)
+    If aNodes Is Nothing OrElse aNodes.LongLength = 0 Then Return
+    aNodes(0).ExpandAll()
+  End Sub
+
+  Private Sub mnuContextFileCollapse_Click(sender As System.Object, e As System.EventArgs) Handles mnuContextFileCollapse.Click
+    Dim aNodes As TreeNode() = tvExplorer.Nodes.Find(mnuContextFile.Tag, True)
+    If aNodes Is Nothing OrElse aNodes.LongLength = 0 Then Return
+    aNodes(0).Collapse(True)
+  End Sub
+
+  Private Sub mnuContextFileCollapseAll_Click(sender As System.Object, e As System.EventArgs) Handles mnuContextFileCollapseAll.Click
+    Dim aNodes As TreeNode() = tvExplorer.Nodes.Find(mnuContextFile.Tag, True)
+    If aNodes Is Nothing OrElse aNodes.LongLength = 0 Then Return
+    aNodes(0).Collapse(False)
+  End Sub
+
+
   Private Sub mnuContextFileProperties_Click(sender As System.Object, e As System.EventArgs) Handles mnuContextFileProperties.Click
     If mnuContextFile.SourceControl.Name = lvFiles.Name Then
       lvFiles_Properties()
@@ -600,10 +626,28 @@
   Private Sub tvExplorer_NodeMouseClick(sender As Object, e As System.Windows.Forms.TreeNodeMouseClickEventArgs) Handles tvExplorer.NodeMouseClick
     If Not e.Button = Windows.Forms.MouseButtons.Right Then Return
     mnuContextFileOpen.Enabled = True
+    mnuContextFileExpand.Visible = True
+    mnuContextFileExpand.Enabled = Not e.Node.IsExpanded
+    mnuContextFileExpandAll.Visible = True
+    mnuContextFileExpandAll.Enabled = Not AllExpanded(e.Node)
+    mnuContextFileCollapse.Visible = True
+    mnuContextFileCollapse.Enabled = e.Node.IsExpanded
+    mnuContextFileCollapseAll.Visible = True
+    mnuContextFileCollapseAll.Enabled = e.Node.IsExpanded
+    mnuContextFileSpace2.Visible = True
     mnuContextFileProperties.Enabled = True
     mnuContextFile.Tag = e.Node.Name
     mnuContextFile.Show(tvExplorer, e.Location)
   End Sub
+
+  Private Function AllExpanded(node As TreeNode) As Boolean
+    If node.Nodes.Count < 1 Then Return True
+    If Not node.IsExpanded Then Return False
+    For I As Integer = 0 To node.Nodes.Count - 1
+      If Not AllExpanded(node.Nodes(I)) Then Return False
+    Next
+    Return True
+  End Function
 
   Private Sub lvFiles_ColumnClick(sender As Object, e As System.Windows.Forms.ColumnClickEventArgs) Handles lvFiles.ColumnClick
     Select Case e.Column
@@ -675,6 +719,11 @@
       mnuContextFileExtract.DefaultItem = True
     End If
     mnuContextFileOpen.Enabled = canOpen
+    mnuContextFileExpand.Visible = False
+    mnuContextFileExpandAll.Visible = False
+    mnuContextFileCollapse.Visible = False
+    mnuContextFileCollapseAll.Visible = False
+    mnuContextFileSpace2.Visible = False
     mnuContextFileProperties.Enabled = lvFiles.SelectedItems.Count = 1
     mnuContextFile.Tag = Nothing
     mnuContextFile.Show(lvFiles, e.Location)
