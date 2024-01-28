@@ -43,7 +43,7 @@
   End Sub
 
   Private Sub lblHelp_LinkClicked(sender As System.Object, e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles lblHelp.LinkClicked
-    Process.Start("https://learn.microsoft.com/en-us/dotnet/standard/base-types/regular-expression-language-quick-reference")
+    If e.Button = Windows.Forms.MouseButtons.Left Then OpenURL("learn.microsoft.com/en-us/dotnet/standard/base-types/regular-expression-language-quick-reference", Me)
   End Sub
 
   Private Sub txtMatch_KeyUp(sender As Object, e As System.Windows.Forms.KeyEventArgs) Handles txtMatch.KeyUp

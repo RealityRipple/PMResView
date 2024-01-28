@@ -474,4 +474,20 @@
     End If
     Return sDur
   End Function
+
+  Public Sub OpenURL(sURL As String, parent As Form)
+    Dim sOpen As String = sURL
+    If Not sOpen.Contains(Uri.SchemeDelimiter) Then sOpen = "http://" & sURL
+    Try
+      Process.Start(sOpen)
+    Catch ex As Exception
+      Try
+        Clipboard.SetText(sOpen)
+      Catch ex2 As Exception
+        SuperMsgBox(parent, "Error Opening Browser", Microsoft.WindowsAPICodePack.Dialogs.TaskDialogStandardIcon.Error, "Failed to open your Browser.", My.Application.Info.ProductName & " could not navigate to """ & sURL & """!", Microsoft.WindowsAPICodePack.Dialogs.TaskDialogStandardButtons.Ok, ex.Message)
+        Return
+      End Try
+      SuperMsgBox(parent, "URL Copied to Clipboard", Microsoft.WindowsAPICodePack.Dialogs.TaskDialogStandardIcon.Information, "Failed to open your Browser.", My.Application.Info.ProductName & " could not navigate to """ & sURL & """, so the URL was copied to your clipboard!", Microsoft.WindowsAPICodePack.Dialogs.TaskDialogStandardButtons.Ok)
+    End Try
+  End Sub
 End Module

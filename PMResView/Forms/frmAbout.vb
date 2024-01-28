@@ -14,11 +14,23 @@
     txtDescription.Text = My.Application.Info.Description
   End Sub
 
+  Private Sub lblProduct_LinkClicked(sender As System.Object, e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles lblProduct.LinkClicked
+    If e.Button = Windows.Forms.MouseButtons.Left Then OpenURL("realityripple.com/Software/Applications/PMResView", Me)
+  End Sub
+
+  Private Sub lblVersion_LinkClicked(sender As System.Object, e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles lblVersion.LinkClicked
+    If e.Button = Windows.Forms.MouseButtons.Left Then OpenURL("realityripple.com/Software/Applications/PMResView/changes.php", Me)
+  End Sub
+
+  Private Sub lblCompany_LinkClicked(sender As System.Object, e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles lblCompany.LinkClicked
+    If e.Button = Windows.Forms.MouseButtons.Left Then OpenURL("realityripple.com", Me)
+  End Sub
+
   Private Sub cmdOK_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdOK.Click
     Me.Close()
   End Sub
 
   Private Sub cmdDonate_Click(sender As System.Object, e As System.EventArgs) Handles cmdDonate.Click
-    Process.Start("http://realityripple.com/donate.php?itm=PMResView")
+    OpenURL("realityripple.com/donate.php?itm=PMResView", Me)
   End Sub
 End Class

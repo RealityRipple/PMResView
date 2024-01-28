@@ -1,24 +1,24 @@
 ﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
 Partial Class frmAbout
-    Inherits System.Windows.Forms.Form
+  Inherits System.Windows.Forms.Form
 
-    'Form overrides dispose to clean up the component list.
-    <System.Diagnostics.DebuggerNonUserCode()> _
-    Protected Overrides Sub Dispose(ByVal disposing As Boolean)
-        Try
-            If disposing AndAlso components IsNot Nothing Then
-                components.Dispose()
-            End If
-        Finally
-            MyBase.Dispose(disposing)
-        End Try
-    End Sub
+  'Form overrides dispose to clean up the component list.
+  <System.Diagnostics.DebuggerNonUserCode()> _
+  Protected Overrides Sub Dispose(ByVal disposing As Boolean)
+    Try
+      If disposing AndAlso components IsNot Nothing Then
+        components.Dispose()
+      End If
+    Finally
+      MyBase.Dispose(disposing)
+    End Try
+  End Sub
 
-    Friend WithEvents TableLayoutPanel As System.Windows.Forms.TableLayoutPanel
-    Friend WithEvents LogoPictureBox As System.Windows.Forms.PictureBox
-  Friend WithEvents lblProduct As System.Windows.Forms.Label
-  Friend WithEvents lblVersion As System.Windows.Forms.Label
-  Friend WithEvents lblCompany As System.Windows.Forms.Label
+  Friend WithEvents TableLayoutPanel As System.Windows.Forms.TableLayoutPanel
+  Friend WithEvents LogoPictureBox As System.Windows.Forms.PictureBox
+  Friend WithEvents lblProduct As PMResView.LinkLabel
+  Friend WithEvents lblVersion As PMResView.LinkLabel
+  Friend WithEvents lblCompany As PMResView.LinkLabel
   Friend WithEvents txtDescription As System.Windows.Forms.TextBox
   Friend WithEvents cmdOK As System.Windows.Forms.Button
   Friend WithEvents lblUpdate As System.Windows.Forms.Label
@@ -34,10 +34,10 @@ Partial Class frmAbout
     Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmAbout))
     Me.TableLayoutPanel = New System.Windows.Forms.TableLayoutPanel()
     Me.LogoPictureBox = New System.Windows.Forms.PictureBox()
-    Me.lblProduct = New System.Windows.Forms.Label()
-    Me.lblVersion = New System.Windows.Forms.Label()
+    Me.lblProduct = New PMResView.LinkLabel()
+    Me.lblVersion = New PMResView.LinkLabel()
     Me.lblUpdate = New System.Windows.Forms.Label()
-    Me.lblCompany = New System.Windows.Forms.Label()
+    Me.lblCompany = New PMResView.LinkLabel()
     Me.txtDescription = New System.Windows.Forms.TextBox()
     Me.cmdOK = New System.Windows.Forms.Button()
     Me.cmdDonate = New System.Windows.Forms.Button()
@@ -87,7 +87,10 @@ Partial Class frmAbout
     'lblProduct
     '
     Me.TableLayoutPanel.SetColumnSpan(Me.lblProduct, 2)
+    Me.lblProduct.Cursor = System.Windows.Forms.Cursors.Hand
     Me.lblProduct.Dock = System.Windows.Forms.DockStyle.Fill
+    Me.lblProduct.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!)
+    Me.lblProduct.ForeColor = System.Drawing.Color.MediumBlue
     Me.lblProduct.Location = New System.Drawing.Point(136, 0)
     Me.lblProduct.Margin = New System.Windows.Forms.Padding(6, 0, 3, 0)
     Me.lblProduct.MaximumSize = New System.Drawing.Size(0, 17)
@@ -100,7 +103,10 @@ Partial Class frmAbout
     'lblVersion
     '
     Me.TableLayoutPanel.SetColumnSpan(Me.lblVersion, 2)
+    Me.lblVersion.Cursor = System.Windows.Forms.Cursors.Hand
     Me.lblVersion.Dock = System.Windows.Forms.DockStyle.Fill
+    Me.lblVersion.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!)
+    Me.lblVersion.ForeColor = System.Drawing.Color.MediumBlue
     Me.lblVersion.Location = New System.Drawing.Point(136, 25)
     Me.lblVersion.Margin = New System.Windows.Forms.Padding(6, 0, 3, 0)
     Me.lblVersion.MaximumSize = New System.Drawing.Size(0, 17)
@@ -129,7 +135,10 @@ Partial Class frmAbout
     'lblCompany
     '
     Me.TableLayoutPanel.SetColumnSpan(Me.lblCompany, 2)
+    Me.lblCompany.Cursor = System.Windows.Forms.Cursors.Hand
     Me.lblCompany.Dock = System.Windows.Forms.DockStyle.Fill
+    Me.lblCompany.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!)
+    Me.lblCompany.ForeColor = System.Drawing.Color.MediumBlue
     Me.lblCompany.Location = New System.Drawing.Point(136, 75)
     Me.lblCompany.Margin = New System.Windows.Forms.Padding(6, 0, 3, 0)
     Me.lblCompany.MaximumSize = New System.Drawing.Size(0, 17)
