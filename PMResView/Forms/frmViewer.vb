@@ -368,20 +368,20 @@
 
   Private Sub mnuToolbar_Click(sender As System.Object, e As System.EventArgs) Handles mnuViewToolbar.Click
     mnuViewToolbar.Checked = Not mnuViewToolbar.Checked
-    tbNav.Visible = mnuViewToolbar.Checked
     Settings.ShowToolbar = mnuViewToolbar.Checked
+    tbNav.Visible = mnuViewToolbar.Checked
   End Sub
 
   Private Sub mnuViewFlat_Click(sender As System.Object, e As System.EventArgs) Handles mnuViewFlat.Click, mnuContextViewFlat.Click
     mnuViewFlat.Checked = Not mnuViewFlat.Checked
-    ToggleFlat()
     Settings.FlatView = mnuViewFlat.Checked
+    ToggleFlat()
   End Sub
 
   Private Sub mnuViewTree_Click(sender As System.Object, e As System.EventArgs) Handles mnuViewTree.Click, mnuContextViewTree.Click
     mnuViewTree.Checked = Not mnuViewTree.Checked
-    ToggleTree(mnuViewTree.Checked)
     Settings.TreeView = mnuViewTree.Checked
+    ToggleTree(mnuViewTree.Checked)
   End Sub
 
 
@@ -436,8 +436,8 @@
     mnuContextViewSortType.Checked = mnuViewSortType.Checked
     mnuContextViewSortSize.Checked = mnuViewSortSize.Checked
     mnuContextViewSortOrder.Checked = mnuViewSortOrder.Checked
-    mnuContextViewTree.Checked = mnuViewTree.Checked
-    mnuContextViewFlat.Checked = mnuViewFlat.Checked
+    mnuContextViewTree.Checked = Settings.TreeView
+    mnuContextViewFlat.Checked = Settings.FlatView
     mnuContextViewGoRoot.Enabled = mnuViewGoRoot.Enabled
     mnuContextViewGoParent.Enabled = mnuViewGoParent.Enabled
   End Sub
@@ -839,7 +839,7 @@
     End If
     Dim sPath As String = sDir
     Dim addList As New List(Of ListViewItem)
-    If mnuViewFlat.Checked Then
+    If Settings.FlatView Then
       Dim subDirPos As Integer = 1
       If Not sDir = IO.Path.DirectorySeparatorChar Then subDirPos = sDir.Length + 1
       For I As Long = 0 To zArchive.LongLength - 1
@@ -1250,7 +1250,7 @@
     pbActivity.Style = ProgressBarStyle.Marquee
     lblSelCount.Text = "Extracting..."
     'extraction process is messier on flat view
-    If mnuViewFlat.Checked Then
+    If Settings.FlatView Then
       Dim subDirPos As Integer = 1
       If Not sArchiveDir = IO.Path.DirectorySeparatorChar Then subDirPos = sArchiveDir.Length + 1
       For I As Integer = 0 To lvFiles.SelectedItems.Count - 1
