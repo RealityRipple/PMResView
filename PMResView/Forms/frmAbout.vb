@@ -183,7 +183,10 @@
       SetUpdateValue("Update download complete", UpdateStatus.Green)
       Dim v As Authenticode.Validity = Authenticode.IsSelfSigned(sUpdate)
       If Not (v = Authenticode.Validity.SignedAndValid Or v = Authenticode.Validity.SignedButUntrusted) Then
-        SetUpdateValue("Update was not correctly signed (0x" & Hex(v) & " " & v.ToString & ")", UpdateStatus.Red)
+        Dim sErr As String = "0x" & v.ToString("x")
+        If Not CStr(v) = v.ToString Then sErr = v.ToString & " (0x" & v.ToString("x") & ")"
+        SetUpdateValue("Update was not correctly signed: " & sErr, UpdateStatus.Red)
+        IO.File.Delete(sUpdate)
         Return
       End If
       Try
