@@ -17,7 +17,7 @@
     lblVersion.Text = String.Format("Version {0}", My.Application.Info.Version.ToString(2))
     lblCompany.Text = My.Application.Info.CompanyName
     txtDescription.Text = My.Application.Info.Description
-    SetUpdateValue("Initializing update check", True)
+    SetUpdateValue("Initializing update check", UpdateStatus.Throbber)
     tUpdate = New Threading.Timer(New Threading.TimerCallback(AddressOf CheckForUpdates), Nothing, 1000, 5000)
   End Sub
 
@@ -41,20 +41,42 @@
     OpenURL("realityripple.com/donate.php?itm=PMResView", Me)
   End Sub
 
-  Private Sub SetUpdateValue(ByVal Message As String, ByVal Throbber As Boolean)
-    If Throbber Then
+  Private Enum UpdateStatus
+    Throbber
+    Red
+    Green
+    None
+  End Enum
+  Private Sub SetUpdateValue(ByVal Message As String, ByVal Status As UpdateStatus)
+    If Status = UpdateStatus.Throbber Then
       If tThrobber Is Nothing Then
         throbberFrame = 0
         tThrobber = New Threading.Timer(New Threading.TimerCallback(AddressOf tmrThrobber_Tick), Nothing, 0, 33)
       End If
+      If Not lblUpdate.Text = "      " & Message Then lblUpdate.Text = "      " & Message
+    ElseIf Status = UpdateStatus.Red Then
+      throbberFrame = 255
+      If tThrobber IsNot Nothing Then
+        tThrobber.Dispose()
+        tThrobber = Nothing
+      End If
+      lblUpdate.Image = My.Resources.bad.Clone
+      If Not lblUpdate.Text = "      " & Message Then lblUpdate.Text = "      " & Message
+    ElseIf Status = UpdateStatus.Green Then
+      throbberFrame = 255
+      If tThrobber IsNot Nothing Then
+        tThrobber.Dispose()
+        tThrobber = Nothing
+      End If
+      lblUpdate.Image = My.Resources.ok.Clone
       If Not lblUpdate.Text = "      " & Message Then lblUpdate.Text = "      " & Message
     Else
       throbberFrame = 255
       If tThrobber IsNot Nothing Then
         tThrobber.Dispose()
         tThrobber = Nothing
-        lblUpdate.Image = Nothing
       End If
+      lblUpdate.Image = Nothing
       If Not lblUpdate.Text = Message Then lblUpdate.Text = Message
     End If
   End Sub
@@ -72,7 +94,7 @@
       Return
     End If
     ellipsis = ""
-    SetUpdateValue("Checking for updates", True)
+    SetUpdateValue("Checking for updates", UpdateStatus.Throbber)
     cUpdate = New clsUpdate
     cUpdate.CheckVersion()
   End Sub
@@ -84,7 +106,7 @@
     End If
     ellipsis &= "."
     If ellipsis = "...." Then ellipsis = ""
-    SetUpdateValue("Checking for updates" & ellipsis, True)
+    SetUpdateValue("Checking for updates" & ellipsis, UpdateStatus.Throbber)
   End Sub
 
   Private Sub cUpdate_CheckProgressChanged(sender As Object, e As clsUpdate.ProgressEventArgs) Handles cUpdate.CheckProgressChanged
@@ -94,7 +116,7 @@
     End If
     ellipsis &= "."
     If ellipsis = "...." Then ellipsis = ""
-    SetUpdateValue("Checking for updates" & ellipsis, True)
+    SetUpdateValue("Checking for updates" & ellipsis, UpdateStatus.Throbber)
   End Sub
 
   Private Sub cUpdate_CheckResult(sender As Object, e As clsUpdate.CheckEventArgs) Handles cUpdate.CheckResult
@@ -103,16 +125,16 @@
       Return
     End If
     If e.Cancelled Then
-      SetUpdateValue("Update check cancelled", False)
+      SetUpdateValue("Update check cancelled", UpdateStatus.Red)
     ElseIf e.Error IsNot Nothing Then
-      SetUpdateValue("Update check failed", False)
+      SetUpdateValue("Update check failed", UpdateStatus.Red)
     Else
       If e.Result = clsUpdate.CheckEventArgs.ResultType.NewUpdate Then
         If IO.File.Exists(IO.Path.Combine(My.Application.Info.DirectoryPath, "unins000.exe")) Then
-          SetUpdateValue("New version available: " & e.Version, False)
+          SetUpdateValue("New version available: " & e.Version, UpdateStatus.Green)
           Using dUpdate As New dlgUpdate(e.Version)
             If dUpdate.ShowDialog(Me) = Windows.Forms.DialogResult.Cancel Then
-              SetUpdateValue("Update download cancelled", False)
+              SetUpdateValue("Update download cancelled", UpdateStatus.Red)
               Return
             End If
           End Using
@@ -121,13 +143,13 @@
             ellipsis = ""
             cUpdate.DownloadUpdate(sUpdate)
           Catch ex As Exception
-            SetUpdateValue("Update download file in use", False)
+            SetUpdateValue("Update download file in use", UpdateStatus.Red)
           End Try
         Else
-          SetUpdateValue("New version available: " & e.Version, False)
+          SetUpdateValue("New version available: " & e.Version, UpdateStatus.Green)
         End If
       Else
-        SetUpdateValue("No new updates", False)
+        SetUpdateValue("No new updates", UpdateStatus.Green)
       End If
       End If
   End Sub
@@ -137,7 +159,7 @@
       Invoke(New EventHandler(AddressOf cUpdate_DownloadingUpdate), sender, e)
       Return
     End If
-    SetUpdateValue("Downloading new version...", True)
+    SetUpdateValue("Downloading new version...", UpdateStatus.Throbber)
   End Sub
 
   Private Sub cUpdate_UpdateProgressChanged(sender As Object, e As clsUpdate.ProgressEventArgs) Handles cUpdate.UpdateProgressChanged
@@ -145,7 +167,7 @@
       Invoke(New EventHandler(Of clsUpdate.ProgressEventArgs)(AddressOf cUpdate_UpdateProgressChanged), sender, e)
       Return
     End If
-    SetUpdateValue("Downloading new version: " & e.ProgressPercentage & "%", True)
+    SetUpdateValue("Downloading new version: " & e.ProgressPercentage & "%", UpdateStatus.Throbber)
   End Sub
 
   Private Sub cUpdate_DownloadResult(sender As Object, e As clsUpdate.DownloadEventArgs) Handles cUpdate.DownloadResult
@@ -154,14 +176,14 @@
       Return
     End If
     If e.Cancelled Then
-      SetUpdateValue("Update download cancelled", False)
+      SetUpdateValue("Update download cancelled", UpdateStatus.Red)
     ElseIf e.Error IsNot Nothing Then
-      SetUpdateValue("Update download failed", False)
+      SetUpdateValue("Update download failed", UpdateStatus.Red)
     Else
-      SetUpdateValue("Update download complete", False)
+      SetUpdateValue("Update download complete", UpdateStatus.Green)
       Dim v As Authenticode.Validity = Authenticode.IsSelfSigned(sUpdate)
       If Not (v = Authenticode.Validity.SignedAndValid Or v = Authenticode.Validity.SignedButUntrusted) Then
-        SetUpdateValue("Update was not correctly signed (0x" & Hex(v) & " " & v.ToString & ")", False)
+        SetUpdateValue("Update was not correctly signed (0x" & Hex(v) & " " & v.ToString & ")", UpdateStatus.Red)
         Return
       End If
       Try
@@ -173,7 +195,7 @@
         oProc.Start()
         Application.Exit()
       Catch ex As Exception
-        SetUpdateValue("Update failed to install", False)
+        SetUpdateValue("Update failed to install", UpdateStatus.Red)
       End Try
     End If
   End Sub
