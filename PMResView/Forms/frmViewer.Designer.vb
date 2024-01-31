@@ -114,6 +114,8 @@ Partial Class frmViewer
     Me.mnuContextViewSpace2 = New System.Windows.Forms.MenuItem()
     Me.mnuContextViewGoRoot = New System.Windows.Forms.MenuItem()
     Me.mnuContextViewGoParent = New System.Windows.Forms.MenuItem()
+    Me.mnuContextViewSpace3 = New System.Windows.Forms.MenuItem()
+    Me.mnuContextViewProperties = New System.Windows.Forms.MenuItem()
     Me.pnlUI = New System.Windows.Forms.ToolStripContainer()
     Me.tbNav = New System.Windows.Forms.ToolStrip()
     Me.cmdBack = New System.Windows.Forms.ToolStripButton()
@@ -610,7 +612,7 @@ Partial Class frmViewer
     '
     'mnuContextView
     '
-    Me.mnuContextView.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.mnuContextViewIcons, Me.mnuContextViewSort, Me.mnuContextViewSpace1, Me.mnuContextViewFlat, Me.mnuContextViewTree, Me.mnuContextViewSpace2, Me.mnuContextViewGoRoot, Me.mnuContextViewGoParent})
+    Me.mnuContextView.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.mnuContextViewIcons, Me.mnuContextViewSort, Me.mnuContextViewSpace1, Me.mnuContextViewFlat, Me.mnuContextViewTree, Me.mnuContextViewSpace2, Me.mnuContextViewGoRoot, Me.mnuContextViewGoParent, Me.mnuContextViewSpace3, Me.mnuContextViewProperties})
     '
     'mnuContextViewIcons
     '
@@ -711,6 +713,17 @@ Partial Class frmViewer
     Me.mnuContextViewGoParent.Enabled = False
     Me.mnuContextViewGoParent.Index = 7
     Me.mnuContextViewGoParent.Text = "Go to &Parent"
+    '
+    'mnuContextViewSpace3
+    '
+    Me.mnuContextViewSpace3.Index = 8
+    Me.mnuContextViewSpace3.Text = "-"
+    '
+    'mnuContextViewProperties
+    '
+    Me.mnuContextViewProperties.Enabled = False
+    Me.mnuContextViewProperties.Index = 9
+    Me.mnuContextViewProperties.Text = "F&older Properties..."
     '
     'pnlUI
     '
@@ -971,5 +984,7 @@ Partial Class frmViewer
   Friend WithEvents mnuEditChooseEditorText As System.Windows.Forms.MenuItem
   Friend WithEvents mnuEditChooseEditorImages As System.Windows.Forms.MenuItem
   Friend WithEvents mnuEditChooseEditorBinary As System.Windows.Forms.MenuItem
+  Friend WithEvents mnuContextViewSpace3 As System.Windows.Forms.MenuItem
+  Friend WithEvents mnuContextViewProperties As System.Windows.Forms.MenuItem
 
 End Class

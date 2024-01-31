@@ -437,6 +437,11 @@
     sArchiveDir = IO.Path.GetDirectoryName(sArchiveDir)
     RenderDir(sArchiveDir)
   End Sub
+
+  Private Sub mnuContextViewProperties_Click(sender As System.Object, e As System.EventArgs) Handles mnuContextViewProperties.Click
+    mnuContextFile.Tag = sArchiveDir
+    tvExplorer_Properties()
+  End Sub
 #End Region
 
   Private Sub mnuHelpAbout_Click(sender As System.Object, e As System.EventArgs) Handles mnuHelpAbout.Click
@@ -518,6 +523,7 @@
     mnuContextViewFlat.Checked = Settings.FlatView
     mnuContextViewGoRoot.Enabled = mnuViewGoRoot.Enabled
     mnuContextViewGoParent.Enabled = mnuViewGoParent.Enabled
+    mnuContextViewProperties.Enabled = Not String.IsNullOrEmpty(sArchiveDir)
   End Sub
 
   Private Sub mnuContextHistoryItem_Click(sender As Object, e As EventArgs)
