@@ -168,6 +168,7 @@ Partial Class dlgUpdate
     Me.Icon = Global.PMResView.My.Resources.Resources.Icon
     Me.MaximizeBox = False
     Me.MinimizeBox = False
+    Me.MinimumSize = New System.Drawing.Size(400, 180)
     Me.Name = "dlgUpdate"
     Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent
     Me.Text = "Update for PMRes Viewer"
