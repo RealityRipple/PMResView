@@ -90,12 +90,16 @@
     DownloadLoc = Nothing
     wsVer.CachePolicy = New Net.Cache.HttpRequestCachePolicy(System.Net.Cache.HttpRequestCacheLevel.NoCacheNoStore)
     RaiseEvent CheckingVersion(Me, New EventArgs)
+    wsVer.Headers.Add("X-Thumb", Authenticode.RRSignThumb)
+    wsVer.Headers.Add("X-Serial", Authenticode.RRSignSerial)
     wsVer.DownloadStringAsync(New Uri(ProtoURL(VersionURL)), "INFO")
   End Sub
   Public Shared Function QuickCheckVersion() As CheckEventArgs.ResultType
     ModernProtcol()
     Dim sVerStr As String
     Using wsCheck As New Net.WebClient
+      wsCheck.Headers.Add("X-Thumb", Authenticode.RRSignThumb)
+      wsCheck.Headers.Add("X-Serial", Authenticode.RRSignSerial)
       sVerStr = wsCheck.DownloadString(New Uri(ProtoURL(VersionURL)))
       Dim sHash As String = Nothing
       For Each sKey As String In wsCheck.ResponseHeaders
