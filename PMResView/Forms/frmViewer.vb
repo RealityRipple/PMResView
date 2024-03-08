@@ -753,6 +753,18 @@
   End Sub
 
   Private Sub lvFiles_MouseUp(sender As Object, e As System.Windows.Forms.MouseEventArgs) Handles lvFiles.MouseUp
+    If e.Button = Windows.Forms.MouseButtons.XButton1 AndAlso cmdBack.Enabled Then
+      If iDirHistIndex < 1 Then Return
+      iDirHistIndex -= 1
+      RenderDir(sDirHistory(iDirHistIndex), True)
+      Return
+    End If
+    If e.Button = Windows.Forms.MouseButtons.XButton2 AndAlso cmdForward.Enabled Then
+      If iDirHistIndex > sDirHistory.LongCount - 1 Then Return
+      iDirHistIndex += 1
+      RenderDir(sDirHistory(iDirHistIndex), True)
+      Return
+    End If
     If Not e.Button = Windows.Forms.MouseButtons.Right Then Return
     If lvFiles.SelectedItems.Count < 1 Then
       mnuContextView.Show(lvFiles, e.Location)
