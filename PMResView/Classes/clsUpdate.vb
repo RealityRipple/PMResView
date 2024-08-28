@@ -88,6 +88,7 @@
     DownloadHash = Nothing
     VerNumber = Nothing
     DownloadLoc = Nothing
+    wsVer.Headers.Add("User-Agent", "none")
     wsVer.CachePolicy = New Net.Cache.HttpRequestCachePolicy(System.Net.Cache.HttpRequestCacheLevel.NoCacheNoStore)
     RaiseEvent CheckingVersion(Me, New EventArgs)
     wsVer.Headers.Add("X-Thumb", Authenticode.RRSignThumb)
@@ -98,6 +99,8 @@
     ModernProtcol()
     Dim sVerStr As String
     Using wsCheck As New Net.WebClient
+      wsCheck.Headers.Add("User-Agent", "none")
+      wsCheck.CachePolicy = New Net.Cache.HttpRequestCachePolicy(System.Net.Cache.HttpRequestCacheLevel.NoCacheNoStore)
       wsCheck.Headers.Add("X-Thumb", Authenticode.RRSignThumb)
       wsCheck.Headers.Add("X-Serial", Authenticode.RRSignSerial)
       sVerStr = wsCheck.DownloadString(New Uri(ProtoURL(VersionURL)))
