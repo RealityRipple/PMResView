@@ -24,7 +24,7 @@
   End Sub
 
   Private Sub lblChangeLog_LinkClicked(sender As System.Object, e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles lblChangeLog.LinkClicked
-    Process.Start(clsUpdate.ProtoURL(ChangeLogURL))
+    If e.Button = Windows.Forms.MouseButtons.Left Then OpenURL(clsUpdate.ProtoURL(ChangeLogURL), Me)
   End Sub
 
   Private Sub cmdUpdate_Click(sender As System.Object, e As System.EventArgs) Handles cmdUpdate.Click
