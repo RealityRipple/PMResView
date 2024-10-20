@@ -1136,7 +1136,7 @@
     lblSelCount.Text = "No objects selected"
     If zArchive.Length = 0 Then
       pbActivity.Visible = False
-      SuperMsgBox(Me, "Error", Microsoft.WindowsAPICodePack.Dialogs.TaskDialogStandardIcon.Error, "Unable to load.", "No files could be extracted from the archive.", Microsoft.WindowsAPICodePack.Dialogs.TaskDialogStandardButtons.Ok, path)
+      SuperMsgBox(Me, Microsoft.WindowsAPICodePack.Dialogs.TaskDialogStandardIcon.Error, "Unable to load.", "No files could be extracted from the archive.", Microsoft.WindowsAPICodePack.Dialogs.TaskDialogStandardButtons.Ok, , path)
       Return
     End If
     RenderArchive()
@@ -1200,31 +1200,31 @@
     If fType = FileCat.Text Then
       sEditor = Settings.TextEditor
       If String.IsNullOrEmpty(sEditor) Then
-        SuperMsgBox(Me, "Select an Editor", Microsoft.WindowsAPICodePack.Dialogs.TaskDialogStandardIcon.Information, "Select a Text Editor first.", "Please choose a Custom Text Editor from the Edit menu before using the Edit command.", Microsoft.WindowsAPICodePack.Dialogs.TaskDialogStandardButtons.Ok)
+        SuperMsgBox(Me, Microsoft.WindowsAPICodePack.Dialogs.TaskDialogStandardIcon.Information, "Select a Text Editor first.", "Please choose a Custom Text Editor from the Edit menu before using the Edit command.", Microsoft.WindowsAPICodePack.Dialogs.TaskDialogStandardButtons.Ok)
         Return
       End If
       If Not IO.File.Exists(sEditor) Then
-        SuperMsgBox(Me, "Select a Different Editor", Microsoft.WindowsAPICodePack.Dialogs.TaskDialogStandardIcon.Error, "Your selected Text Editor is missing.", "Please choose a new Custom Text editor from the Edit menu before using the Edit command.", Microsoft.WindowsAPICodePack.Dialogs.TaskDialogStandardButtons.Ok, "File """ & sEditor & """ not found.")
+        SuperMsgBox(Me, Microsoft.WindowsAPICodePack.Dialogs.TaskDialogStandardIcon.Error, "Your selected Text Editor is missing.", "Please choose a new Custom Text editor from the Edit menu before using the Edit command.", Microsoft.WindowsAPICodePack.Dialogs.TaskDialogStandardButtons.Ok, , "File """ & sEditor & """ not found.")
         Return
       End If
     ElseIf fType = FileCat.Image Then
       sEditor = Settings.ImageEditor
       If String.IsNullOrEmpty(sEditor) Then
-        SuperMsgBox(Me, "Select an Editor", Microsoft.WindowsAPICodePack.Dialogs.TaskDialogStandardIcon.Information, "Select an Image Editor first.", "Please choose a Custom Image Editor from the Edit menu before using the Edit command.", Microsoft.WindowsAPICodePack.Dialogs.TaskDialogStandardButtons.Ok)
+        SuperMsgBox(Me, Microsoft.WindowsAPICodePack.Dialogs.TaskDialogStandardIcon.Information, "Select an Image Editor first.", "Please choose a Custom Image Editor from the Edit menu before using the Edit command.", Microsoft.WindowsAPICodePack.Dialogs.TaskDialogStandardButtons.Ok)
         Return
       End If
       If Not IO.File.Exists(sEditor) Then
-        SuperMsgBox(Me, "Select a Different Editor", Microsoft.WindowsAPICodePack.Dialogs.TaskDialogStandardIcon.Error, "Your selected Image Editor is missing.", "Please choose a new Custom Image Editor from the Edit menu before using the Edit command.", Microsoft.WindowsAPICodePack.Dialogs.TaskDialogStandardButtons.Ok, "File """ & sEditor & """ not found.")
+        SuperMsgBox(Me, Microsoft.WindowsAPICodePack.Dialogs.TaskDialogStandardIcon.Error, "Your selected Image Editor is missing.", "Please choose a new Custom Image Editor from the Edit menu before using the Edit command.", Microsoft.WindowsAPICodePack.Dialogs.TaskDialogStandardButtons.Ok, , "File """ & sEditor & """ not found.")
         Return
       End If
     Else
       sEditor = Settings.BinaryEditor
       If String.IsNullOrEmpty(sEditor) Then
-        SuperMsgBox(Me, "Select an Editor", Microsoft.WindowsAPICodePack.Dialogs.TaskDialogStandardIcon.Information, "Select a Binary Data Editor first.", "Please choose a Custom Binary Data Editor from the Edit menu before using the Edit command.", Microsoft.WindowsAPICodePack.Dialogs.TaskDialogStandardButtons.Ok)
+        SuperMsgBox(Me, Microsoft.WindowsAPICodePack.Dialogs.TaskDialogStandardIcon.Information, "Select a Binary Data Editor first.", "Please choose a Custom Binary Data Editor from the Edit menu before using the Edit command.", Microsoft.WindowsAPICodePack.Dialogs.TaskDialogStandardButtons.Ok)
         Return
       End If
       If Not IO.File.Exists(sEditor) Then
-        SuperMsgBox(Me, "Select a Different Editor", Microsoft.WindowsAPICodePack.Dialogs.TaskDialogStandardIcon.Error, "Your selected Binary Data Editor is missing.", "Please choose a new Custom Binary Data Editor from the Edit menu before using the Edit command.", Microsoft.WindowsAPICodePack.Dialogs.TaskDialogStandardButtons.Ok, "File """ & sEditor & """ not found.")
+        SuperMsgBox(Me, Microsoft.WindowsAPICodePack.Dialogs.TaskDialogStandardIcon.Error, "Your selected Binary Data Editor is missing.", "Please choose a new Custom Binary Data Editor from the Edit menu before using the Edit command.", Microsoft.WindowsAPICodePack.Dialogs.TaskDialogStandardButtons.Ok, , "File """ & sEditor & """ not found.")
         Return
       End If
     End If
@@ -1353,7 +1353,6 @@
     tvExplorer.Enabled = True
     lvFiles.Enabled = True
     If SuperMsgBox(Me,
-      "Extraction Complete",
       Microsoft.WindowsAPICodePack.Dialogs.TaskDialogStandardIcon.Information,
       "The extraction process is complete.",
       "Would you like to view the extracted files?",
@@ -1442,7 +1441,6 @@
     tvExplorer.Enabled = True
     lvFiles.Enabled = True
     If SuperMsgBox(Me,
-      "Extraction Complete",
       Microsoft.WindowsAPICodePack.Dialogs.TaskDialogStandardIcon.Information,
       "The extraction process is complete.",
       "Would you like to view the extracted directory?",
@@ -1472,7 +1470,6 @@
     IO.File.SetLastWriteTime(toPath, zFile.Modified)
     If Not showPrompts Then Return
     If SuperMsgBox(Me,
-      "Extraction Complete",
       Microsoft.WindowsAPICodePack.Dialogs.TaskDialogStandardIcon.Information,
       "The extraction process is complete.",
       "Would you like to view the extracted file?",
@@ -1496,7 +1493,7 @@
       sProps &= vbNewLine & vbNewLine & "Contains " & zDir.FileCount & " file" & IIf(zDir.FileCount = 1, "", "s") & " and " & zDir.DirectoryCount & " folder" & IIf(zDir.DirectoryCount = 1, "", "s")
       Dim fr As Decimal = zDir.CompressedLength / zDir.UncompressedLength
       If fr > 1 Then fr = -1
-      SuperMsgBox(Me, "Folder Properties", Microsoft.WindowsAPICodePack.Dialogs.TaskDialogStandardIcon.Information, IO.Path.GetFileName(zDir.Name), sProps, Microsoft.WindowsAPICodePack.Dialogs.TaskDialogStandardButtons.Close, , , fr)
+      SuperMsgBox(Me, Microsoft.WindowsAPICodePack.Dialogs.TaskDialogStandardIcon.Information, IO.Path.GetFileName(zDir.Name), sProps, Microsoft.WindowsAPICodePack.Dialogs.TaskDialogStandardButtons.Close, "Folder Properties", , , fr)
     ElseIf zFSE.GetType Is GetType(ZIP.FileSystemFile) Then
       'file properties
       Dim zFile As ZIP.FileSystemFile = zFSE
@@ -1513,7 +1510,7 @@
       sProps &= vbNewLine & vbNewLine & "CRC32: 0x" & Hex(zFile.CRC)
       Dim fr As Decimal = zFile.CompressedLength / zFile.UncompressedLength
       If fr > 1 Then fr = -1
-      SuperMsgBox(Me, "File Properties", Microsoft.WindowsAPICodePack.Dialogs.TaskDialogStandardIcon.Information, IO.Path.GetFileName(zFile.Name), sProps, Microsoft.WindowsAPICodePack.Dialogs.TaskDialogStandardButtons.Close, , , fr)
+      SuperMsgBox(Me, Microsoft.WindowsAPICodePack.Dialogs.TaskDialogStandardIcon.Information, IO.Path.GetFileName(zFile.Name), sProps, Microsoft.WindowsAPICodePack.Dialogs.TaskDialogStandardButtons.Close, "File Properties", , , fr)
     End If
   End Sub
   Private Sub tvExplorer_Properties()
@@ -1541,7 +1538,7 @@
     sProps &= vbNewLine & vbNewLine & "Contains " & zDir.FileCount & " file" & IIf(zDir.FileCount = 1, "", "s") & " and " & zDir.DirectoryCount & " folder" & IIf(zDir.DirectoryCount = 1, "", "s")
     Dim fr As Decimal = zDir.CompressedLength / zDir.UncompressedLength
     If fr > 1 Then fr = -1
-    SuperMsgBox(Me, "Directory Properties", Microsoft.WindowsAPICodePack.Dialogs.TaskDialogStandardIcon.Information, sTitle, sProps, Microsoft.WindowsAPICodePack.Dialogs.TaskDialogStandardButtons.Close, , , fr)
+    SuperMsgBox(Me, Microsoft.WindowsAPICodePack.Dialogs.TaskDialogStandardIcon.Information, sTitle, sProps, Microsoft.WindowsAPICodePack.Dialogs.TaskDialogStandardButtons.Close, "Directory Properties", , , fr)
   End Sub
   Private Function GetFileSnippet(ByVal ZFile As ZIP.FileSystemFile) As String
     Dim catTypeLib As XPCOMTypeLib = GetFileCatTypeLib(ZFile)

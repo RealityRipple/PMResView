@@ -3,8 +3,9 @@
   Public Const UTF_8 As Integer = 65001
   Public Const UTF_16_LE As Integer = 1200
   Public Const UTF_32_LE As Integer = 12000
-  Public Function SuperMsgBox(ByVal Parent As Form, ByVal Title As String, ByVal Icon As Microsoft.WindowsAPICodePack.Dialogs.TaskDialogStandardIcon, ByVal Header As String, ByVal Message As String, ByVal Buttons As Microsoft.WindowsAPICodePack.Dialogs.TaskDialogStandardButtons, Optional ByVal Footer As String = Nothing, Optional ByVal FooterIcon As Microsoft.WindowsAPICodePack.Dialogs.TaskDialogStandardIcon = Microsoft.WindowsAPICodePack.Dialogs.TaskDialogStandardIcon.None, Optional ByVal Fraction As Decimal = -1) As Microsoft.WindowsAPICodePack.Dialogs.TaskDialogResult
-    Dim sTitle As String = My.Application.Info.Title & " - " & Title
+  Public Function SuperMsgBox(ByVal Parent As Form, ByVal Icon As Microsoft.WindowsAPICodePack.Dialogs.TaskDialogStandardIcon, ByVal Header As String, ByVal Message As String, ByVal Buttons As Microsoft.WindowsAPICodePack.Dialogs.TaskDialogStandardButtons, Optional ByVal Title As String = Nothing, Optional ByVal Footer As String = Nothing, Optional ByVal FooterIcon As Microsoft.WindowsAPICodePack.Dialogs.TaskDialogStandardIcon = Microsoft.WindowsAPICodePack.Dialogs.TaskDialogStandardIcon.None, Optional ByVal Fraction As Decimal = -1) As Microsoft.WindowsAPICodePack.Dialogs.TaskDialogResult
+    Dim sTitle As String = Application.ProductName
+    If Not String.IsNullOrEmpty(Title) Then sTitle &= " - " & Title
     If Microsoft.WindowsAPICodePack.Dialogs.TaskDialog.IsPlatformSupported Then
       Dim tD As New Microsoft.WindowsAPICodePack.Dialogs.TaskDialog
       If Parent IsNot Nothing AndAlso Parent.IsHandleCreated Then tD.OwnerWindowHandle = Parent.Handle
@@ -465,10 +466,10 @@
       Try
         Clipboard.SetText(sOpen)
       Catch ex2 As Exception
-        SuperMsgBox(parent, "Error Opening Browser", Microsoft.WindowsAPICodePack.Dialogs.TaskDialogStandardIcon.Error, "Failed to open your Browser.", My.Application.Info.ProductName & " could not navigate to """ & sURL & """!", Microsoft.WindowsAPICodePack.Dialogs.TaskDialogStandardButtons.Ok, ex.Message)
+        SuperMsgBox(parent, Microsoft.WindowsAPICodePack.Dialogs.TaskDialogStandardIcon.Error, "Failed to open your Browser.", My.Application.Info.ProductName & " could not navigate to """ & sURL & """!", Microsoft.WindowsAPICodePack.Dialogs.TaskDialogStandardButtons.Ok, , ex.Message)
         Return
       End Try
-      SuperMsgBox(parent, "URL Copied to Clipboard", Microsoft.WindowsAPICodePack.Dialogs.TaskDialogStandardIcon.Information, "Failed to open your Browser.", My.Application.Info.ProductName & " could not navigate to """ & sURL & """, so the URL was copied to your clipboard!", Microsoft.WindowsAPICodePack.Dialogs.TaskDialogStandardButtons.Ok)
+      SuperMsgBox(parent, Microsoft.WindowsAPICodePack.Dialogs.TaskDialogStandardIcon.Information, "Failed to open your Browser.", My.Application.Info.ProductName & " could not navigate to """ & sURL & """, so the URL was copied to your clipboard!", Microsoft.WindowsAPICodePack.Dialogs.TaskDialogStandardButtons.Ok)
     End Try
   End Sub
 End Module
