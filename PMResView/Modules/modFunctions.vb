@@ -66,7 +66,7 @@
     If Not String.IsNullOrEmpty(taskDialog.InstructionText) Then taskDialog.InstructionText = taskDialog.InstructionText
   End Sub
   Public Sub CreateAllSubdirs(sPath As String)
-    Dim sSegments() As String = Split(sPath, IO.Path.DirectorySeparatorChar)
+    Dim sSegments As String() = Split(sPath, IO.Path.DirectorySeparatorChar)
     Dim sDir As String = ""
     For I As Integer = 0 To sSegments.Length - 1
       sDir &= sSegments(I) & IO.Path.DirectorySeparatorChar

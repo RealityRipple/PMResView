@@ -115,7 +115,7 @@
     End Using
     If String.IsNullOrEmpty(sVerStr) Then Return CheckEventArgs.ResultType.NoUpdate
     If Not sVerStr.Contains("|"c) Then Return CheckEventArgs.ResultType.NoUpdate
-    Dim sVU() As String = Split(sVerStr, "|", 3)
+    Dim sVU As String() = Split(sVerStr, "|", 3)
     If CompareVersions(sVU(0)) Then Return CheckEventArgs.ResultType.NewUpdate
     Return CheckEventArgs.ResultType.NoUpdate
   End Function
@@ -159,7 +159,7 @@
           RaiseEvent CheckResult(sender, New CheckEventArgs(CheckEventArgs.ResultType.NoUpdate, VerNumber, New Exception("Invalid Server Response"), e.Cancelled, e.UserState))
           Return
         End If
-        Dim sVU() As String = Split(sVerStr, "|", 3)
+        Dim sVU As String() = Split(sVerStr, "|", 3)
         If CompareVersions(sVU(0)) Then
           rRet = CheckEventArgs.ResultType.NewUpdate
           VerNumber = sVU(0)
@@ -178,9 +178,9 @@
       RaiseEvent DownloadResult(sender, New DownloadEventArgs(VerNumber, New Exception("Download Failure"), e.Cancelled, e.UserState))
       Return
     End If
-    Dim bData() As Byte = IO.File.ReadAllBytes(DownloadLoc)
+    Dim bData As Byte() = IO.File.ReadAllBytes(DownloadLoc)
     Dim sha512 As New Security.Cryptography.SHA512CryptoServiceProvider
-    Dim bHash() As Byte = sha512.ComputeHash(bData)
+    Dim bHash As Byte() = sha512.ComputeHash(bData)
     Dim sHash As String = BitConverter.ToString(bHash).Replace("-", "").ToUpper
     If sHash = DownloadHash Then
       RaiseEvent DownloadResult(sender, New DownloadEventArgs(VerNumber, e))
@@ -190,8 +190,8 @@
   End Sub
   Private Shared Function VerifySignature(Message As String, Signature As String) As Boolean
     If String.IsNullOrEmpty(Signature) Then Return False
-    Dim bMsg() As Byte = System.Text.Encoding.GetEncoding("latin1").GetBytes(Message)
-    Dim bSig() As Byte = Nothing
+    Dim bMsg As Byte() = System.Text.Encoding.GetEncoding("latin1").GetBytes(Message)
+    Dim bSig As Byte() = Nothing
     Try
       bSig = System.Convert.FromBase64String(Signature)
     Catch ex As Exception

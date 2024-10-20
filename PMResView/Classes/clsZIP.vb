@@ -118,7 +118,7 @@
     Dim dIDX As Integer = 0
     Dim sDirStructure As New Dictionary(Of String, ZIP.FileSystemDirectory)
     For I As Long = 0 To sFiles.LongCount - 1
-      Dim sDirs() As String = Split("ROOT" & IO.Path.GetDirectoryName(sFiles(I).Name), IO.Path.DirectorySeparatorChar)
+      Dim sDirs As String() = Split("ROOT" & IO.Path.GetDirectoryName(sFiles(I).Name), IO.Path.DirectorySeparatorChar)
       For J As Long = 0 To sDirs.LongLength - 1
         If String.IsNullOrEmpty(sDirs(J)) Then Continue For
         Dim sDir As String = ""
@@ -258,7 +258,7 @@
       End If
       zFile.Data = bFile
     Else
-      Dim bUnbrot() As Byte = BrotliSharpLib.Brotli.DecompressBuffer(bData, iPos, iCompressed) : iPos += iCompressed
+      Dim bUnbrot As Byte() = BrotliSharpLib.Brotli.DecompressBuffer(bData, iPos, iCompressed) : iPos += iCompressed
       If Not bUnbrot.LongLength = iUncompressed Then
         'Length Mismatch
         Return Nothing

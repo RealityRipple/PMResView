@@ -2,7 +2,7 @@
   Private Structure BOX
     Public Size As Int32
     Public Name As String
-    Public Sub New(bData() As Byte, idx As Long)
+    Public Sub New(bData As Byte(), idx As Long)
       If bData.LongLength < idx + 8 Then Return
       Dim lLoc As Long = idx
       Size = ToInt32(bData, lLoc) : lLoc += 4
@@ -16,7 +16,7 @@
     Public MajorBrand As String
     Public MinorVersion As UInt32
     Public CompatibleBrands As String()
-    Public Sub New(bData() As Byte, idx As Long)
+    Public Sub New(bData As Byte(), idx As Long)
       If bData.LongLength < idx + 8 Then Return
       Dim lLoc As Long = idx
       Size = ToInt32(bData, lLoc) : lLoc += 4
@@ -37,7 +37,7 @@
     Public Name As String
     Public mvhd As BOXmvhd
     Public trak As BOXtrak
-    Public Sub New(bData() As Byte, idx As Long)
+    Public Sub New(bData As Byte(), idx As Long)
       If bData.LongLength < idx + 8 Then Return
       Dim lLoc As Long = idx
       Size = ToInt32(bData, lLoc) : lLoc += 4
@@ -75,7 +75,7 @@
     Public SelectionDuration As UInt32
     Public CurrentTime As UInt32
     Public NextTrackID As UInt32
-    Public Sub New(bData() As Byte, idx As Long)
+    Public Sub New(bData As Byte(), idx As Long)
       If bData.LongLength < idx + 8 Then Return
       Dim lLoc As Long = idx
       Size = ToInt32(bData, lLoc) : lLoc += 4
@@ -105,7 +105,7 @@
     Public Size As Int32
     Public Name As String
     Public tkhd As BOXtkhd
-    Public Sub New(bData() As Byte, idx As Long)
+    Public Sub New(bData As Byte(), idx As Long)
       If bData.LongLength < idx + 8 Then Return
       Dim lLoc As Long = idx
       Size = ToInt32(bData, lLoc) : lLoc += 4
@@ -140,7 +140,7 @@
     Public MatrixStruct As Byte() '36
     Public TrackWidth As Decimal '32
     Public TrackHeight As Decimal '32
-    Public Sub New(bData() As Byte, idx As Long)
+    Public Sub New(bData As Byte(), idx As Long)
       If bData.LongLength < idx + 8 Then Return
       Dim lLoc As Long = idx
       Size = ToInt32(bData, lLoc) : lLoc += 4
@@ -169,7 +169,7 @@
   Private mBrands As List(Of String)
   Private lDuration As UInt32
   Private szResolution As SizeF
-  Public Sub New(bData() As Byte)
+  Public Sub New(bData As Byte())
     bValid = False
     Dim lIDX As Long = 0
     Do While lIDX < bData.LongLength
@@ -218,25 +218,25 @@
       Return szResolution
     End Get
   End Property
-  Private Shared Function ToUInt16(value() As Byte, startIndex As Long) As UInt16
+  Private Shared Function ToUInt16(value As Byte(), startIndex As Long) As UInt16
     Dim b1 As Byte = value(startIndex)
     Dim b2 As Byte = value(startIndex + 1)
     Return (CUShort(b1) << 8) Or CUShort(b2)
   End Function
-  Private Shared Function ToUInt24(value() As Byte, startIndex As Long) As UInt32
+  Private Shared Function ToUInt24(value As Byte(), startIndex As Long) As UInt32
     Dim b1 As Byte = value(startIndex)
     Dim b2 As Byte = value(startIndex + 1)
     Dim b3 As Byte = value(startIndex + 2)
     Return (CUInt(b1) << 16) Or (CUInt(b2) << 8) Or CUInt(b3)
   End Function
-  Private Shared Function ToUInt32(value() As Byte, startIndex As Long) As UInt32
+  Private Shared Function ToUInt32(value As Byte(), startIndex As Long) As UInt32
     Dim b1 As Byte = value(startIndex)
     Dim b2 As Byte = value(startIndex + 1)
     Dim b3 As Byte = value(startIndex + 2)
     Dim b4 As Byte = value(startIndex + 3)
     Return (CUInt(b1) << 24) Or (CUInt(b2) << 16) Or (CUInt(b3) << 8) Or CUInt(b4)
   End Function
-  Private Shared Function ToInt32(value() As Byte, startIndex As Long) As Int32
+  Private Shared Function ToInt32(value As Byte(), startIndex As Long) As Int32
     Dim b1 As Byte = value(startIndex)
     Dim b2 As Byte = value(startIndex + 1)
     Dim b3 As Byte = value(startIndex + 2)
@@ -247,7 +247,7 @@
     End If
     Return (CUInt(b1) << 24) Or (CUInt(b2) << 16) Or (CUInt(b3) << 8) Or CUInt(b4)
   End Function
-  Private Shared Function ToUInt64(value() As Byte, startIndex As Long) As UInt64
+  Private Shared Function ToUInt64(value As Byte(), startIndex As Long) As UInt64
     Dim b1 As Byte = value(startIndex)
     Dim b2 As Byte = value(startIndex + 1)
     Dim b3 As Byte = value(startIndex + 2)
@@ -258,7 +258,7 @@
     Dim b8 As Byte = value(startIndex + 7)
     Return (CULng(b1) << 56) Or (CULng(b2) << 48) Or (CULng(b3) << 40) Or CULng(b4 << 32) Or (CULng(b5) << 24) Or (CULng(b6) << 16) Or (CULng(b7) << 8) Or CULng(b8)
   End Function
-  Private Shared Function ToFixed32(value() As Byte, startIndex As Long) As Decimal
+  Private Shared Function ToFixed32(value As Byte(), startIndex As Long) As Decimal
     Dim v1 As Byte = value(startIndex)
     Dim v2 As Byte = value(startIndex + 1)
     Dim f1 As Byte = value(startIndex + 2)
@@ -267,7 +267,7 @@
     Dim v As Int16 = (CShort(v1) << 8) Or v2
     Return v + (CDec(f) / 32767)
   End Function
-  Private Shared Function ToFixed16(value() As Byte, startIndex As Long) As Decimal
+  Private Shared Function ToFixed16(value As Byte(), startIndex As Long) As Decimal
     Dim v As Byte = value(startIndex)
     Dim f As Byte = value(startIndex + 1)
     Return v + (CDec(f) / 255)

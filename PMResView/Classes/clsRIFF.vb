@@ -229,7 +229,7 @@
       Return dtsEX
     End Get
   End Property
-  Public Sub New(bData() As Byte)
+  Public Sub New(bData As Byte())
     bValid = False
     Using ioFile As New IO.BinaryReader(New IO.MemoryStream(bData))
       Dim mChunk As New Chunk

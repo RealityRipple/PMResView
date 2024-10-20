@@ -1128,7 +1128,7 @@
     lblSelSize.Visible = False
     lblSelCount.Text = "Reading Archive Structure..."
     pbActivity.Visible = True
-    Dim bArchive() As Byte = IO.File.ReadAllBytes(path)
+    Dim bArchive As Byte() = IO.File.ReadAllBytes(path)
     zArchive = ZIP.ReadFileSystem(bArchive, AddressOf ShowProgress)
     lblSelUncompressed.Text = "0 bytes"
     lblSelSize.Visible = True
