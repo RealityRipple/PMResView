@@ -13,7 +13,7 @@ Imports System.Runtime.InteropServices
 <Assembly: AssemblyTrademark("PMRes Viewer by RealityRipple Software.")> 
 <Assembly: ComVisible(False)> 
 'The following GUID is for the ID of the typelib if this project is exposed to COM
-<Assembly: Guid("1ab59208-98ad-4f4d-abbf-9d82d9a9f944")> 
+<Assembly: Guid("DB153438-FA98-5391-A530-3E878A6F6CF2")> 
 ' Version information for an assembly consists of the following four values:
 '
 '      Major Version
