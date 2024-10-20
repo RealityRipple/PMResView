@@ -17,7 +17,7 @@ Public Class LinkLabel
     Get
       Return c_Link
     End Get
-    Set(value As Boolean)
+    Set(ByVal value As Boolean)
       c_Link = value
       RedrawLabel()
     End Set
@@ -27,7 +27,7 @@ Public Class LinkLabel
     Get
       Return c_Visited
     End Get
-    Set(value As Boolean)
+    Set(ByVal value As Boolean)
       c_Visited = value
       RedrawLabel()
     End Set
@@ -37,7 +37,7 @@ Public Class LinkLabel
     Get
       Return MyBase.ForeColor
     End Get
-    Set(value As System.Drawing.Color)
+    Set(ByVal value As System.Drawing.Color)
       MyBase.ForeColor = value
     End Set
   End Property
@@ -46,7 +46,7 @@ Public Class LinkLabel
     Get
       Return c_LabelColor
     End Get
-    Set(value As Color)
+    Set(ByVal value As Color)
       c_LabelColor = value
       RedrawLabel()
     End Set
@@ -56,7 +56,7 @@ Public Class LinkLabel
     Get
       Return c_LinkColor
     End Get
-    Set(value As Color)
+    Set(ByVal value As Color)
       c_LinkColor = value
       RedrawLabel()
     End Set
@@ -66,7 +66,7 @@ Public Class LinkLabel
     Get
       Return c_LinkHover
     End Get
-    Set(value As LinkBehavior)
+    Set(ByVal value As LinkBehavior)
       c_LinkHover = value
       RedrawLabel()
     End Set
@@ -76,7 +76,7 @@ Public Class LinkLabel
     Get
       Return c_LinkHoverColor
     End Get
-    Set(value As Color)
+    Set(ByVal value As Color)
       c_LinkHoverColor = value
       RedrawLabel()
     End Set
@@ -86,7 +86,7 @@ Public Class LinkLabel
     Get
       Return c_LinkActiveColor
     End Get
-    Set(value As Color)
+    Set(ByVal value As Color)
       c_LinkActiveColor = value
       RedrawLabel()
     End Set
@@ -96,7 +96,7 @@ Public Class LinkLabel
     Get
       Return c_LinkVisitedColor
     End Get
-    Set(value As Color)
+    Set(ByVal value As Color)
       c_LinkVisitedColor = value
       RedrawLabel()
     End Set
@@ -120,34 +120,34 @@ Public Class LinkLabel
     c_Visited = False
     RedrawLabel()
   End Sub
-  Protected Overrides Sub OnMouseEnter(e As System.EventArgs)
+  Protected Overrides Sub OnMouseEnter(ByVal e As System.EventArgs)
     If c_Link Then
       c_Hovering = True
       RedrawLabel()
     End If
     MyBase.OnMouseEnter(e)
   End Sub
-  Protected Overrides Sub OnMouseLeave(e As System.EventArgs)
+  Protected Overrides Sub OnMouseLeave(ByVal e As System.EventArgs)
     If c_Link Then
       c_Hovering = False
       RedrawLabel()
     End If
     MyBase.OnMouseLeave(e)
   End Sub
-  Protected Overrides Sub OnMouseDown(e As System.Windows.Forms.MouseEventArgs)
+  Protected Overrides Sub OnMouseDown(ByVal e As System.Windows.Forms.MouseEventArgs)
     If e.Button = Windows.Forms.MouseButtons.Left And c_Link Then
       MyBase.ForeColor = c_LinkActiveColor
     End If
     MyBase.OnMouseDown(e)
   End Sub
-  Protected Overrides Sub OnMouseClick(e As System.Windows.Forms.MouseEventArgs)
+  Protected Overrides Sub OnMouseClick(ByVal e As System.Windows.Forms.MouseEventArgs)
     If e.Button = Windows.Forms.MouseButtons.Left And c_Link Then
       c_Visited = True
       RaiseEvent LinkClicked(Me, New LinkLabelLinkClickedEventArgs(New System.Windows.Forms.LinkLabel.Link(0, Me.Text.Length, Me.Text), e.Button))
     End If
     MyBase.OnMouseClick(e)
   End Sub
-  Protected Overrides Sub OnMouseUp(e As System.Windows.Forms.MouseEventArgs)
+  Protected Overrides Sub OnMouseUp(ByVal e As System.Windows.Forms.MouseEventArgs)
     If e.Button = Windows.Forms.MouseButtons.Left And c_Link Then
       RedrawLabel()
     End If
@@ -157,7 +157,7 @@ Public Class LinkLabel
     Get
       Return MyBase.Font
     End Get
-    Set(value As System.Drawing.Font)
+    Set(ByVal value As System.Drawing.Font)
       MyBase.Font = value
       RedrawLabel()
     End Set

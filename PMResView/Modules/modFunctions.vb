@@ -3,7 +3,7 @@
   Public Const UTF_8 As Integer = 65001
   Public Const UTF_16_LE As Integer = 1200
   Public Const UTF_32_LE As Integer = 12000
-  Public Function SuperMsgBox(Parent As Form, Title As String, Icon As Microsoft.WindowsAPICodePack.Dialogs.TaskDialogStandardIcon, Header As String, Message As String, Buttons As Microsoft.WindowsAPICodePack.Dialogs.TaskDialogStandardButtons, Optional Footer As String = Nothing, Optional FooterIcon As Microsoft.WindowsAPICodePack.Dialogs.TaskDialogStandardIcon = Microsoft.WindowsAPICodePack.Dialogs.TaskDialogStandardIcon.None, Optional Fraction As Decimal = -1) As Microsoft.WindowsAPICodePack.Dialogs.TaskDialogResult
+  Public Function SuperMsgBox(ByVal Parent As Form, ByVal Title As String, ByVal Icon As Microsoft.WindowsAPICodePack.Dialogs.TaskDialogStandardIcon, ByVal Header As String, ByVal Message As String, ByVal Buttons As Microsoft.WindowsAPICodePack.Dialogs.TaskDialogStandardButtons, Optional ByVal Footer As String = Nothing, Optional ByVal FooterIcon As Microsoft.WindowsAPICodePack.Dialogs.TaskDialogStandardIcon = Microsoft.WindowsAPICodePack.Dialogs.TaskDialogStandardIcon.None, Optional ByVal Fraction As Decimal = -1) As Microsoft.WindowsAPICodePack.Dialogs.TaskDialogResult
     Dim sTitle As String = My.Application.Info.Title & " - " & Title
     If Microsoft.WindowsAPICodePack.Dialogs.TaskDialog.IsPlatformSupported Then
       Dim tD As New Microsoft.WindowsAPICodePack.Dialogs.TaskDialog
@@ -59,13 +59,13 @@
       Return Microsoft.WindowsAPICodePack.Dialogs.TaskDialogResult.None
     End If
   End Function
-  Private Sub taskDialog_Opened(sender As Object, e As EventArgs)
+  Private Sub taskDialog_Opened(ByVal sender As Object, ByVal e As EventArgs)
     Dim taskDialog As Microsoft.WindowsAPICodePack.Dialogs.TaskDialog = sender
     If Not taskDialog.Icon = Microsoft.WindowsAPICodePack.Dialogs.TaskDialogStandardIcon.None Then taskDialog.Icon = taskDialog.Icon
     If Not taskDialog.FooterIcon = Microsoft.WindowsAPICodePack.Dialogs.TaskDialogStandardIcon.None Then taskDialog.FooterIcon = taskDialog.FooterIcon
     If Not String.IsNullOrEmpty(taskDialog.InstructionText) Then taskDialog.InstructionText = taskDialog.InstructionText
   End Sub
-  Public Sub CreateAllSubdirs(sPath As String)
+  Public Sub CreateAllSubdirs(ByVal sPath As String)
     Dim sSegments As String() = Split(sPath, IO.Path.DirectorySeparatorChar)
     Dim sDir As String = ""
     For I As Integer = 0 To sSegments.Length - 1
@@ -73,7 +73,7 @@
       If Not IO.Directory.Exists(sDir) Then IO.Directory.CreateDirectory(sDir)
     Next
   End Sub
-  Public Function ByteSize(InBytes As UInt64) As String
+  Public Function ByteSize(ByVal InBytes As UInt64) As String
     If InBytes >= 1000 Then
       If InBytes / 1024 >= 1000 Then
         If InBytes / 1024 / 1024 >= 1000 Then
@@ -188,7 +188,7 @@
       Return Nothing
     End Try
   End Function
-  Public Function GetRIFFData(cRiff As clsRIFF) As String
+  Public Function GetRIFFData(ByVal cRiff As clsRIFF) As String
     If cRiff.IsDTS Then
       Dim sChan As String
       Select Case cRiff.DTSData.iAMODE
@@ -305,7 +305,7 @@
     End If
     Return "  Encoding: Unknown"
   End Function
-  Private Function WAVAudioCodecs(formatTag As clsRIFF.WAVFormatTag) As String
+  Private Function WAVAudioCodecs(ByVal formatTag As clsRIFF.WAVFormatTag) As String
     Select Case formatTag
       Case clsRIFF.WAVFormatTag.WAVE_FORMAT_UNKNOWN : Return "Unknown Wave Format"
       Case clsRIFF.WAVFormatTag.WAVE_FORMAT_PCM : Return "Microsoft PCM"
@@ -429,7 +429,7 @@
       Case Else : Return "Unknown: " & CUInt(formatTag)
     End Select
   End Function
-  Public Function MSToTime(uMS As UInt32) As String
+  Public Function MSToTime(ByVal uMS As UInt32) As String
     Dim sDur As String = uMS & "ms"
     Dim lH As UInt32 = 0
     Dim lM As UInt32 = 0
@@ -456,7 +456,7 @@
     End If
     Return sDur
   End Function
-  Public Sub OpenURL(sURL As String, parent As Form)
+  Public Sub OpenURL(ByVal sURL As String, ByVal parent As Form)
     Dim sOpen As String = sURL
     If Not sOpen.Contains(Uri.SchemeDelimiter) Then sOpen = "http://" & sURL
     Try

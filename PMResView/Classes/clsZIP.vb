@@ -16,7 +16,7 @@
     Public MaskedHeaders As Boolean
     Public Reserved1 As Boolean
     Public Reserved2 As Boolean
-    Public Sub New(flags As UInt16)
+    Public Sub New(ByVal flags As UInt16)
       Encrypted = ((flags And &H1) = &H1)
       Compression1 = ((flags And &H2) = &H2)
       Compression2 = ((flags And &H4) = &H4)
@@ -62,7 +62,7 @@
   End Sub
   Public Delegate Sub ProgressInvoker(ByVal bPercent As Byte, ByVal sName As String)
 #Region "Read Functions"
-  Public Shared Function ReadFileSystem(bData As Byte(), Optional ProgressViewer As ProgressInvoker = Nothing) As ZIP.FileSystemEntry()
+  Public Shared Function ReadFileSystem(ByVal bData As Byte(), Optional ByVal ProgressViewer As ProgressInvoker = Nothing) As ZIP.FileSystemEntry()
     Dim pCount As UInt64 = 0
     Dim lStart As Long = 0
     For I As Long = 0 To bData.LongLength - 5
@@ -149,7 +149,7 @@
     End If
     Return sFiles.ToArray
   End Function
-  Private Shared Function countSubdirsOf(sPath As String, sDirs As String()) As Long
+  Private Shared Function countSubdirsOf(ByVal sPath As String, ByVal sDirs As String()) As Long
     If sPath = IO.Path.DirectorySeparatorChar Then
       Dim rUnique As New List(Of String)
       For I As Long = 0 To sDirs.LongLength - 1
@@ -177,7 +177,7 @@
     Next
     Return ret
   End Function
-  Private Shared Function ParseFileSystemInfo(bData As Byte(), ByRef iStart As Long) As ZIP.FileSystemFile
+  Private Shared Function ParseFileSystemInfo(ByVal bData As Byte(), ByRef iStart As Long) As ZIP.FileSystemFile
     Dim zFile As New ZIP.FileSystemFile
     zFile.Name = Nothing
     zFile.CRC = 0
@@ -275,7 +275,7 @@
   End Function
 #End Region
 #Region "Basic Functions"
-  Private Shared Function TimeToMSDOS(dTime As Date) As UInt16
+  Private Shared Function TimeToMSDOS(ByVal dTime As Date) As UInt16
     Dim iHour As UInt16 = dTime.Hour
     Dim iMinute As UInt16 = dTime.Minute
     Dim iSecond As UInt16 = Math.Ceiling(dTime.Second / 2)
@@ -285,7 +285,7 @@
     iTime = iTime Or (iSecond And &H1F)
     Return iTime
   End Function
-  Private Shared Function DateToMSDOS(dDate As Date) As UInt16
+  Private Shared Function DateToMSDOS(ByVal dDate As Date) As UInt16
     If dDate.Year < 1980 Then Return 0
     If dDate.Year > 2107 Then Return 0
     Dim iYear As UInt16 = dDate.Year - 1980
@@ -297,7 +297,7 @@
     iDate = iDate Or (iDay And &H1F)
     Return iDate
   End Function
-  Private Shared Function MSDOSToDateTime(iDate As UInt16, iTime As UInt16) As Date
+  Private Shared Function MSDOSToDateTime(ByVal iDate As UInt16, ByVal iTime As UInt16) As Date
     Dim iYear As UInt16 = (iDate And &HFE00) >> 9
     Dim iMonth As UInt16 = (iDate And &H1E0) >> 5
     Dim iDay As UInt16 = (iDate And &H1F)
@@ -324,7 +324,7 @@
         table(I) = temp
       Next
     End Sub
-    Public Shared Function ComputeChecksum(bytes As Byte()) As UInteger
+    Public Shared Function ComputeChecksum(ByVal bytes As Byte()) As UInteger
       Dim crc As UInteger = &HFFFFFFFFUI
       For i As Integer = 0 To bytes.Length - 1
         Dim index As Byte = CByte(((crc) And &HFF) Xor bytes(i))
@@ -334,7 +334,7 @@
     End Function
   End Class
   Private Shared KnownTypes As New Dictionary(Of String, String)
-  Private Shared Function GetRegType(sExt As String) As String
+  Private Shared Function GetRegType(ByVal sExt As String) As String
     If String.IsNullOrEmpty(sExt) Then Return "File"
     sExt = sExt.ToLower
     If Not sExt.Substring(0, 1) = "." Then sExt = "." & sExt

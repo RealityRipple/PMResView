@@ -140,10 +140,10 @@ Public NotInheritable Class NativeMethods
   Public Shared Function WritePrivateProfileString(ByVal lpSectionName As String, ByVal lpKeyName As String, ByVal lpString As String, ByVal lpFileName As String) As Long
   End Function
   <DllImport("user32", SetLastError:=True, CharSet:=CharSet.Auto)>
-  Public Shared Function LoadCursor(hInstance As IntPtr, lpCursorName As IntPtr) As IntPtr
+  Public Shared Function LoadCursor(ByVal hInstance As IntPtr, ByVal lpCursorName As IntPtr) As IntPtr
   End Function
   <DllImport("user32", SetLastError:=True, CharSet:=CharSet.Auto)>
-  Public Shared Function SetCursor(hCursor As IntPtr) As IntPtr
+  Public Shared Function SetCursor(ByVal hCursor As IntPtr) As IntPtr
   End Function
   <DllImport("user32", SetLastError:=True, CharSet:=CharSet.Auto)>
   Public Shared Function ShowScrollBar(ByVal hwnd As IntPtr, ByVal wBar As Integer, ByVal bShow As Boolean) As Integer

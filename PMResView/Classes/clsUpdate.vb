@@ -13,7 +13,7 @@
     Public BytesReceived As Long
     Public ProgressPercentage As Integer
     Public TotalBytesToReceive As Long
-    Friend Sub New(bReceived As Long, bToReceive As Long, iPercentage As Integer)
+    Friend Sub New(ByVal bReceived As Long, ByVal bToReceive As Long, ByVal iPercentage As Integer)
       BytesReceived = bReceived
       TotalBytesToReceive = bToReceive
       ProgressPercentage = iPercentage
@@ -27,12 +27,12 @@
     End Enum
     Public Result As ResultType
     Public Version As String
-    Friend Sub New(rtResult As ResultType, sVersion As String, ex As Exception, bCancelled As Boolean, state As Object)
+    Friend Sub New(ByVal rtResult As ResultType, ByVal sVersion As String, ByVal ex As Exception, ByVal bCancelled As Boolean, ByVal state As Object)
       MyBase.New(ex, bCancelled, state)
       Version = sVersion
       Result = rtResult
     End Sub
-    Friend Sub New(rtResult As ResultType, sVersion As String, e As System.ComponentModel.AsyncCompletedEventArgs)
+    Friend Sub New(ByVal rtResult As ResultType, ByVal sVersion As String, ByVal e As System.ComponentModel.AsyncCompletedEventArgs)
       MyBase.New(e.Error, e.Cancelled, e.UserState)
       Version = sVersion
       Result = rtResult
@@ -41,21 +41,21 @@
   Class DownloadEventArgs
     Inherits System.ComponentModel.AsyncCompletedEventArgs
     Public Version As String
-    Friend Sub New(sVersion As String, [error] As Exception, [cancelled] As Boolean, [userState] As Object)
+    Friend Sub New(ByVal sVersion As String, ByVal [error] As Exception, ByVal [cancelled] As Boolean, ByVal [userState] As Object)
       MyBase.New([error], [cancelled], [userState])
       Version = sVersion
     End Sub
-    Friend Sub New(sVersion As String, e As System.ComponentModel.AsyncCompletedEventArgs)
+    Friend Sub New(ByVal sVersion As String, ByVal e As System.ComponentModel.AsyncCompletedEventArgs)
       MyBase.New(e.Error, e.Cancelled, e.UserState)
       Version = sVersion
     End Sub
   End Class
-  Public Event CheckingVersion(sender As Object, e As EventArgs)
-  Public Event CheckProgressChanged(sender As Object, e As ProgressEventArgs)
-  Public Event CheckResult(sender As Object, e As CheckEventArgs)
-  Public Event DownloadingUpdate(sender As Object, e As EventArgs)
-  Public Event UpdateProgressChanged(sender As Object, e As ProgressEventArgs)
-  Public Event DownloadResult(sender As Object, e As DownloadEventArgs)
+  Public Event CheckingVersion(ByVal sender As Object, ByVal e As EventArgs)
+  Public Event CheckProgressChanged(ByVal sender As Object, ByVal e As ProgressEventArgs)
+  Public Event CheckResult(ByVal sender As Object, ByVal e As CheckEventArgs)
+  Public Event DownloadingUpdate(ByVal sender As Object, ByVal e As EventArgs)
+  Public Event UpdateProgressChanged(ByVal sender As Object, ByVal e As ProgressEventArgs)
+  Public Event DownloadResult(ByVal sender As Object, ByVal e As DownloadEventArgs)
   Private WithEvents wsVer As New Net.WebClient
   Private DownloadURL As String
   Private DownloadHash As String
@@ -63,7 +63,7 @@
   Private VerNumber As String
 #Region "IDisposable Support"
   Private disposedValue As Boolean
-  Protected Overridable Sub Dispose(disposing As Boolean)
+  Protected Overridable Sub Dispose(ByVal disposing As Boolean)
     If Not Me.disposedValue Then
       If disposing Then
         If wsVer IsNot Nothing Then
@@ -119,7 +119,7 @@
     If CompareVersions(sVU(0)) Then Return CheckEventArgs.ResultType.NewUpdate
     Return CheckEventArgs.ResultType.NoUpdate
   End Function
-  Public Sub DownloadUpdate(toLocation As String)
+  Public Sub DownloadUpdate(ByVal toLocation As String)
     If Not String.IsNullOrEmpty(DownloadURL) Then
       DownloadLoc = toLocation
       wsVer.CachePolicy = New Net.Cache.HttpRequestCachePolicy(System.Net.Cache.HttpRequestCacheLevel.NoCacheNoStore)
@@ -129,14 +129,14 @@
       RaiseEvent DownloadResult(Me, New DownloadEventArgs(Nothing, New Exception("Version Check was not run."), True, Nothing))
     End If
   End Sub
-  Private Sub wsVer_DownloadProgressChanged(sender As Object, e As System.Net.DownloadProgressChangedEventArgs) Handles wsVer.DownloadProgressChanged
+  Private Sub wsVer_DownloadProgressChanged(ByVal sender As Object, ByVal e As System.Net.DownloadProgressChangedEventArgs) Handles wsVer.DownloadProgressChanged
     If e.UserState = "INFO" Then
       RaiseEvent CheckProgressChanged(sender, New ProgressEventArgs(e.BytesReceived, e.TotalBytesToReceive, e.ProgressPercentage))
     ElseIf e.UserState = "FILE" Then
       RaiseEvent UpdateProgressChanged(sender, New ProgressEventArgs(e.BytesReceived, e.TotalBytesToReceive, e.ProgressPercentage))
     End If
   End Sub
-  Private Sub wsVer_DownloadStringCompleted(sender As Object, e As System.Net.DownloadStringCompletedEventArgs) Handles wsVer.DownloadStringCompleted
+  Private Sub wsVer_DownloadStringCompleted(ByVal sender As Object, ByVal e As System.Net.DownloadStringCompletedEventArgs) Handles wsVer.DownloadStringCompleted
     Dim rRet As CheckEventArgs.ResultType = CheckEventArgs.ResultType.NoUpdate
     DownloadURL = Nothing
     DownloadHash = Nothing
@@ -173,7 +173,7 @@
     End If
     RaiseEvent CheckResult(sender, New CheckEventArgs(rRet, VerNumber, e))
   End Sub
-  Private Sub wsVer_DownloadFileCompleted(sender As Object, e As System.ComponentModel.AsyncCompletedEventArgs) Handles wsVer.DownloadFileCompleted
+  Private Sub wsVer_DownloadFileCompleted(ByVal sender As Object, ByVal e As System.ComponentModel.AsyncCompletedEventArgs) Handles wsVer.DownloadFileCompleted
     If Not IO.File.Exists(DownloadLoc) Then
       RaiseEvent DownloadResult(sender, New DownloadEventArgs(VerNumber, New Exception("Download Failure"), e.Cancelled, e.UserState))
       Return
@@ -188,7 +188,7 @@
       RaiseEvent DownloadResult(sender, New DownloadEventArgs(VerNumber, New Exception("Download Failure"), e.Cancelled, e.UserState))
     End If
   End Sub
-  Private Shared Function VerifySignature(Message As String, Signature As String) As Boolean
+  Private Shared Function VerifySignature(ByVal Message As String, ByVal Signature As String) As Boolean
     If String.IsNullOrEmpty(Signature) Then Return False
     Dim bMsg As Byte() = System.Text.Encoding.GetEncoding("latin1").GetBytes(Message)
     Dim bSig As Byte() = Nothing
@@ -201,7 +201,7 @@
     rsa.FromXmlString(My.Resources.pubkey)
     Return rsa.VerifyData(bMsg, Security.Cryptography.CryptoConfig.MapNameToOID("SHA1"), bSig)
   End Function
-  Private Shared Function CompareVersions(sRemote As String) As Boolean
+  Private Shared Function CompareVersions(ByVal sRemote As String) As Boolean
     Dim sLocal As String = Application.ProductVersion
     Dim LocalVer(3) As String
     If sLocal.Contains(".") Then
@@ -288,8 +288,8 @@
     If (Environment.Version.Major = 4 And Environment.Version.Minor = 0 And Environment.Version.Build = 30319 And Environment.Version.Revision < 17929) Then Return False
     Return True
   End Function
-  Public Shared Function ProtoURL(sURL As String) As String
-    If SupportsNativeTLS12 Then Return "https:" & sURL
+  Public Shared Function ProtoURL(ByVal sURL As String) As String
+    If SupportsNativeTLS12() Then Return "https:" & sURL
     Return "http:" & sURL
   End Function
 End Class

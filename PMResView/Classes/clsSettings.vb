@@ -23,12 +23,12 @@
     mSavePath = ""
     Return mSavePath
   End Function
-  Private Shared Sub SaveSetting(sGroup As String, sSetting As String, sValue As String)
+  Private Shared Sub SaveSetting(ByVal sGroup As String, ByVal sSetting As String, ByVal sValue As String)
     Dim p As String = SavePath()
     If String.IsNullOrEmpty(p) Then Return
     NativeMethods.WritePrivateProfileString(sGroup, sSetting, sValue, p)
   End Sub
-  Private Shared Function ReadSetting(sGroup As String, sSetting As String, sDefault As String) As String
+  Private Shared Function ReadSetting(ByVal sGroup As String, ByVal sSetting As String, ByVal sDefault As String) As String
     Dim p As String = SavePath()
     If String.IsNullOrEmpty(p) Then Return sDefault
     Dim sb As New System.Text.StringBuilder(127)
@@ -47,7 +47,7 @@
       End Select
       Return View.Details
     End Get
-    Set(value As View)
+    Set(ByVal value As View)
       Select Case value
         Case View.LargeIcon : SaveSetting("Settings", "IconMethod", "LargeIcon")
         Case View.SmallIcon : SaveSetting("Settings", "IconMethod", "SmallIcon")
@@ -66,7 +66,7 @@
       End Select
       Return "Order"
     End Get
-    Set(value As String)
+    Set(ByVal value As String)
       Select Case value
         Case "Name" : SaveSetting("Settings", "SortMethod", "Name")
         Case "Type" : SaveSetting("Settings", "SortMethod", "Type")
@@ -79,7 +79,7 @@
     Get
       Return Not ReadSetting("Settings", "Toolbar", "Y") = "N"
     End Get
-    Set(value As Boolean)
+    Set(ByVal value As Boolean)
       If value Then
         SaveSetting("Settings", "Toolbar", "Y")
       Else
@@ -91,7 +91,7 @@
     Get
       Return Not ReadSetting("Settings", "FlatView", "N") = "N"
     End Get
-    Set(value As Boolean)
+    Set(ByVal value As Boolean)
       If value Then
         SaveSetting("Settings", "FlatView", "Y")
       Else
@@ -103,7 +103,7 @@
     Get
       Return Not ReadSetting("Settings", "TreeView", "Y") = "N"
     End Get
-    Set(value As Boolean)
+    Set(ByVal value As Boolean)
       If value Then
         SaveSetting("Settings", "TreeView", "Y")
       Else
@@ -127,7 +127,7 @@
       End If
       Return ReadSetting("Editor", "Text", sDefault)
     End Get
-    Set(value As String)
+    Set(ByVal value As String)
       If Not IO.File.Exists(value) Then Return
       SaveSetting("Editor", "Text", value)
     End Set
@@ -148,7 +148,7 @@
       End If
       Return ReadSetting("Editor", "Image", sDefault)
     End Get
-    Set(value As String)
+    Set(ByVal value As String)
       If Not IO.File.Exists(value) Then Return
       SaveSetting("Editor", "Image", value)
     End Set
@@ -169,7 +169,7 @@
       End If
       Return ReadSetting("Editor", "Binary", sDefault)
     End Get
-    Set(value As String)
+    Set(ByVal value As String)
       If Not IO.File.Exists(value) Then Return
       SaveSetting("Editor", "Binary", value)
     End Set
@@ -185,7 +185,7 @@
       If szRet.Height < frmViewer.MinimumSize.Height Then szRet.Height = frmViewer.MinimumSize.Height
       Return szRet
     End Get
-    Set(value As Size)
+    Set(ByVal value As Size)
       SaveSetting("Size", "Width", value.Width)
       SaveSetting("Size", "Height", value.Height)
     End Set
@@ -194,7 +194,7 @@
     Get
       Return Int(ReadSetting("Size", "Tree", "200"))
     End Get
-    Set(value As Integer)
+    Set(ByVal value As Integer)
       SaveSetting("Size", "Tree", value)
     End Set
   End Property

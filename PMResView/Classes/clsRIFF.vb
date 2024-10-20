@@ -229,7 +229,7 @@
       Return dtsEX
     End Get
   End Property
-  Public Sub New(bData As Byte())
+  Public Sub New(ByVal bData As Byte())
     bValid = False
     Using ioFile As New IO.BinaryReader(New IO.MemoryStream(bData))
       Dim mChunk As New Chunk
@@ -374,7 +374,7 @@
       Return bWAV
     End Get
   End Property
-  Private Function BytesTo14BitL(inBytes As Byte()) As Byte()
+  Private Function BytesTo14BitL(ByVal inBytes As Byte()) As Byte()
     Dim bitPairs As Byte() = Nothing
     Dim j As Integer = 0
     For I As Integer = 0 To inBytes.Count - 1 Step 2
@@ -401,7 +401,7 @@
   Private sizeLeft As Integer
   Private currentByte As Byte
   Private idx As Integer
-  Private Function ReadBits(bData As Byte(), size As Integer) As UInt32
+  Private Function ReadBits(ByVal bData As Byte(), ByVal size As Integer) As UInt32
     Dim ret As UInt32 = 0
     If (size <= sizeLeft) Then
       sizeLeft -= size
@@ -420,7 +420,7 @@
   End Function
 #Region "IDisposable Support"
   Private disposedValue As Boolean
-  Protected Overridable Sub Dispose(disposing As Boolean)
+  Protected Overridable Sub Dispose(ByVal disposing As Boolean)
     If Not Me.disposedValue Then
       If disposing Then
       End If

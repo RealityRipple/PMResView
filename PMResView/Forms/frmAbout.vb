@@ -19,19 +19,19 @@
     SetUpdateValue("Initializing update check", UpdateStatus.Throbber)
     tUpdate = New Threading.Timer(New Threading.TimerCallback(AddressOf CheckForUpdates), Nothing, 1000, 5000)
   End Sub
-  Private Sub lblProduct_LinkClicked(sender As System.Object, e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles lblProduct.LinkClicked
+  Private Sub lblProduct_LinkClicked(ByVal sender As System.Object, ByVal e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles lblProduct.LinkClicked
     If e.Button = Windows.Forms.MouseButtons.Left Then OpenURL("realityripple.com/Software/Applications/PMResView", Me)
   End Sub
-  Private Sub lblVersion_LinkClicked(sender As System.Object, e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles lblVersion.LinkClicked
+  Private Sub lblVersion_LinkClicked(ByVal sender As System.Object, ByVal e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles lblVersion.LinkClicked
     If e.Button = Windows.Forms.MouseButtons.Left Then OpenURL("realityripple.com/Software/Applications/PMResView/changes.php", Me)
   End Sub
-  Private Sub lblCompany_LinkClicked(sender As System.Object, e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles lblCompany.LinkClicked
+  Private Sub lblCompany_LinkClicked(ByVal sender As System.Object, ByVal e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles lblCompany.LinkClicked
     If e.Button = Windows.Forms.MouseButtons.Left Then OpenURL("realityripple.com", Me)
   End Sub
   Private Sub cmdOK_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdOK.Click
     Me.Close()
   End Sub
-  Private Sub cmdDonate_Click(sender As System.Object, e As System.EventArgs) Handles cmdDonate.Click
+  Private Sub cmdDonate_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdDonate.Click
     OpenURL("realityripple.com/donate.php?itm=PMResView", Me)
   End Sub
   Private Enum UpdateStatus
@@ -74,7 +74,7 @@
     End If
   End Sub
 #Region "Updates"
-  Private Sub CheckForUpdates(state As Object)
+  Private Sub CheckForUpdates(ByVal state As Object)
     If InvokeRequired Then
       Invoke(New Threading.TimerCallback(AddressOf CheckForUpdates), state)
       Return
@@ -90,7 +90,7 @@
     cUpdate = New clsUpdate
     cUpdate.CheckVersion()
   End Sub
-  Private Sub cUpdate_CheckingVersion(sender As Object, e As System.EventArgs) Handles cUpdate.CheckingVersion
+  Private Sub cUpdate_CheckingVersion(ByVal sender As Object, ByVal e As System.EventArgs) Handles cUpdate.CheckingVersion
     If InvokeRequired Then
       Invoke(New EventHandler(AddressOf cUpdate_CheckingVersion), sender, e)
       Return
@@ -99,7 +99,7 @@
     If ellipsis = "...." Then ellipsis = ""
     SetUpdateValue("Checking for updates" & ellipsis, UpdateStatus.Throbber)
   End Sub
-  Private Sub cUpdate_CheckProgressChanged(sender As Object, e As clsUpdate.ProgressEventArgs) Handles cUpdate.CheckProgressChanged
+  Private Sub cUpdate_CheckProgressChanged(ByVal sender As Object, ByVal e As clsUpdate.ProgressEventArgs) Handles cUpdate.CheckProgressChanged
     If InvokeRequired Then
       Invoke(New EventHandler(Of clsUpdate.ProgressEventArgs)(AddressOf cUpdate_CheckProgressChanged), sender, e)
       Return
@@ -108,7 +108,7 @@
     If ellipsis = "...." Then ellipsis = ""
     SetUpdateValue("Checking for updates" & ellipsis, UpdateStatus.Throbber)
   End Sub
-  Private Sub cUpdate_CheckResult(sender As Object, e As clsUpdate.CheckEventArgs) Handles cUpdate.CheckResult
+  Private Sub cUpdate_CheckResult(ByVal sender As Object, ByVal e As clsUpdate.CheckEventArgs) Handles cUpdate.CheckResult
     If InvokeRequired Then
       Invoke(New EventHandler(Of clsUpdate.CheckEventArgs)(AddressOf cUpdate_CheckResult), sender, e)
       Return
@@ -142,21 +142,21 @@
       End If
     End If
   End Sub
-  Private Sub cUpdate_DownloadingUpdate(sender As Object, e As System.EventArgs) Handles cUpdate.DownloadingUpdate
+  Private Sub cUpdate_DownloadingUpdate(ByVal sender As Object, ByVal e As System.EventArgs) Handles cUpdate.DownloadingUpdate
     If InvokeRequired Then
       Invoke(New EventHandler(AddressOf cUpdate_DownloadingUpdate), sender, e)
       Return
     End If
     SetUpdateValue("Downloading new version...", UpdateStatus.Throbber)
   End Sub
-  Private Sub cUpdate_UpdateProgressChanged(sender As Object, e As clsUpdate.ProgressEventArgs) Handles cUpdate.UpdateProgressChanged
+  Private Sub cUpdate_UpdateProgressChanged(ByVal sender As Object, ByVal e As clsUpdate.ProgressEventArgs) Handles cUpdate.UpdateProgressChanged
     If InvokeRequired Then
       Invoke(New EventHandler(Of clsUpdate.ProgressEventArgs)(AddressOf cUpdate_UpdateProgressChanged), sender, e)
       Return
     End If
     SetUpdateValue("Downloading new version: " & e.ProgressPercentage & "%", UpdateStatus.Throbber)
   End Sub
-  Private Sub cUpdate_DownloadResult(sender As Object, e As clsUpdate.DownloadEventArgs) Handles cUpdate.DownloadResult
+  Private Sub cUpdate_DownloadResult(ByVal sender As Object, ByVal e As clsUpdate.DownloadEventArgs) Handles cUpdate.DownloadResult
     If InvokeRequired Then
       Invoke(New EventHandler(Of clsUpdate.DownloadEventArgs)(AddressOf cUpdate_DownloadResult), sender, e)
       Return
@@ -192,7 +192,7 @@
 #Region "Throbber"
   Private throbberFrame As Byte = 0
   Private throbberHeight As Integer = -1
-  Private Sub tmrThrobber_Tick(state As Object)
+  Private Sub tmrThrobber_Tick(ByVal state As Object)
     If tThrobber Is Nothing Then Return
     If throbberFrame = 255 Then Return
     If throbberHeight = -1 Then throbberHeight = My.Resources.throbber.Height

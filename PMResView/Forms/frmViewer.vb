@@ -4,7 +4,7 @@
     Get
       Return mArchivePath
     End Get
-    Set(value As String)
+    Set(ByVal value As String)
       mArchivePath = value
       SelectionUpdate()
     End Set
@@ -15,7 +15,7 @@
     Get
       Return mArchiveDir
     End Get
-    Set(value As String)
+    Set(ByVal value As String)
       mArchiveDir = value
       txtAddress.Enabled = tvExplorer.Nodes.Count > 0 AndAlso Not String.IsNullOrEmpty(value)
       txtAddress.Text = value
@@ -42,7 +42,7 @@
   Private sExtractHistory As New List(Of String)
 #Region "Menus"
 #Region "File"
-  Private Sub mnuFileOpenArchive_Click(sender As System.Object, e As System.EventArgs) Handles mnuFileOpenArchive.Click
+  Private Sub mnuFileOpenArchive_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuFileOpenArchive.Click
     Using cdlOpen As New Microsoft.WindowsAPICodePack.Dialogs.CommonOpenFileDialog
       cdlOpen.DefaultExtension = "res"
       cdlOpen.DefaultFileName = "palemoon.res"
@@ -60,7 +60,7 @@
       lvFiles.Focus()
     End Using
   End Sub
-  Private Sub mnuFileCloseArchive_Click(sender As System.Object, e As System.EventArgs) Handles mnuFileCloseArchive.Click
+  Private Sub mnuFileCloseArchive_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuFileCloseArchive.Click
     sArchivePath = Nothing
     sArchiveName = Nothing
     sArchiveDir = Nothing
@@ -76,7 +76,7 @@
     lblSelSize.Text = "0 bytes"
     lblSelUncompressed.Text = "0 bytes"
   End Sub
-  Private Sub mnuFileOpenFile_Click(sender As System.Object, e As System.EventArgs) Handles mnuFileOpenFile.Click
+  Private Sub mnuFileOpenFile_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuFileOpenFile.Click
     If lvFiles.SelectedItems.Count < 1 Then Return
     If lvFiles.SelectedItems.Count > 1 Then
       For I As Integer = 0 To lvFiles.SelectedItems.Count - 1
@@ -86,20 +86,20 @@
     End If
     lvFiles_Open()
   End Sub
-  Private Sub mnuFileExtractFile_Click(sender As System.Object, e As System.EventArgs) Handles mnuFileExtractFile.Click
+  Private Sub mnuFileExtractFile_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuFileExtractFile.Click
     If lvFiles.SelectedItems.Count < 1 Then Return
     lvFiles_Extract()
   End Sub
-  Private Sub mnuFilePropertiesFile_Click(sender As System.Object, e As System.EventArgs) Handles mnuFilePropertiesFile.Click
+  Private Sub mnuFilePropertiesFile_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuFilePropertiesFile.Click
     If Not lvFiles.SelectedItems.Count = 1 Then Return
     lvFiles_Properties()
   End Sub
-  Private Sub mnuFileExit_Click(sender As System.Object, e As System.EventArgs) Handles mnuFileExit.Click
+  Private Sub mnuFileExit_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuFileExit.Click
     Me.Close()
   End Sub
 #End Region
 #Region "Edit"
-  Private Sub mnuEditAll_Click(sender As System.Object, e As System.EventArgs) Handles mnuEditAll.Click
+  Private Sub mnuEditAll_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuEditAll.Click
     If txtAddress.Focused Then
       txtAddress.SelectAll()
       Return
@@ -111,21 +111,21 @@
     Next
     lvFiles.ResumeLayout()
   End Sub
-  Private Sub mnuEditNone_Click(sender As System.Object, e As System.EventArgs) Handles mnuEditNone.Click
+  Private Sub mnuEditNone_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuEditNone.Click
     lvFiles.SuspendLayout()
     For I As Integer = 0 To lvFiles.Items.Count - 1
       lvFiles.Items(I).Selected = False
     Next
     lvFiles.ResumeLayout()
   End Sub
-  Private Sub mnuEditInvert_Click(sender As System.Object, e As System.EventArgs) Handles mnuEditInvert.Click
+  Private Sub mnuEditInvert_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuEditInvert.Click
     lvFiles.SuspendLayout()
     For I As Integer = 0 To lvFiles.Items.Count - 1
       lvFiles.Items(I).Selected = Not lvFiles.Items(I).Selected
     Next
     lvFiles.ResumeLayout()
   End Sub
-  Private Sub mnuEditSelect_Click(sender As System.Object, e As System.EventArgs) Handles mnuEditSelect.Click
+  Private Sub mnuEditSelect_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuEditSelect.Click
     Using tReg As New frmRegEx(True)
       tReg.RegEx = regHistory.Last
       tReg.History = regHistory.ToArray
@@ -151,7 +151,7 @@
       End Try
     End Using
   End Sub
-  Private Sub mnuEditDeselect_Click(sender As System.Object, e As System.EventArgs) Handles mnuEditDeselect.Click
+  Private Sub mnuEditDeselect_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuEditDeselect.Click
     Using tReg As New frmRegEx(False)
       tReg.RegEx = regHistory.Last
       tReg.History = regHistory.ToArray
@@ -177,7 +177,7 @@
       End Try
     End Using
   End Sub
-  Private Sub mnuEditSelType_Click(sender As System.Object, e As System.EventArgs) Handles mnuEditSelType.Click
+  Private Sub mnuEditSelType_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuEditSelType.Click
     If lvFiles.FocusedItem Is Nothing Then Return
     Dim selType As String = lvFiles.FocusedItem.SubItems(1).Text
     For I As Integer = 0 To lvFiles.Items.Count - 1
@@ -185,7 +185,7 @@
     Next
     DoSelectionUpdate()
   End Sub
-  Private Sub mnuEditDeselType_Click(sender As System.Object, e As System.EventArgs) Handles mnuEditDeselType.Click
+  Private Sub mnuEditDeselType_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuEditDeselType.Click
     If lvFiles.FocusedItem Is Nothing Then Return
     Dim selType As String = lvFiles.FocusedItem.SubItems(1).Text
     For I As Integer = 0 To lvFiles.Items.Count - 1
@@ -193,7 +193,7 @@
     Next
     DoSelectionUpdate()
   End Sub
-  Private Sub mnuEditChooseEditorText_Click(sender As System.Object, e As System.EventArgs) Handles mnuEditChooseEditorText.Click
+  Private Sub mnuEditChooseEditorText_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuEditChooseEditorText.Click
     Using cdlOpen As New Microsoft.WindowsAPICodePack.Dialogs.CommonOpenFileDialog
       Dim sTextEditor As String = Settings.TextEditor
       cdlOpen.DefaultExtension = "exe"
@@ -206,7 +206,7 @@
       Settings.TextEditor = cdlOpen.FileName
     End Using
   End Sub
-  Private Sub mnuEditChooseEditorImages_Click(sender As System.Object, e As System.EventArgs) Handles mnuEditChooseEditorImages.Click
+  Private Sub mnuEditChooseEditorImages_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuEditChooseEditorImages.Click
     Using cdlOpen As New Microsoft.WindowsAPICodePack.Dialogs.CommonOpenFileDialog
       Dim sImageEditor As String = Settings.ImageEditor
       cdlOpen.DefaultExtension = "exe"
@@ -219,7 +219,7 @@
       Settings.ImageEditor = cdlOpen.FileName
     End Using
   End Sub
-  Private Sub mnuEditChooseEditorBinary_Click(sender As System.Object, e As System.EventArgs) Handles mnuEditChooseEditorBinary.Click
+  Private Sub mnuEditChooseEditorBinary_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuEditChooseEditorBinary.Click
     Using cdlOpen As New Microsoft.WindowsAPICodePack.Dialogs.CommonOpenFileDialog
       Dim sBinaryEditor As String = Settings.BinaryEditor
       cdlOpen.DefaultExtension = "exe"
@@ -234,7 +234,7 @@
   End Sub
 #End Region
 #Region "View"
-  Private Sub mnuViewIconsLarge_Click(sender As System.Object, e As System.EventArgs) Handles mnuViewIconsLarge.Click, mnuContextViewIconsLarge.Click
+  Private Sub mnuViewIconsLarge_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuViewIconsLarge.Click, mnuContextViewIconsLarge.Click
     mnuViewIconsLarge.Checked = True
     mnuViewIconsSmall.Checked = False
     mnuViewIconsList.Checked = False
@@ -243,7 +243,7 @@
     lvFiles.View = View.LargeIcon
     Settings.IconMethod = View.LargeIcon
   End Sub
-  Private Sub mnuViewIconsSmall_Click(sender As System.Object, e As System.EventArgs) Handles mnuViewIconsSmall.Click, mnuContextViewIconsSmall.Click
+  Private Sub mnuViewIconsSmall_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuViewIconsSmall.Click, mnuContextViewIconsSmall.Click
     mnuViewIconsLarge.Checked = False
     mnuViewIconsSmall.Checked = True
     mnuViewIconsList.Checked = False
@@ -252,7 +252,7 @@
     lvFiles.View = View.SmallIcon
     Settings.IconMethod = View.SmallIcon
   End Sub
-  Private Sub mnuViewIconsList_Click(sender As System.Object, e As System.EventArgs) Handles mnuViewIconsList.Click, mnuContextViewIconsList.Click
+  Private Sub mnuViewIconsList_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuViewIconsList.Click, mnuContextViewIconsList.Click
     mnuViewIconsLarge.Checked = False
     mnuViewIconsSmall.Checked = False
     mnuViewIconsList.Checked = True
@@ -261,7 +261,7 @@
     lvFiles.View = View.List
     Settings.IconMethod = View.List
   End Sub
-  Private Sub mnuViewIconsDetails_Click(sender As System.Object, e As System.EventArgs) Handles mnuViewIconsDetails.Click, mnuContextViewIconsDetails.Click
+  Private Sub mnuViewIconsDetails_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuViewIconsDetails.Click, mnuContextViewIconsDetails.Click
     mnuViewIconsLarge.Checked = False
     mnuViewIconsSmall.Checked = False
     mnuViewIconsList.Checked = False
@@ -271,7 +271,7 @@
     Settings.IconMethod = View.Details
     ResizeColumns()
   End Sub
-  Private Sub mnuViewIconsTile_Click(sender As System.Object, e As System.EventArgs) Handles mnuViewIconsTile.Click, mnuContextViewIconsTile.Click
+  Private Sub mnuViewIconsTile_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuViewIconsTile.Click, mnuContextViewIconsTile.Click
     mnuViewIconsLarge.Checked = False
     mnuViewIconsSmall.Checked = False
     mnuViewIconsList.Checked = False
@@ -280,7 +280,7 @@
     lvFiles.View = View.Tile
     Settings.IconMethod = View.Tile
   End Sub
-  Private Sub mnuViewSortName_Click(sender As System.Object, e As System.EventArgs) Handles mnuViewSortName.Click, mnuContextViewSortName.Click
+  Private Sub mnuViewSortName_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuViewSortName.Click, mnuContextViewSortName.Click
     If mnuViewSortName.Checked Then
       If lvFiles.Sorting = SortOrder.Ascending Then
         lvFiles.Sorting = SortOrder.Descending
@@ -305,7 +305,7 @@
     lvFiles.Columns(2).Text = "Size"
     Settings.SortMethod = "Name"
   End Sub
-  Private Sub mnuViewSortType_Click(sender As System.Object, e As System.EventArgs) Handles mnuViewSortType.Click, mnuContextViewSortType.Click
+  Private Sub mnuViewSortType_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuViewSortType.Click, mnuContextViewSortType.Click
     If mnuViewSortType.Checked Then
       If lvFiles.Sorting = SortOrder.Ascending Then
         lvFiles.Sorting = SortOrder.Descending
@@ -330,7 +330,7 @@
     lvFiles.Columns(2).Text = "Size"
     Settings.SortMethod = "Type"
   End Sub
-  Private Sub mnuViewSortSize_Click(sender As System.Object, e As System.EventArgs) Handles mnuViewSortSize.Click, mnuContextViewSortSize.Click
+  Private Sub mnuViewSortSize_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuViewSortSize.Click, mnuContextViewSortSize.Click
     If mnuViewSortSize.Checked Then
       If lvFiles.Sorting = SortOrder.Ascending Then
         lvFiles.Sorting = SortOrder.Descending
@@ -355,7 +355,7 @@
     End If
     Settings.SortMethod = "Size"
   End Sub
-  Private Sub mnuViewSortOrder_Click(sender As System.Object, e As System.EventArgs) Handles mnuViewSortOrder.Click, mnuContextViewSortOrder.Click
+  Private Sub mnuViewSortOrder_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuViewSortOrder.Click, mnuContextViewSortOrder.Click
     If mnuViewSortOrder.Checked Then
       If lvFiles.Sorting = SortOrder.Ascending Then
         lvFiles.Sorting = SortOrder.Descending
@@ -376,89 +376,89 @@
     lvFiles.Columns(2).Text = "Size"
     Settings.SortMethod = "Order"
   End Sub
-  Private Sub mnuToolbar_Click(sender As System.Object, e As System.EventArgs) Handles mnuViewToolbar.Click
+  Private Sub mnuToolbar_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuViewToolbar.Click
     mnuViewToolbar.Checked = Not mnuViewToolbar.Checked
     Settings.ShowToolbar = mnuViewToolbar.Checked
     tbNav.Visible = mnuViewToolbar.Checked
   End Sub
-  Private Sub mnuViewFlat_Click(sender As System.Object, e As System.EventArgs) Handles mnuViewFlat.Click, mnuContextViewFlat.Click
+  Private Sub mnuViewFlat_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuViewFlat.Click, mnuContextViewFlat.Click
     mnuViewFlat.Checked = Not mnuViewFlat.Checked
     Settings.FlatView = mnuViewFlat.Checked
     ToggleFlat()
   End Sub
-  Private Sub mnuViewTree_Click(sender As System.Object, e As System.EventArgs) Handles mnuViewTree.Click, mnuContextViewTree.Click
+  Private Sub mnuViewTree_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuViewTree.Click, mnuContextViewTree.Click
     mnuViewTree.Checked = Not mnuViewTree.Checked
     Settings.TreeView = mnuViewTree.Checked
     ToggleTree(mnuViewTree.Checked)
   End Sub
-  Private Sub mnuViewGoRoot_Click(sender As System.Object, e As System.EventArgs) Handles mnuViewGoRoot.Click, mnuContextViewGoRoot.Click
+  Private Sub mnuViewGoRoot_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuViewGoRoot.Click, mnuContextViewGoRoot.Click
     sArchiveDir = IO.Path.DirectorySeparatorChar
     'RenderArchive()
     RenderDir(sArchiveDir)
   End Sub
-  Private Sub mnuViewGoParent_Click(sender As System.Object, e As System.EventArgs) Handles mnuViewGoParent.Click, mnuContextViewGoParent.Click
+  Private Sub mnuViewGoParent_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuViewGoParent.Click, mnuContextViewGoParent.Click
     sArchiveDir = IO.Path.GetDirectoryName(sArchiveDir)
     RenderDir(sArchiveDir)
   End Sub
-  Private Sub mnuContextViewProperties_Click(sender As System.Object, e As System.EventArgs) Handles mnuContextViewProperties.Click
+  Private Sub mnuContextViewProperties_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuContextViewProperties.Click
     mnuContextFile.Tag = sArchiveDir
     tvExplorer_Properties()
   End Sub
 #End Region
-  Private Sub mnuHelpAbout_Click(sender As System.Object, e As System.EventArgs) Handles mnuHelpAbout.Click
+  Private Sub mnuHelpAbout_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuHelpAbout.Click
     frmAbout.Show(Me)
   End Sub
 #Region "Context Menus"
-  Private Sub mnuContextFileOpen_Click(sender As System.Object, e As System.EventArgs) Handles mnuContextFileOpen.Click
+  Private Sub mnuContextFileOpen_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuContextFileOpen.Click
     If mnuContextFile.SourceControl.Name = lvFiles.Name Then
       lvFiles_Open()
     ElseIf mnuContextFile.SourceControl.Name = tvExplorer.Name Then
       RenderDir(mnuContextFile.Tag)
     End If
   End Sub
-  Private Sub mnuContextFileEdit_Click(sender As System.Object, e As System.EventArgs) Handles mnuContextFileEdit.Click
+  Private Sub mnuContextFileEdit_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuContextFileEdit.Click
     lvFiles_Edit()
   End Sub
-  Private Sub mnuContextFileExtract_Click(sender As System.Object, e As System.EventArgs) Handles mnuContextFileExtract.Click
+  Private Sub mnuContextFileExtract_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuContextFileExtract.Click
     If mnuContextFile.SourceControl.Name = lvFiles.Name Then
       lvFiles_Extract()
     ElseIf mnuContextFile.SourceControl.Name = tvExplorer.Name Then
       tvExplorer_Extract()
     End If
   End Sub
-  Private Sub mnuContextFileExpand_Click(sender As System.Object, e As System.EventArgs) Handles mnuContextFileExpand.Click
+  Private Sub mnuContextFileExpand_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuContextFileExpand.Click
     Dim aNodes As TreeNode() = tvExplorer.Nodes.Find(mnuContextFile.Tag, True)
     If aNodes Is Nothing OrElse aNodes.LongLength = 0 Then Return
     aNodes(0).Expand()
   End Sub
-  Private Sub mnuContextFileExpandAll_Click(sender As System.Object, e As System.EventArgs) Handles mnuContextFileExpandAll.Click
+  Private Sub mnuContextFileExpandAll_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuContextFileExpandAll.Click
     Dim aNodes As TreeNode() = tvExplorer.Nodes.Find(mnuContextFile.Tag, True)
     If aNodes Is Nothing OrElse aNodes.LongLength = 0 Then Return
     aNodes(0).ExpandAll()
   End Sub
-  Private Sub mnuContextFileCollapse_Click(sender As System.Object, e As System.EventArgs) Handles mnuContextFileCollapse.Click
+  Private Sub mnuContextFileCollapse_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuContextFileCollapse.Click
     Dim aNodes As TreeNode() = tvExplorer.Nodes.Find(mnuContextFile.Tag, True)
     If aNodes Is Nothing OrElse aNodes.LongLength = 0 Then Return
     aNodes(0).Collapse(True)
   End Sub
-  Private Sub mnuContextFileCollapseAll_Click(sender As System.Object, e As System.EventArgs) Handles mnuContextFileCollapseAll.Click
+  Private Sub mnuContextFileCollapseAll_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuContextFileCollapseAll.Click
     Dim aNodes As TreeNode() = tvExplorer.Nodes.Find(mnuContextFile.Tag, True)
     If aNodes Is Nothing OrElse aNodes.LongLength = 0 Then Return
     aNodes(0).Collapse(False)
   End Sub
-  Private Sub mnuContextFileGo_Click(sender As System.Object, e As System.EventArgs) Handles mnuContextFileGo.Click
+  Private Sub mnuContextFileGo_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuContextFileGo.Click
     If Not mnuContextFile.SourceControl.Name = lvFiles.Name Then Return
     If Not Settings.FlatView Then Return
     RenderDir(IO.Path.GetDirectoryName(CType(lvFiles.SelectedItems(0).Tag, ZIP.FileSystemEntry).Name))
   End Sub
-  Private Sub mnuContextFileProperties_Click(sender As System.Object, e As System.EventArgs) Handles mnuContextFileProperties.Click
+  Private Sub mnuContextFileProperties_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuContextFileProperties.Click
     If mnuContextFile.SourceControl.Name = lvFiles.Name Then
       lvFiles_Properties()
     ElseIf mnuContextFile.SourceControl.Name = tvExplorer.Name Then
       tvExplorer_Properties()
     End If
   End Sub
-  Private Sub mnuContextView_Popup(sender As Object, e As System.EventArgs) Handles mnuContextView.Popup
+  Private Sub mnuContextView_Popup(ByVal sender As Object, ByVal e As System.EventArgs) Handles mnuContextView.Popup
     mnuContextViewIconsLarge.Checked = mnuViewIconsLarge.Checked
     mnuContextViewIconsSmall.Checked = mnuViewIconsSmall.Checked
     mnuContextViewIconsList.Checked = mnuViewIconsList.Checked
@@ -474,7 +474,7 @@
     mnuContextViewGoParent.Enabled = mnuViewGoParent.Enabled
     mnuContextViewProperties.Enabled = Not String.IsNullOrEmpty(sArchiveDir)
   End Sub
-  Private Sub mnuContextHistoryItem_Click(sender As Object, e As EventArgs)
+  Private Sub mnuContextHistoryItem_Click(ByVal sender As Object, ByVal e As EventArgs)
     Dim idx As Integer = CType(sender, MenuItem).Tag
     iDirHistIndex = idx
     RenderDir(sDirHistory(iDirHistIndex), True)
@@ -482,7 +482,7 @@
 #End Region
 #End Region
 #Region "UI"
-  Private Sub frmViewer_FormClosing(sender As Object, e As System.Windows.Forms.FormClosingEventArgs) Handles Me.FormClosing
+  Private Sub frmViewer_FormClosing(ByVal sender As Object, ByVal e As System.Windows.Forms.FormClosingEventArgs) Handles Me.FormClosing
     If sExtractHistory.LongCount < 1 Then Return
     For I As Long = 0 To sExtractHistory.LongCount - 1
       Dim sTemp As String = IO.Path.Combine(My.Computer.FileSystem.SpecialDirectories.Temp, sExtractHistory(I))
@@ -493,7 +493,7 @@
       End Try
     Next
   End Sub
-  Private Sub frmViewer_Shown(sender As Object, e As System.EventArgs) Handles Me.Shown
+  Private Sub frmViewer_Shown(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Shown
     regHistory.Add("^.*$")
     Me.Size = Settings.WindowSize
     pnlMain.SplitterDistance = Settings.TreeWidth
@@ -522,7 +522,7 @@
       If IO.File.Exists(sLoad) Then LoadFile(sLoad)
     End If
   End Sub
-  Private Sub frmViewer_Resize(sender As Object, e As System.EventArgs) Handles Me.Resize
+  Private Sub frmViewer_Resize(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Resize
     Dim newWidth As Integer = pnlUI.TopToolStripPanel.ClientRectangle.Width - 12
     For I As Integer = 0 To tbNav.Items.Count - 1
       If tbNav.Items(I).Name = txtAddress.Name Then Continue For
@@ -532,18 +532,18 @@
     If newWidth > 400 Then newWidth = 400
     If Not txtAddress.Width = newWidth Then txtAddress.Width = newWidth
   End Sub
-  Private Sub frmViewer_ResizeEnd(sender As Object, e As System.EventArgs) Handles Me.ResizeEnd
+  Private Sub frmViewer_ResizeEnd(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.ResizeEnd
     If Me.WindowState = FormWindowState.Maximized Then Return
     If Not isLoaded Then Return
     Settings.WindowSize = Me.Size
   End Sub
 #Region "Toolbar"
-  Private Sub cmdBack_Click(sender As System.Object, e As System.EventArgs) Handles cmdBack.Click
+  Private Sub cmdBack_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdBack.Click
     If iDirHistIndex < 1 Then Return
     iDirHistIndex -= 1
     RenderDir(sDirHistory(iDirHistIndex), True)
   End Sub
-  Private Sub cmdBack_MouseUp(sender As Object, e As System.Windows.Forms.MouseEventArgs) Handles cmdBack.MouseUp
+  Private Sub cmdBack_MouseUp(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles cmdBack.MouseUp
     If Not e.Button = Windows.Forms.MouseButtons.Right Then Return
     If Not cmdBack.Enabled Then Return
     If iDirHistIndex < 1 Then Return
@@ -556,12 +556,12 @@
     Next
     mnuContextHistory.Show(tbNav, New Point(tbNav.Left, tbNav.Top + tbNav.Height))
   End Sub
-  Private Sub cmdForward_Click(sender As System.Object, e As System.EventArgs) Handles cmdForward.Click
+  Private Sub cmdForward_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdForward.Click
     If iDirHistIndex > sDirHistory.LongCount - 1 Then Return
     iDirHistIndex += 1
     RenderDir(sDirHistory(iDirHistIndex), True)
   End Sub
-  Private Sub cmdForward_MouseUp(sender As Object, e As System.Windows.Forms.MouseEventArgs) Handles cmdForward.MouseUp
+  Private Sub cmdForward_MouseUp(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles cmdForward.MouseUp
     If Not e.Button = Windows.Forms.MouseButtons.Right Then Return
     If Not cmdForward.Enabled Then Return
     If iDirHistIndex > sDirHistory.LongCount - 1 Then Return
@@ -574,11 +574,11 @@
     Next
     mnuContextHistory.Show(tbNav, New Point(tbNav.Left, tbNav.Top + tbNav.Height))
   End Sub
-  Private Sub cmdUp_Click(sender As System.Object, e As System.EventArgs) Handles cmdUp.Click
+  Private Sub cmdUp_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdUp.Click
     sArchiveDir = IO.Path.GetDirectoryName(sArchiveDir)
     RenderDir(sArchiveDir)
   End Sub
-  Private Sub txtAddress_KeyUp(sender As Object, e As System.Windows.Forms.KeyEventArgs) Handles txtAddress.KeyUp
+  Private Sub txtAddress_KeyUp(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles txtAddress.KeyUp
     If e.KeyCode = Keys.Enter Then
       e.Handled = True
       e.SuppressKeyPress = True
@@ -586,32 +586,32 @@
       Return
     End If
   End Sub
-  Private Sub txtAddress_TextChanged(sender As Object, e As System.EventArgs) Handles txtAddress.TextChanged
+  Private Sub txtAddress_TextChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles txtAddress.TextChanged
     cmdGo.Enabled = txtAddress.Enabled And Not String.IsNullOrEmpty(txtAddress.Text)
   End Sub
-  Private Sub cmdGo_Click(sender As System.Object, e As System.EventArgs) Handles cmdGo.Click
+  Private Sub cmdGo_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdGo.Click
     txtAddress.Text = txtAddress.Text.Replace("/", IO.Path.DirectorySeparatorChar)
     While txtAddress.Text.Length > 1 AndAlso txtAddress.Text.EndsWith(IO.Path.DirectorySeparatorChar)
       txtAddress.Text = txtAddress.Text.Substring(0, txtAddress.Text.Length - 1)
     End While
     RenderDir(txtAddress.Text)
   End Sub
-  Private Sub cmdExtract_Click(sender As System.Object, e As System.EventArgs) Handles cmdExtract.Click
+  Private Sub cmdExtract_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdExtract.Click
     lvFiles_Extract()
   End Sub
-  Private Sub cmdProperties_Click(sender As System.Object, e As System.EventArgs) Handles cmdProperties.Click
+  Private Sub cmdProperties_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdProperties.Click
     lvFiles_Properties()
   End Sub
 #End Region
-  Private Sub pnlMain_SplitterMoved(sender As System.Object, e As System.Windows.Forms.SplitterEventArgs) Handles pnlMain.SplitterMoved
+  Private Sub pnlMain_SplitterMoved(ByVal sender As System.Object, ByVal e As System.Windows.Forms.SplitterEventArgs) Handles pnlMain.SplitterMoved
     If Not isLoaded Then Return
     Settings.TreeWidth = pnlMain.SplitterDistance
   End Sub
-  Private Sub tvExplorer_AfterSelect(sender As System.Object, e As System.Windows.Forms.TreeViewEventArgs) Handles tvExplorer.AfterSelect
+  Private Sub tvExplorer_AfterSelect(ByVal sender As System.Object, ByVal e As System.Windows.Forms.TreeViewEventArgs) Handles tvExplorer.AfterSelect
     If tBusy Then Return
     RenderDir(e.Node.Name)
   End Sub
-  Private Sub tvExplorer_NodeMouseClick(sender As Object, e As System.Windows.Forms.TreeNodeMouseClickEventArgs) Handles tvExplorer.NodeMouseClick
+  Private Sub tvExplorer_NodeMouseClick(ByVal sender As Object, ByVal e As System.Windows.Forms.TreeNodeMouseClickEventArgs) Handles tvExplorer.NodeMouseClick
     If Not e.Button = Windows.Forms.MouseButtons.Right Then Return
     mnuContextFileOpen.Enabled = True
     mnuContextFileEdit.Visible = False
@@ -629,7 +629,7 @@
     mnuContextFile.Tag = e.Node.Name
     mnuContextFile.Show(tvExplorer, e.Location)
   End Sub
-  Private Function AllExpanded(node As TreeNode) As Boolean
+  Private Function AllExpanded(ByVal node As TreeNode) As Boolean
     If node.Nodes.Count < 1 Then Return True
     If Not node.IsExpanded Then Return False
     For I As Integer = 0 To node.Nodes.Count - 1
@@ -637,17 +637,17 @@
     Next
     Return True
   End Function
-  Private Sub lvFiles_ColumnClick(sender As Object, e As System.Windows.Forms.ColumnClickEventArgs) Handles lvFiles.ColumnClick
+  Private Sub lvFiles_ColumnClick(ByVal sender As Object, ByVal e As System.Windows.Forms.ColumnClickEventArgs) Handles lvFiles.ColumnClick
     Select Case e.Column
       Case 0 : mnuViewSortName.PerformClick()
       Case 1 : mnuViewSortType.PerformClick()
       Case 2, 3 : mnuViewSortSize.PerformClick()
     End Select
   End Sub
-  Private Sub lvFiles_ColumnWidthChanging(sender As Object, e As System.Windows.Forms.ColumnWidthChangingEventArgs) Handles lvFiles.ColumnWidthChanging
+  Private Sub lvFiles_ColumnWidthChanging(ByVal sender As Object, ByVal e As System.Windows.Forms.ColumnWidthChangingEventArgs) Handles lvFiles.ColumnWidthChanging
     e.Cancel = True
   End Sub
-  Private Sub lvFiles_DoubleClick(sender As Object, e As System.EventArgs) Handles lvFiles.DoubleClick
+  Private Sub lvFiles_DoubleClick(ByVal sender As Object, ByVal e As System.EventArgs) Handles lvFiles.DoubleClick
     If lvFiles.SelectedItems.Count < 1 Then Return
     Dim canOpen As Boolean = False
     If lvFiles.SelectedItems.Count = 1 Then
@@ -664,18 +664,18 @@
     End If
     If canOpen Then lvFiles_Open()
   End Sub
-  Private Sub lvFiles_DragDrop(sender As Object, e As System.Windows.Forms.DragEventArgs) Handles lvFiles.DragDrop
+  Private Sub lvFiles_DragDrop(ByVal sender As Object, ByVal e As System.Windows.Forms.DragEventArgs) Handles lvFiles.DragDrop
     If Not e.Data.GetDataPresent(DataFormats.FileDrop, False) Then Return
     Dim eData As String() = e.Data.GetData(DataFormats.FileDrop, False)
     If eData Is Nothing OrElse Not eData.LongLength = 1 Then Return
     If Not IO.File.Exists(eData(0)) Then Return
     LoadFile(eData(0))
   End Sub
-  Private Sub lvFiles_DragEnter(sender As Object, e As System.Windows.Forms.DragEventArgs) Handles lvFiles.DragEnter
+  Private Sub lvFiles_DragEnter(ByVal sender As Object, ByVal e As System.Windows.Forms.DragEventArgs) Handles lvFiles.DragEnter
     If Not e.Data.GetDataPresent(DataFormats.FileDrop, False) Then Return
     e.Effect = DragDropEffects.Copy
   End Sub
-  Private Sub lvFiles_MouseUp(sender As Object, e As System.Windows.Forms.MouseEventArgs) Handles lvFiles.MouseUp
+  Private Sub lvFiles_MouseUp(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lvFiles.MouseUp
     If e.Button = Windows.Forms.MouseButtons.XButton1 AndAlso cmdBack.Enabled Then
       If iDirHistIndex < 1 Then Return
       iDirHistIndex -= 1
@@ -725,10 +725,10 @@
     mnuContextFile.Tag = Nothing
     mnuContextFile.Show(lvFiles, e.Location)
   End Sub
-  Private Sub lvFiles_SelectedIndexChanged(sender As System.Object, e As System.EventArgs) Handles lvFiles.SelectedIndexChanged
+  Private Sub lvFiles_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles lvFiles.SelectedIndexChanged
     DoSelectionUpdate()
   End Sub
-  Private Sub lvFiles_SizeChanged(sender As Object, e As System.EventArgs) Handles lvFiles.SizeChanged
+  Private Sub lvFiles_SizeChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles lvFiles.SizeChanged
     ResizeColumns()
   End Sub
   Private Sub ResizeColumns()
@@ -752,7 +752,7 @@
     'redo display of the current path
     RenderDir(sArchiveDir)
   End Sub
-  Private Sub ToggleTree(v As Boolean)
+  Private Sub ToggleTree(ByVal v As Boolean)
     If v Then
       tvExplorer.Visible = True
       pnlMain.Panel1Collapsed = False
@@ -796,7 +796,7 @@
     tvExplorer.ResumeLayout()
     RenderDir(IO.Path.DirectorySeparatorChar)
   End Sub
-  Private Function AddIcon(sFile As String) As String
+  Private Function AddIcon(ByVal sFile As String) As String
     Dim sType As String = IO.Path.GetExtension(sFile)
     If String.IsNullOrEmpty(sType) OrElse Not sType.Substring(0, 1) = "." Then
       Return "BLANK"
@@ -815,7 +815,7 @@
       Return sType
     End If
   End Function
-  Private Sub RenderDir(sDir As String, Optional usedHistory As Boolean = False)
+  Private Sub RenderDir(ByVal sDir As String, Optional ByVal usedHistory As Boolean = False)
     If zArchive Is Nothing Then Return
     Dim fNodes As TreeNode() = tvExplorer.Nodes.Find(sDir, True)
     If fNodes.Length = 0 Then
@@ -992,7 +992,7 @@
     Implements IComparer
     Private useSort As String
     Private useOrder As SortOrder
-    Public Sub New(s As String, o As SortOrder)
+    Public Sub New(ByVal s As String, ByVal o As SortOrder)
       useSort = s
       useOrder = o
     End Sub
@@ -1041,7 +1041,7 @@
     tmrSelectionUpdate.Stop()
     tmrSelectionUpdate.Start()
   End Sub
-  Private Sub tmrSelectionUpdate_Tick(sender As System.Object, e As System.EventArgs) Handles tmrSelectionUpdate.Tick
+  Private Sub tmrSelectionUpdate_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles tmrSelectionUpdate.Tick
     tmrSelectionUpdate.Stop()
     SelectionUpdate()
   End Sub
@@ -1112,7 +1112,7 @@
   End Sub
 #End Region
 #Region "Parsing"
-  Private Sub LoadFile(path As String)
+  Private Sub LoadFile(ByVal path As String)
     Erase zArchive
     iDirHistIndex = 0
     sDirHistory.Clear()
@@ -1279,7 +1279,7 @@
     End If
     ExtractFolder(zFile, subDirPos)
   End Sub
-  Private Sub Extract(zFiles As ZIP.FileSystemEntry())
+  Private Sub Extract(ByVal zFiles As ZIP.FileSystemEntry())
     Dim toPath As String = Nothing
     Dim andSubdirs As TriState = TriState.UseDefault
     For I As Long = 0 To zFiles.LongLength - 1
@@ -1361,7 +1361,7 @@
     Process.Start(GetDefaultShell(), """" & toPath & """")
     DoSelectionUpdate()
   End Sub
-  Private Sub ExtractFolder(zFile As ZIP.FileSystemDirectory, Optional subDirPos As Integer = 1, Optional toPath As String = Nothing, Optional andSubdirs As TriState = TriState.UseDefault)
+  Private Sub ExtractFolder(ByVal zFile As ZIP.FileSystemDirectory, Optional ByVal subDirPos As Integer = 1, Optional ByVal toPath As String = Nothing, Optional ByVal andSubdirs As TriState = TriState.UseDefault)
     Dim showPrompts As Boolean = String.IsNullOrEmpty(toPath)
     If showPrompts Then
       Using cdlSave As New Microsoft.WindowsAPICodePack.Dialogs.CommonOpenFileDialog
@@ -1450,7 +1450,7 @@
     Process.Start(GetDefaultShell(), "/select,""" & IO.Path.Combine(toPath, IO.Path.GetFileName(zFile.Name)) & """")
     DoSelectionUpdate()
   End Sub
-  Private Sub ExtractFile(zFile As ZIP.FileSystemFile, Optional toPath As String = Nothing)
+  Private Sub ExtractFile(ByVal zFile As ZIP.FileSystemFile, Optional ByVal toPath As String = Nothing)
     Dim showPrompts As Boolean = String.IsNullOrEmpty(toPath)
     If showPrompts Then
       Using cdlSave As New Microsoft.WindowsAPICodePack.Dialogs.CommonSaveFileDialog
@@ -1543,7 +1543,7 @@
     If fr > 1 Then fr = -1
     SuperMsgBox(Me, "Directory Properties", Microsoft.WindowsAPICodePack.Dialogs.TaskDialogStandardIcon.Information, sTitle, sProps, Microsoft.WindowsAPICodePack.Dialogs.TaskDialogStandardButtons.Close, , , fr)
   End Sub
-  Private Function GetFileSnippet(ZFile As ZIP.FileSystemFile) As String
+  Private Function GetFileSnippet(ByVal ZFile As ZIP.FileSystemFile) As String
     Dim catTypeLib As XPCOMTypeLib = GetFileCatTypeLib(ZFile)
     If catTypeLib.Major > 0 Then
       Return "  XPCOM TypeLib: Version " & catTypeLib.Major & "." & catTypeLib.Minor & vbNewLine &
@@ -1582,7 +1582,7 @@
     TypeLib
     Binary
   End Enum
-  Private Function DetermineFileCategory(ZFile As ZIP.FileSystemFile) As FileCat
+  Private Function DetermineFileCategory(ByVal ZFile As ZIP.FileSystemFile) As FileCat
     If GetFileCatTypeLib(ZFile).Major > 0 Then Return FileCat.TypeLib
     If GetFileCatRIFF(ZFile) IsNot Nothing Then Return FileCat.Audio
     If GetFileCatFTYP(ZFile) IsNot Nothing Then Return FileCat.Video
@@ -1590,7 +1590,7 @@
     If Not String.IsNullOrEmpty(GetFileCatText(ZFile)) Then Return FileCat.Text
     Return FileCat.Binary
   End Function
-  Private Function GetFileCatText(ZFile As ZIP.FileSystemFile) As String
+  Private Function GetFileCatText(ByVal ZFile As ZIP.FileSystemFile) As String
     Dim bom0 As Byte = ZFile.Data(0)
     Dim bom1 As Byte = ZFile.Data(1)
     Dim bom2 As Byte = ZFile.Data(2)
@@ -1629,12 +1629,12 @@
     Public Format As String
     Public Dimensions As Size
     Public ColorQuality As String
-    Public Sub New(picture As Image)
+    Public Sub New(ByVal picture As Image)
       Format = GetImageTypeName(picture.RawFormat)
       Dimensions = New Size(picture.Width, picture.Height)
       ColorQuality = GetImageTypeColors(picture.PixelFormat)
     End Sub
-    Private Function GetImageTypeName(fmt As Imaging.ImageFormat) As String
+    Private Function GetImageTypeName(ByVal fmt As Imaging.ImageFormat) As String
       Select Case fmt.Guid
         Case Imaging.ImageFormat.Bmp.Guid : Return "Bitmap"
         Case Imaging.ImageFormat.Emf.Guid : Return "Enhanced Metafile"
@@ -1649,7 +1649,7 @@
       End Select
       Return "Unknown"
     End Function
-    Private Function GetImageTypeColors(fmt As Imaging.PixelFormat) As String
+    Private Function GetImageTypeColors(ByVal fmt As Imaging.PixelFormat) As String
       Select Case fmt
         Case Imaging.PixelFormat.Format1bppIndexed : Return "Monochrome"
         Case Imaging.PixelFormat.Format4bppIndexed : Return "Indexed (4bit)"
@@ -1670,7 +1670,7 @@
       Return "Unknown"
     End Function
   End Structure
-  Private Function GetFileCatImage(ZFile As ZIP.FileSystemFile) As ImageData
+  Private Function GetFileCatImage(ByVal ZFile As ZIP.FileSystemFile) As ImageData
     Try
       Using zStream As New IO.MemoryStream(ZFile.Data)
         Using iImage As Image = Image.FromStream(zStream, True, True)
@@ -1681,7 +1681,7 @@
     End Try
     Return Nothing
   End Function
-  Private Function GetFileCatRIFF(ZFile As ZIP.FileSystemFile) As clsRIFF
+  Private Function GetFileCatRIFF(ByVal ZFile As ZIP.FileSystemFile) As clsRIFF
     Try
       Dim cRiff As New clsRIFF(ZFile.Data)
       If cRiff.IsValid Then Return cRiff
@@ -1689,7 +1689,7 @@
     End Try
     Return Nothing
   End Function
-  Private Function GetFileCatFTYP(ZFile As ZIP.FileSystemFile) As clsFTYP
+  Private Function GetFileCatFTYP(ByVal ZFile As ZIP.FileSystemFile) As clsFTYP
     Try
       Dim cFtyp As New clsFTYP(ZFile.Data)
       If cFtyp.IsValid Then Return cFtyp
@@ -1702,7 +1702,7 @@
     Public Minor As Byte
     Public InterfaceCount As UInt16
   End Structure
-  Private Function GetFileCatTypeLib(ZFile As ZIP.FileSystemFile) As XPCOMTypeLib
+  Private Function GetFileCatTypeLib(ByVal ZFile As ZIP.FileSystemFile) As XPCOMTypeLib
     If ZFile.Data.LongLength < 16 Then Return Nothing
     Dim zStr As String = System.Text.Encoding.GetEncoding(LATIN_1).GetString(ZFile.Data, 0, 16)
     If Not zStr = "XPCOM" & vbLf & "TypeLib" & vbCr & vbLf & Chr(&H1A) Then Return Nothing
