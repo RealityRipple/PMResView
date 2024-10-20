@@ -3,7 +3,6 @@
   Public Const UTF_8 As Integer = 65001
   Public Const UTF_16_LE As Integer = 1200
   Public Const UTF_32_LE As Integer = 12000
-
   Public Function SuperMsgBox(Parent As Form, Title As String, Icon As Microsoft.WindowsAPICodePack.Dialogs.TaskDialogStandardIcon, Header As String, Message As String, Buttons As Microsoft.WindowsAPICodePack.Dialogs.TaskDialogStandardButtons, Optional Footer As String = Nothing, Optional FooterIcon As Microsoft.WindowsAPICodePack.Dialogs.TaskDialogStandardIcon = Microsoft.WindowsAPICodePack.Dialogs.TaskDialogStandardIcon.None, Optional Fraction As Decimal = -1) As Microsoft.WindowsAPICodePack.Dialogs.TaskDialogResult
     Dim sTitle As String = My.Application.Info.Title & " - " & Title
     If Microsoft.WindowsAPICodePack.Dialogs.TaskDialog.IsPlatformSupported Then
@@ -60,14 +59,12 @@
       Return Microsoft.WindowsAPICodePack.Dialogs.TaskDialogResult.None
     End If
   End Function
-
   Private Sub taskDialog_Opened(sender As Object, e As EventArgs)
     Dim taskDialog As Microsoft.WindowsAPICodePack.Dialogs.TaskDialog = sender
     If Not taskDialog.Icon = Microsoft.WindowsAPICodePack.Dialogs.TaskDialogStandardIcon.None Then taskDialog.Icon = taskDialog.Icon
     If Not taskDialog.FooterIcon = Microsoft.WindowsAPICodePack.Dialogs.TaskDialogStandardIcon.None Then taskDialog.FooterIcon = taskDialog.FooterIcon
     If Not String.IsNullOrEmpty(taskDialog.InstructionText) Then taskDialog.InstructionText = taskDialog.InstructionText
   End Sub
-
   Public Sub CreateAllSubdirs(sPath As String)
     Dim sSegments() As String = Split(sPath, IO.Path.DirectorySeparatorChar)
     Dim sDir As String = ""
@@ -76,7 +73,6 @@
       If Not IO.Directory.Exists(sDir) Then IO.Directory.CreateDirectory(sDir)
     Next
   End Sub
-
   Public Function ByteSize(InBytes As UInt64) As String
     If InBytes >= 1000 Then
       If InBytes / 1024 >= 1000 Then
@@ -100,7 +96,6 @@
       Return InBytes & " B"
     End If
   End Function
-
   Public Function GetDefaultShell() As String
     Dim explorer As String = "explorer.exe"
     Try
@@ -109,7 +104,6 @@
     End Try
     Return explorer
   End Function
-
   Public Function GetFileIcon(ByVal sPath As String) As Bitmap
     Dim cW As Integer = NativeMethods.GetSystemMetrics(NativeMethods.MetricsList.SM_CXSMICON)
     Dim cH As Integer = NativeMethods.GetSystemMetrics(NativeMethods.MetricsList.SM_CYSMICON)
@@ -152,7 +146,6 @@
       Return Nothing
     End Try
   End Function
-
   Public Function GetFileIcon32(ByVal sPath As String) As Bitmap
     Dim cW As Integer = NativeMethods.GetSystemMetrics(NativeMethods.MetricsList.SM_CXICON)
     Dim cH As Integer = NativeMethods.GetSystemMetrics(NativeMethods.MetricsList.SM_CYICON)
@@ -195,7 +188,6 @@
       Return Nothing
     End Try
   End Function
-
   Public Function GetRIFFData(cRiff As clsRIFF) As String
     If cRiff.IsDTS Then
       Dim sChan As String
@@ -270,32 +262,24 @@
         If cRiff.WAVData.Format.cbSize >= 22 Then
           If cRiff.WAVData.dwChannelMask > 0 Then
             sChan = String.Empty
-
             If (cRiff.WAVData.dwChannelMask And clsRIFF.ChannelStruct.FrontLeft) = clsRIFF.ChannelStruct.FrontLeft Then sChan &= "Front Left, "
             If (cRiff.WAVData.dwChannelMask And clsRIFF.ChannelStruct.FrontCenterLeft) = clsRIFF.ChannelStruct.FrontCenterLeft Then sChan &= "Front Center Left, "
             If (cRiff.WAVData.dwChannelMask And clsRIFF.ChannelStruct.FrontCenter) = clsRIFF.ChannelStruct.FrontCenter Then sChan &= "Front Center, "
             If (cRiff.WAVData.dwChannelMask And clsRIFF.ChannelStruct.FrontCenterRight) = clsRIFF.ChannelStruct.FrontCenterRight Then sChan &= "Front Center Right, "
             If (cRiff.WAVData.dwChannelMask And clsRIFF.ChannelStruct.FrontRight) = clsRIFF.ChannelStruct.FrontRight Then sChan &= "Front Right, "
-
             If (cRiff.WAVData.dwChannelMask And clsRIFF.ChannelStruct.SideLeft) = clsRIFF.ChannelStruct.SideLeft Then sChan &= "Side Left, "
             If (cRiff.WAVData.dwChannelMask And clsRIFF.ChannelStruct.SideRight) = clsRIFF.ChannelStruct.SideRight Then sChan &= "Side Right, "
-
             If (cRiff.WAVData.dwChannelMask And clsRIFF.ChannelStruct.RearLeft) = clsRIFF.ChannelStruct.RearLeft Then sChan &= "Rear Left, "
             If (cRiff.WAVData.dwChannelMask And clsRIFF.ChannelStruct.RearCenter) = clsRIFF.ChannelStruct.RearCenter Then sChan &= "Rear Center, "
             If (cRiff.WAVData.dwChannelMask And clsRIFF.ChannelStruct.RearRight) = clsRIFF.ChannelStruct.RearRight Then sChan &= "Rear Right, "
-
             If (cRiff.WAVData.dwChannelMask And clsRIFF.ChannelStruct.TopCenter) = clsRIFF.ChannelStruct.TopCenter Then sChan &= "Top Center, "
-
             If (cRiff.WAVData.dwChannelMask And clsRIFF.ChannelStruct.TopFrontLeft) = clsRIFF.ChannelStruct.TopFrontLeft Then sChan &= "Top Front Left, "
             If (cRiff.WAVData.dwChannelMask And clsRIFF.ChannelStruct.TopFrontCenter) = clsRIFF.ChannelStruct.TopFrontCenter Then sChan &= "Top Front Center, "
             If (cRiff.WAVData.dwChannelMask And clsRIFF.ChannelStruct.TopFrontRight) = clsRIFF.ChannelStruct.TopFrontRight Then sChan &= "Top Front Right, "
-
             If (cRiff.WAVData.dwChannelMask And clsRIFF.ChannelStruct.TopRearLeft) = clsRIFF.ChannelStruct.TopRearLeft Then sChan &= "Top Rear Left, "
             If (cRiff.WAVData.dwChannelMask And clsRIFF.ChannelStruct.TopRearCenter) = clsRIFF.ChannelStruct.TopRearCenter Then sChan &= "Top Rear Center, "
             If (cRiff.WAVData.dwChannelMask And clsRIFF.ChannelStruct.TopRearRight) = clsRIFF.ChannelStruct.TopRearRight Then sChan &= "Top Rear Right, "
-
             If (cRiff.WAVData.dwChannelMask And clsRIFF.ChannelStruct.LFE) = clsRIFF.ChannelStruct.LFE Then sChan &= "Low Frequency Emitter, "
-
             If sChan.Length > 2 Then sChan = sChan.Substring(0, sChan.Length - 2)
           End If
           Select Case cRiff.WAVData.SubFormat.ToString.ToLower
@@ -321,7 +305,6 @@
     End If
     Return "  Encoding: Unknown"
   End Function
-
   Private Function WAVAudioCodecs(formatTag As clsRIFF.WAVFormatTag) As String
     Select Case formatTag
       Case clsRIFF.WAVFormatTag.WAVE_FORMAT_UNKNOWN : Return "Unknown Wave Format"
@@ -446,7 +429,6 @@
       Case Else : Return "Unknown: " & CUInt(formatTag)
     End Select
   End Function
-
   Public Function MSToTime(uMS As UInt32) As String
     Dim sDur As String = uMS & "ms"
     Dim lH As UInt32 = 0
@@ -474,7 +456,6 @@
     End If
     Return sDur
   End Function
-
   Public Sub OpenURL(sURL As String, parent As Form)
     Dim sOpen As String = sURL
     If Not sOpen.Contains(Uri.SchemeDelimiter) Then sOpen = "http://" & sURL

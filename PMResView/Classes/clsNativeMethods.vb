@@ -3,15 +3,12 @@ Public NotInheritable Class NativeMethods
   <DllImport("shell32", SetLastError:=True, CharSet:=CharSet.Auto)>
   Public Shared Function ShellExecute(ByVal hwnd As Long, ByVal lpszOp As String, ByVal lpszFile As String, ByVal lpszParams As String, ByVal LpszDir As String, ByVal FsShowCmd As Long) As Long
   End Function
-
   <DllImport("shell32", SetLastError:=True, CharSet:=CharSet.Auto)>
   Public Shared Function SHGetFileInfo(ByVal pszPath As String, ByVal dwFileAttributes As UInteger, ByRef psfi As SHFILEINFO, ByVal cbFileInfo As Integer, ByVal uFlags As UInteger) As IntPtr
   End Function
-
   <DllImport("user32", SetLastError:=True, CharSet:=CharSet.Auto)>
   Public Shared Function DestroyIcon(ByVal hWnd As IntPtr) As Boolean
   End Function
-
   <StructLayout(LayoutKind.Sequential, CharSet:=CharSet.Auto)>
   Public Structure SHFILEINFO
     Public hIcon As IntPtr
@@ -22,11 +19,9 @@ Public NotInheritable Class NativeMethods
     <MarshalAs(UnmanagedType.ByValTStr, SizeConst:=80)>
     Public szTypeName As String
   End Structure
-
   <DllImport("user32", SetLastError:=True, CharSet:=CharSet.Auto)>
   Public Shared Function GetSystemMetrics(ByVal nIndex As MetricsList) As Integer
   End Function
-
   Public Enum EShellGetFileInfoConstants
     SHGFI_ICON = &H100
     SHGFI_DISPLAYNAME = &H200
@@ -45,7 +40,6 @@ Public NotInheritable Class NativeMethods
     SHGFI_PIDL = &H8
     SHGFI_USEFILEATTRIBUTES = &H10
   End Enum
-
   Public Enum MetricsList As Integer
     SM_CXSCREEN = 0
     SM_CYSCREEN = 1
@@ -71,7 +65,6 @@ Public NotInheritable Class NativeMethods
     SM_CXHSCROLL = 21
     SM_DEBUG = 22
     SM_SWAPBUTTON = 23
-
     SM_CXMIN = 28
     SM_CYMIN = 29
     SM_CXSIZE = 30
@@ -108,7 +101,6 @@ Public NotInheritable Class NativeMethods
     SM_CXMAXIMIZED = 61
     SM_CYMAXIMIZED = 62
     SM_NETWORK = 63
-
     SM_CLEANBOOT = 67
     SM_CXDRAG = 68
     SM_CYDRAG = 69
@@ -127,44 +119,33 @@ Public NotInheritable Class NativeMethods
     SM_IMMENABLED = 82
     SM_CXFOCUSBORDER = 83
     SM_CYFOCUSBORDER = 84
-
     SM_TABLETPC = 86
     SM_MEDIACENTER = 87
     SM_STARTER = 88
     SM_SERVER2 = 89
-
     SM_MOUSEHORIZONTALWHEELPRESENT = 91
     SM_CXPADDEDBORDER = 92
-
     SM_DIGITIZER = 94
     SM_MAXIMUMTOUCHES = 95
-
     SM_REMOTESESSION = &H1000
-
     SM_SHUTTINGDOWN = &H2000
     SM_REMOTECONTROL = &H2001
     SM_CONVERTIBLESLATEMODE = &H2003
     SM_SYSTEMDOCKED = &H2004
   End Enum
-
   <DllImport("kernel32", SetLastError:=True, CharSet:=CharSet.Auto)>
   Public Shared Function GetPrivateProfileString(ByVal lpSectionName As String, ByVal lpKeyName As String, ByVal lpDefault As String, ByVal lpBuffuredString As System.Text.StringBuilder, ByVal nBuffSize As Integer, ByVal lpFileName As String) As Long
   End Function
-
   <DllImport("kernel32", SetLastError:=True, CharSet:=CharSet.Auto)>
   Public Shared Function WritePrivateProfileString(ByVal lpSectionName As String, ByVal lpKeyName As String, ByVal lpString As String, ByVal lpFileName As String) As Long
   End Function
-
   <DllImport("user32", SetLastError:=True, CharSet:=CharSet.Auto)>
   Public Shared Function LoadCursor(hInstance As IntPtr, lpCursorName As IntPtr) As IntPtr
   End Function
-
   <DllImport("user32", SetLastError:=True, CharSet:=CharSet.Auto)>
   Public Shared Function SetCursor(hCursor As IntPtr) As IntPtr
   End Function
-
   <DllImport("user32", SetLastError:=True, CharSet:=CharSet.Auto)>
   Public Shared Function ShowScrollBar(ByVal hwnd As IntPtr, ByVal wBar As Integer, ByVal bShow As Boolean) As Integer
   End Function
 End Class
-

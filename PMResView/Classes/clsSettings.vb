@@ -19,18 +19,15 @@
       mSavePath = IO.Path.Combine(sPath, "config.ini")
       Return mSavePath
     Catch ex As Exception
-
     End Try
     mSavePath = ""
     Return mSavePath
   End Function
-
   Private Shared Sub SaveSetting(sGroup As String, sSetting As String, sValue As String)
     Dim p As String = SavePath()
     If String.IsNullOrEmpty(p) Then Return
     NativeMethods.WritePrivateProfileString(sGroup, sSetting, sValue, p)
   End Sub
-
   Private Shared Function ReadSetting(sGroup As String, sSetting As String, sDefault As String) As String
     Dim p As String = SavePath()
     If String.IsNullOrEmpty(p) Then Return sDefault
@@ -40,7 +37,6 @@
     If sb.ToString = "UNSET" Then Return sDefault
     Return sb.ToString
   End Function
-
   Public Shared Property IconMethod As View
     Get
       Select Case ReadSetting("Settings", "IconMethod", "LargeIcon")
@@ -61,7 +57,6 @@
       End Select
     End Set
   End Property
-
   Public Shared Property SortMethod As String
     Get
       Select Case ReadSetting("Settings", "SortMethod", "Order")
@@ -80,7 +75,6 @@
       End Select
     End Set
   End Property
-
   Public Shared Property ShowToolbar As Boolean
     Get
       Return Not ReadSetting("Settings", "Toolbar", "Y") = "N"
@@ -93,7 +87,6 @@
       End If
     End Set
   End Property
-
   Public Shared Property FlatView As Boolean
     Get
       Return Not ReadSetting("Settings", "FlatView", "N") = "N"
@@ -106,7 +99,6 @@
       End If
     End Set
   End Property
-
   Public Shared Property TreeView As Boolean
     Get
       Return Not ReadSetting("Settings", "TreeView", "Y") = "N"
@@ -119,7 +111,6 @@
       End If
     End Set
   End Property
-
   Private Shared DefaultTextEditor As String() = {
     IO.Path.Combine(My.Computer.FileSystem.SpecialDirectories.ProgramFiles, "Notepad++", "notepad++.exe"),
     IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Windows), "notepad.exe")
@@ -141,7 +132,6 @@
       SaveSetting("Editor", "Text", value)
     End Set
   End Property
-
   Private Shared DefaultImageEditor As String() = {
     IO.Path.Combine(My.Computer.FileSystem.SpecialDirectories.ProgramFiles, "GIMP 2", "bin", "gimp-2.10.exe"),
     IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.System), "mspaint.exe")
@@ -163,7 +153,6 @@
       SaveSetting("Editor", "Image", value)
     End Set
   End Property
-
   Private Shared DefaultBinaryEditor As String() = {
     IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86), "XVI32", "XVI32.exe"),
     IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Windows), "notepad.exe")
@@ -185,7 +174,6 @@
       SaveSetting("Editor", "Binary", value)
     End Set
   End Property
-
   Public Shared Property WindowSize As Size
     Get
       Dim szRet As New Size
@@ -202,7 +190,6 @@
       SaveSetting("Size", "Height", value.Height)
     End Set
   End Property
-
   Public Shared Property TreeWidth As Integer
     Get
       Return Int(ReadSetting("Size", "Tree", "200"))

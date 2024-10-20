@@ -12,7 +12,6 @@
   Private bValid As Boolean
   Private bDTS As Boolean
   Private bWAV As Boolean
-
   Public Structure WAVEFORMAT
     Public wFormatTag As WAVFormatTag
     Public nChannels As UInt16
@@ -20,26 +19,22 @@
     Public nAvgBytesPerSec As UInt32
     Public nBlockAlign As UInt16
   End Structure
-
   Public Structure WAVEFORMATEX
     Public Format As WAVEFORMAT
     Public wBitsPerSample As UInt16
     Public cbSize As UInt16
   End Structure
-
   Public Structure WAVEFORMATEXTENSIBLE_SAMPLES
     Public wValidBitsPerSample As UInt16
     Public wSamplesPerBlock As UInt16
     Public wReserved As UInt16
   End Structure
-
   Public Structure WAVEFORMATEXTENSIBLE
     Public Format As WAVEFORMATEX
     Public Samples As WAVEFORMATEXTENSIBLE_SAMPLES
     Public dwChannelMask As UInt32
     Public SubFormat As Guid
   End Structure
-
   Public Enum WAVFormatTag As UInt16
     WAVE_FORMAT_UNKNOWN = &H0
     WAVE_FORMAT_PCM = &H1
@@ -162,7 +157,6 @@
     WAVE_FORMAT_EXTENSIBLE = &HFFFE
     WAVE_FORMAT_DEVELOPMENT = &HFFFF
   End Enum
-
   Public Class StringValueAttribute
     Inherits Attribute
     Public Property Value As String
@@ -173,8 +167,6 @@
       Return Value
     End Function
   End Class
-
-
   Public Enum ChannelStruct As UInt32
     FrontLeft = &H1
     FrontRight = &H2
@@ -195,7 +187,6 @@
     TopRearCenter = &H10000
     TopRearRight = &H20000
   End Enum
-
   Public Structure DTSInfo
     Public uSYNC As UInt32
     Public bFTYPE As Boolean
@@ -226,22 +217,18 @@
     Public iDIALNORM As UInt16
     Public iDNG As Integer
   End Structure
-
   Private wfEX As WAVEFORMATEXTENSIBLE
   Private dtsEX As DTSInfo
-
   Public ReadOnly Property WAVData As WAVEFORMATEXTENSIBLE
     Get
       Return wfEX
     End Get
   End Property
-
   Public ReadOnly Property DTSData As DTSInfo
     Get
       Return dtsEX
     End Get
   End Property
-
   Public Sub New(bData() As Byte)
     bValid = False
     Using ioFile As New IO.BinaryReader(New IO.MemoryStream(bData))
@@ -372,25 +359,21 @@
       End Select
     End Using
   End Sub
-
   Public ReadOnly Property IsValid As Boolean
     Get
       Return bValid
     End Get
   End Property
-
   Public ReadOnly Property IsDTS As Boolean
     Get
       Return bDTS
     End Get
   End Property
-
   Public ReadOnly Property IsWAV As Boolean
     Get
       Return bWAV
     End Get
   End Property
-
   Private Function BytesTo14BitL(inBytes As Byte()) As Byte()
     Dim bitPairs As Byte() = Nothing
     Dim j As Integer = 0
@@ -415,7 +398,6 @@
     Next
     Return bytes
   End Function
-
   Private sizeLeft As Integer
   Private currentByte As Byte
   Private idx As Integer
@@ -436,7 +418,6 @@
     End If
     Return ret
   End Function
-
 #Region "IDisposable Support"
   Private disposedValue As Boolean
   Protected Overridable Sub Dispose(disposing As Boolean)
@@ -446,12 +427,10 @@
     End If
     Me.disposedValue = True
   End Sub
-
   Public Sub Dispose() Implements IDisposable.Dispose
     ' Do not change this code.  Put cleanup code in Dispose(ByVal disposing As Boolean) above.
     Dispose(True)
     GC.SuppressFinalize(Me)
   End Sub
 #End Region
-
 End Class

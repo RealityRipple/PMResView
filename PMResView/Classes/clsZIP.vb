@@ -56,15 +56,11 @@
     Public FileCount As UInt64
     Public DirectoryCount As UInt64
   End Class
-
   Private sFiles As List(Of ZIP.FileSystemEntry)
-
   Public Sub New()
     sFiles = New List(Of ZIP.FileSystemEntry)
   End Sub
-
   Public Delegate Sub ProgressInvoker(ByVal bPercent As Byte, ByVal sName As String)
-
 #Region "Read Functions"
   Public Shared Function ReadFileSystem(bData As Byte(), Optional ProgressViewer As ProgressInvoker = Nothing) As ZIP.FileSystemEntry()
     Dim pCount As UInt64 = 0
@@ -153,7 +149,6 @@
     End If
     Return sFiles.ToArray
   End Function
-
   Private Shared Function countSubdirsOf(sPath As String, sDirs As String()) As Long
     If sPath = IO.Path.DirectorySeparatorChar Then
       Dim rUnique As New List(Of String)
@@ -182,7 +177,6 @@
     Next
     Return ret
   End Function
-
   Private Shared Function ParseFileSystemInfo(bData As Byte(), ByRef iStart As Long) As ZIP.FileSystemFile
     Dim zFile As New ZIP.FileSystemFile
     zFile.Name = Nothing
@@ -253,10 +247,8 @@
     Dim sFileName As String = System.Text.Encoding.UTF8.GetString(bData, iPos, iFileName) : iPos += iFileName
     zFile.Name = IO.Path.DirectorySeparatorChar & sFileName.Replace("/", IO.Path.DirectorySeparatorChar)
     If Not String.IsNullOrEmpty(zFile.Name) Then zFile.FileType = GetRegType(IO.Path.GetExtension(zFile.Name))
-
     If bData.LongLength <= iPos + iExtraField Then Return Nothing
     iPos += iExtraField
-
     If iCompress = 0 Then
       Dim bFile(iCompressed - 1) As Byte
       Array.ConstrainedCopy(bData, iPos, bFile, 0, iCompressed) : iPos += iCompressed
@@ -279,12 +271,9 @@
       Return Nothing
     End If
     iStart = iPos - 1
-
     Return zFile
   End Function
-
 #End Region
-
 #Region "Basic Functions"
   Private Shared Function TimeToMSDOS(dTime As Date) As UInt16
     Dim iHour As UInt16 = dTime.Hour
@@ -296,7 +285,6 @@
     iTime = iTime Or (iSecond And &H1F)
     Return iTime
   End Function
-
   Private Shared Function DateToMSDOS(dDate As Date) As UInt16
     If dDate.Year < 1980 Then Return 0
     If dDate.Year > 2107 Then Return 0
@@ -309,7 +297,6 @@
     iDate = iDate Or (iDay And &H1F)
     Return iDate
   End Function
-
   Private Shared Function MSDOSToDateTime(iDate As UInt16, iTime As UInt16) As Date
     Dim iYear As UInt16 = (iDate And &HFE00) >> 9
     Dim iMonth As UInt16 = (iDate And &H1E0) >> 5
@@ -319,10 +306,8 @@
     Dim iSecond As UInt16 = (iTime And &H1F)
     Return New Date(iYear + 1980, iMonth, iDay, iHour, iMinute, iSecond)
   End Function
-
   Private Class CRC32
     Shared table As UInteger()
-
     Shared Sub New()
       Dim poly As UInteger = &HEDB88320UI
       table = New UInteger(255) {}
@@ -339,7 +324,6 @@
         table(I) = temp
       Next
     End Sub
-
     Public Shared Function ComputeChecksum(bytes As Byte()) As UInteger
       Dim crc As UInteger = &HFFFFFFFFUI
       For i As Integer = 0 To bytes.Length - 1
@@ -349,7 +333,6 @@
       Return Not crc
     End Function
   End Class
-
   Private Shared KnownTypes As New Dictionary(Of String, String)
   Private Shared Function GetRegType(sExt As String) As String
     If String.IsNullOrEmpty(sExt) Then Return "File"
@@ -379,7 +362,6 @@
     KnownTypes(sExt) = sRegVal
     Return sRegVal
   End Function
-
   Public Shared Function GetRegTypeForDirectory() As String
     If KnownTypes.ContainsKey("Directory") Then Return KnownTypes("Directory")
     Dim rRegVal As Microsoft.Win32.RegistryKey = My.Computer.Registry.ClassesRoot.OpenSubKey("Directory")

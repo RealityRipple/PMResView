@@ -249,16 +249,12 @@
     End If
     Dim bUpdate As Boolean = False
     If Val(LocalVer(0)) > Val(RemoteVer(0)) Then
-
     ElseIf Val(LocalVer(0)) = Val(RemoteVer(0)) Then
       If Val(LocalVer(1)) > Val(RemoteVer(1)) Then
-
       ElseIf Val(LocalVer(1)) = Val(RemoteVer(1)) Then
         If Val(LocalVer(2)) > Val(RemoteVer(2)) Then
-
         ElseIf Val(LocalVer(2)) = Val(RemoteVer(2)) Then
           If Val(LocalVer(3)) >= Val(RemoteVer(3)) Then
-
           Else
             bUpdate = True
           End If

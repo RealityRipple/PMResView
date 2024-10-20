@@ -28,7 +28,6 @@
       txtMatch.Items.AddRange(value)
     End Set
   End Property
-
   Public Sub New(Match As Boolean)
     InitializeComponent()
     If Match Then
@@ -41,23 +40,18 @@
       lblMatch.Text = "Unmatch:"
     End If
   End Sub
-
   Private Sub lblHelp_LinkClicked(sender As System.Object, e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles lblHelp.LinkClicked
     If e.Button = Windows.Forms.MouseButtons.Left Then OpenURL("learn.microsoft.com/en-us/dotnet/standard/base-types/regular-expression-language-quick-reference", Me)
   End Sub
-
   Private Sub txtMatch_KeyUp(sender As Object, e As System.Windows.Forms.KeyEventArgs) Handles txtMatch.KeyUp
     TestRegex()
   End Sub
-
   Private Sub txtMatch_SelectedValueChanged(sender As Object, e As System.EventArgs) Handles txtMatch.SelectedValueChanged
     TestRegex()
   End Sub
-
   Private Sub txtMatch_TextChanged(sender As System.Object, e As System.EventArgs) Handles txtMatch.TextChanged
     TestRegex()
   End Sub
-
   Private Sub TestRegex()
     If String.IsNullOrEmpty(Me.RegEx) Then
       pctStatus.Image = My.Resources.bad
@@ -76,8 +70,6 @@
       cmdOK.Enabled = False
     End Try
   End Sub
-
   Private Sub lblHelp_LinkClicked_1(sender As System.Object, e As System.Windows.Forms.LinkLabelLinkClickedEventArgs)
-
   End Sub
 End Class
