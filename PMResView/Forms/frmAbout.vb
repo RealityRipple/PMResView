@@ -4,6 +4,9 @@
   Private tThrobber As Threading.Timer
   Private sUpdate As String = IO.Path.Combine(IO.Path.GetTempPath, "PRV_Setup.exe")
   Private ellipsis As String
+  Private Const HomeURL As String = "realityripple.com"
+  Private Const ProductURL As String = "realityripple.com/Software/Applications/PMResView"
+  Private Const DonateURL As String = "realityripple.com/donate.php?itm=PMResView"
   Private Sub frmAbout_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
     Dim ApplicationTitle As String
     If My.Application.Info.Title <> "" Then
@@ -20,19 +23,19 @@
     tUpdate = New Threading.Timer(New Threading.TimerCallback(AddressOf CheckForUpdates), Nothing, 1000, 5000)
   End Sub
   Private Sub lblProduct_LinkClicked(ByVal sender As System.Object, ByVal e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles lblProduct.LinkClicked
-    If e.Button = Windows.Forms.MouseButtons.Left Then OpenURL("realityripple.com/Software/Applications/PMResView", Me)
+    If e.Button = Windows.Forms.MouseButtons.Left Then OpenURL(ProductURL, Me)
   End Sub
   Private Sub lblVersion_LinkClicked(ByVal sender As System.Object, ByVal e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles lblVersion.LinkClicked
-    If e.Button = Windows.Forms.MouseButtons.Left Then OpenURL("realityripple.com/Software/Applications/PMResView/changes.php", Me)
+    If e.Button = Windows.Forms.MouseButtons.Left Then OpenURL(ChangeLogURL, Me)
   End Sub
   Private Sub lblCompany_LinkClicked(ByVal sender As System.Object, ByVal e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles lblCompany.LinkClicked
-    If e.Button = Windows.Forms.MouseButtons.Left Then OpenURL("realityripple.com", Me)
+    If e.Button = Windows.Forms.MouseButtons.Left Then OpenURL(HomeURL, Me)
   End Sub
   Private Sub cmdOK_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdOK.Click
     Me.Close()
   End Sub
   Private Sub cmdDonate_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdDonate.Click
-    OpenURL("realityripple.com/donate.php?itm=PMResView", Me)
+    OpenURL(DonateURL, Me)
   End Sub
   Private Enum UpdateStatus
     Throbber

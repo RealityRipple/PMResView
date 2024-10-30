@@ -3,6 +3,7 @@
   Public Const UTF_8 As Integer = 65001
   Public Const UTF_16_LE As Integer = 1200
   Public Const UTF_32_LE As Integer = 12000
+  Public Const ChangeLogURL As String = "realityripple.com/Software/Applications/PMResView/changes.php"
   Public Function SuperMsgBox(ByVal Parent As Form, ByVal Icon As Microsoft.WindowsAPICodePack.Dialogs.TaskDialogStandardIcon, ByVal Header As String, ByVal Message As String, ByVal Buttons As Microsoft.WindowsAPICodePack.Dialogs.TaskDialogStandardButtons, Optional ByVal Title As String = Nothing, Optional ByVal Footer As String = Nothing, Optional ByVal FooterIcon As Microsoft.WindowsAPICodePack.Dialogs.TaskDialogStandardIcon = Microsoft.WindowsAPICodePack.Dialogs.TaskDialogStandardIcon.None, Optional ByVal Fraction As Decimal = -1) As Microsoft.WindowsAPICodePack.Dialogs.TaskDialogResult
     Dim sTitle As String = Application.ProductName
     If Not String.IsNullOrEmpty(Title) Then sTitle &= " - " & Title
@@ -457,8 +458,21 @@
     End If
     Return sDur
   End Function
+  Private Function NativeTLS12() As Boolean
+    If (Environment.OSVersion.Version.Major < 6 Or (Environment.OSVersion.Version.Major = 6 And Environment.OSVersion.Version.Minor = 0)) Then Return False
+    If (Environment.Version.Major = 4 And Environment.Version.Minor = 0 And Environment.Version.Build = 30319 And Environment.Version.Revision < 17929) Then Return False
+    Return True
+  End Function
+  Public Function ProtoURL(ByVal sURL As String) As String
+    If sURL.Contains(Uri.SchemeDelimiter) Then sURL = sURL.Substring(sURL.IndexOf(Uri.SchemeDelimiter) + Uri.SchemeDelimiter.Length)
+    While sURL.StartsWith("/")
+      sURL = sURL.Substring(1)
+    End While
+    If NativeTLS12() Then Return Uri.UriSchemeHttps & Uri.SchemeDelimiter & sURL
+    Return Uri.UriSchemeHttp & Uri.SchemeDelimiter & sURL
+  End Function
   Public Sub OpenURL(ByVal sURL As String, ByVal parent As Form)
-    Dim sOpen As String = sURL
+    Dim sOpen As String = ProtoURL(sURL)
     If Not sOpen.Contains(Uri.SchemeDelimiter) Then sOpen = "http://" & sURL
     Try
       Process.Start(sOpen)

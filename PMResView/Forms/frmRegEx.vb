@@ -1,4 +1,5 @@
 ﻿Public Class frmRegEx
+  Private Const RegExURL As String = "learn.microsoft.com/en-us/dotnet/standard/base-types/regular-expression-language-quick-reference"
   Public Property RegEx As String
     Get
       Return txtMatch.Text
@@ -41,7 +42,7 @@
     End If
   End Sub
   Private Sub lblHelp_LinkClicked(ByVal sender As System.Object, ByVal e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles lblHelp.LinkClicked
-    If e.Button = Windows.Forms.MouseButtons.Left Then OpenURL("learn.microsoft.com/en-us/dotnet/standard/base-types/regular-expression-language-quick-reference", Me)
+    If e.Button = Windows.Forms.MouseButtons.Left Then OpenURL(regexurl, Me)
   End Sub
   Private Sub txtMatch_KeyUp(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles txtMatch.KeyUp
     TestRegex()

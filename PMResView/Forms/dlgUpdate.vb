@@ -1,5 +1,4 @@
 ﻿Public Class dlgUpdate
-  Private Const ChangeLogURL As String = "//realityripple.com/Software/Applications/PMResView/changes.php"
   Private Const BCM_SETSHIELD As Integer = &H160C
   <Runtime.InteropServices.DllImport("user32", CharSet:=Runtime.InteropServices.CharSet.Auto, setlasterror:=True)>
   Private Shared Function SendMessage(ByVal hWnd As IntPtr, ByVal msg As UInt32, ByVal wParam As UInt32, ByVal lParam As UInt32) As UInt32
@@ -20,7 +19,7 @@
     SendMessage(cmdUpdate.Handle, BCM_SETSHIELD, 0, 1)
   End Sub
   Private Sub lblChangeLog_LinkClicked(ByVal sender As System.Object, ByVal e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles lblChangeLog.LinkClicked
-    If e.Button = Windows.Forms.MouseButtons.Left Then OpenURL(clsUpdate.ProtoURL(ChangeLogURL), Me)
+    If e.Button = Windows.Forms.MouseButtons.Left Then OpenURL(ChangeLogURL, Me)
   End Sub
   Private Sub cmdUpdate_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdUpdate.Click
     Me.DialogResult = Windows.Forms.DialogResult.OK
