@@ -133,12 +133,6 @@ Public NotInheritable Class NativeMethods
     SM_CONVERTIBLESLATEMODE = &H2003
     SM_SYSTEMDOCKED = &H2004
   End Enum
-  <DllImport("kernel32", SetLastError:=True, CharSet:=CharSet.Auto)>
-  Public Shared Function GetPrivateProfileString(ByVal lpSectionName As String, ByVal lpKeyName As String, ByVal lpDefault As String, ByVal lpBuffuredString As System.Text.StringBuilder, ByVal nBuffSize As Integer, ByVal lpFileName As String) As Long
-  End Function
-  <DllImport("kernel32", SetLastError:=True, CharSet:=CharSet.Auto)>
-  Public Shared Function WritePrivateProfileString(ByVal lpSectionName As String, ByVal lpKeyName As String, ByVal lpString As String, ByVal lpFileName As String) As Long
-  End Function
   <DllImport("user32", SetLastError:=True, CharSet:=CharSet.Auto)>
   Public Shared Function LoadCursor(ByVal hInstance As IntPtr, ByVal lpCursorName As IntPtr) As IntPtr
   End Function
@@ -147,5 +141,11 @@ Public NotInheritable Class NativeMethods
   End Function
   <DllImport("user32", SetLastError:=True, CharSet:=CharSet.Auto)>
   Public Shared Function ShowScrollBar(ByVal hwnd As IntPtr, ByVal wBar As Integer, ByVal bShow As Boolean) As Integer
+  End Function
+  <DllImport("kernel32", SetLastError:=True, CharSet:=CharSet.Unicode)>
+  Public Shared Function WritePrivateProfileStringW(ByVal lpApplicationName As String, ByVal lpKeyName As String, ByVal lpString As String, ByVal lpFileName As String) As Integer
+  End Function
+  <DllImport("kernel32", SetLastError:=True, CharSet:=CharSet.Unicode)>
+  Public Shared Function GetPrivateProfileStringW(ByVal lpApplicationName As String, ByVal lpKeyName As String, ByVal lpDefault As String, ByVal lpReturnedString As String, ByVal nSize As Int32, ByVal lpFileName As String) As Integer
   End Function
 End Class

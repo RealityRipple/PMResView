@@ -122,7 +122,7 @@
       SetUpdateValue("Update check failed", UpdateStatus.Red)
     Else
       If e.Result = clsUpdate.CheckEventArgs.ResultType.NewUpdate Then
-        If IO.File.Exists(IO.Path.Combine(My.Application.Info.DirectoryPath, "unins000.exe")) Then
+        If cSettings.IsInstalledIsh Then
           SetUpdateValue("New version available: " & e.Version, UpdateStatus.Green)
           Using dUpdate As New dlgUpdate(e.Version)
             If dUpdate.ShowDialog(Me) = Windows.Forms.DialogResult.Cancel Then

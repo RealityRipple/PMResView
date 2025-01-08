@@ -195,7 +195,7 @@
   End Sub
   Private Sub mnuEditChooseEditorText_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuEditChooseEditorText.Click
     Using cdlOpen As New Microsoft.WindowsAPICodePack.Dialogs.CommonOpenFileDialog
-      Dim sTextEditor As String = Settings.TextEditor
+      Dim sTextEditor As String = cSettings.TextEditor
       cdlOpen.DefaultExtension = "exe"
       cdlOpen.DefaultFileName = IO.Path.GetFileName(sTextEditor)
       cdlOpen.Filters.Add(New Microsoft.WindowsAPICodePack.Dialogs.CommonFileDialogFilter("Applications", "*.exe"))
@@ -203,12 +203,12 @@
       cdlOpen.Title = "Select Custom Text Editor..."
       cdlOpen.InitialDirectory = IO.Path.GetDirectoryName(sTextEditor)
       If Not cdlOpen.ShowDialog(Me.Handle) = Microsoft.WindowsAPICodePack.Dialogs.CommonFileDialogResult.Ok Then Return
-      Settings.TextEditor = cdlOpen.FileName
+      cSettings.TextEditor = cdlOpen.FileName
     End Using
   End Sub
   Private Sub mnuEditChooseEditorImages_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuEditChooseEditorImages.Click
     Using cdlOpen As New Microsoft.WindowsAPICodePack.Dialogs.CommonOpenFileDialog
-      Dim sImageEditor As String = Settings.ImageEditor
+      Dim sImageEditor As String = cSettings.ImageEditor
       cdlOpen.DefaultExtension = "exe"
       cdlOpen.DefaultFileName = IO.Path.GetFileName(sImageEditor)
       cdlOpen.Filters.Add(New Microsoft.WindowsAPICodePack.Dialogs.CommonFileDialogFilter("Applications", "*.exe"))
@@ -216,12 +216,12 @@
       cdlOpen.Title = "Select Custom Image Editor..."
       cdlOpen.InitialDirectory = IO.Path.GetDirectoryName(sImageEditor)
       If Not cdlOpen.ShowDialog(Me.Handle) = Microsoft.WindowsAPICodePack.Dialogs.CommonFileDialogResult.Ok Then Return
-      Settings.ImageEditor = cdlOpen.FileName
+      cSettings.ImageEditor = cdlOpen.FileName
     End Using
   End Sub
   Private Sub mnuEditChooseEditorBinary_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuEditChooseEditorBinary.Click
     Using cdlOpen As New Microsoft.WindowsAPICodePack.Dialogs.CommonOpenFileDialog
-      Dim sBinaryEditor As String = Settings.BinaryEditor
+      Dim sBinaryEditor As String = cSettings.BinaryEditor
       cdlOpen.DefaultExtension = "exe"
       cdlOpen.DefaultFileName = IO.Path.GetFileName(sBinaryEditor)
       cdlOpen.Filters.Add(New Microsoft.WindowsAPICodePack.Dialogs.CommonFileDialogFilter("Applications", "*.exe"))
@@ -229,7 +229,7 @@
       cdlOpen.Title = "Select Custom Binary Data Editor..."
       cdlOpen.InitialDirectory = IO.Path.GetDirectoryName(sBinaryEditor)
       If Not cdlOpen.ShowDialog(Me.Handle) = Microsoft.WindowsAPICodePack.Dialogs.CommonFileDialogResult.Ok Then Return
-      Settings.BinaryEditor = cdlOpen.FileName
+      cSettings.BinaryEditor = cdlOpen.FileName
     End Using
   End Sub
 #End Region
@@ -241,7 +241,7 @@
     mnuViewIconsDetails.Checked = False
     mnuViewIconsTile.Checked = False
     lvFiles.View = View.LargeIcon
-    Settings.IconMethod = View.LargeIcon
+    cSettings.IconMethod = View.LargeIcon
   End Sub
   Private Sub mnuViewIconsSmall_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuViewIconsSmall.Click, mnuContextViewIconsSmall.Click
     mnuViewIconsLarge.Checked = False
@@ -250,7 +250,7 @@
     mnuViewIconsDetails.Checked = False
     mnuViewIconsTile.Checked = False
     lvFiles.View = View.SmallIcon
-    Settings.IconMethod = View.SmallIcon
+    cSettings.IconMethod = View.SmallIcon
   End Sub
   Private Sub mnuViewIconsList_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuViewIconsList.Click, mnuContextViewIconsList.Click
     mnuViewIconsLarge.Checked = False
@@ -259,7 +259,7 @@
     mnuViewIconsDetails.Checked = False
     mnuViewIconsTile.Checked = False
     lvFiles.View = View.List
-    Settings.IconMethod = View.List
+    cSettings.IconMethod = View.List
   End Sub
   Private Sub mnuViewIconsDetails_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuViewIconsDetails.Click, mnuContextViewIconsDetails.Click
     mnuViewIconsLarge.Checked = False
@@ -268,7 +268,7 @@
     mnuViewIconsDetails.Checked = True
     mnuViewIconsTile.Checked = False
     lvFiles.View = View.Details
-    Settings.IconMethod = View.Details
+    cSettings.IconMethod = View.Details
     ResizeColumns()
   End Sub
   Private Sub mnuViewIconsTile_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuViewIconsTile.Click, mnuContextViewIconsTile.Click
@@ -278,7 +278,7 @@
     mnuViewIconsDetails.Checked = False
     mnuViewIconsTile.Checked = True
     lvFiles.View = View.Tile
-    Settings.IconMethod = View.Tile
+    cSettings.IconMethod = View.Tile
   End Sub
   Private Sub mnuViewSortName_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuViewSortName.Click, mnuContextViewSortName.Click
     If mnuViewSortName.Checked Then
@@ -303,7 +303,7 @@
     End If
     lvFiles.Columns(1).Text = "Type"
     lvFiles.Columns(2).Text = "Size"
-    Settings.SortMethod = "Name"
+    cSettings.SortMethod = "Name"
   End Sub
   Private Sub mnuViewSortType_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuViewSortType.Click, mnuContextViewSortType.Click
     If mnuViewSortType.Checked Then
@@ -328,7 +328,7 @@
       lvFiles.Columns(1).Text = "Type ↓"
     End If
     lvFiles.Columns(2).Text = "Size"
-    Settings.SortMethod = "Type"
+    cSettings.SortMethod = "Type"
   End Sub
   Private Sub mnuViewSortSize_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuViewSortSize.Click, mnuContextViewSortSize.Click
     If mnuViewSortSize.Checked Then
@@ -353,7 +353,7 @@
     Else
       lvFiles.Columns(2).Text = "Size ↓"
     End If
-    Settings.SortMethod = "Size"
+    cSettings.SortMethod = "Size"
   End Sub
   Private Sub mnuViewSortOrder_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuViewSortOrder.Click, mnuContextViewSortOrder.Click
     If mnuViewSortOrder.Checked Then
@@ -374,21 +374,21 @@
     lvFiles.Columns(0).Text = "Name"
     lvFiles.Columns(1).Text = "Type"
     lvFiles.Columns(2).Text = "Size"
-    Settings.SortMethod = "Order"
+    cSettings.SortMethod = "Order"
   End Sub
   Private Sub mnuToolbar_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuViewToolbar.Click
     mnuViewToolbar.Checked = Not mnuViewToolbar.Checked
-    Settings.ShowToolbar = mnuViewToolbar.Checked
+    cSettings.ShowToolbar = mnuViewToolbar.Checked
     tbNav.Visible = mnuViewToolbar.Checked
   End Sub
   Private Sub mnuViewFlat_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuViewFlat.Click, mnuContextViewFlat.Click
     mnuViewFlat.Checked = Not mnuViewFlat.Checked
-    Settings.FlatView = mnuViewFlat.Checked
+    cSettings.FlatView = mnuViewFlat.Checked
     ToggleFlat()
   End Sub
   Private Sub mnuViewTree_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuViewTree.Click, mnuContextViewTree.Click
     mnuViewTree.Checked = Not mnuViewTree.Checked
-    Settings.TreeView = mnuViewTree.Checked
+    cSettings.TreeView = mnuViewTree.Checked
     ToggleTree(mnuViewTree.Checked)
   End Sub
   Private Sub mnuViewGoRoot_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuViewGoRoot.Click, mnuContextViewGoRoot.Click
@@ -448,7 +448,7 @@
   End Sub
   Private Sub mnuContextFileGo_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuContextFileGo.Click
     If Not mnuContextFile.SourceControl.Name = lvFiles.Name Then Return
-    If Not Settings.FlatView Then Return
+    If Not cSettings.FlatView Then Return
     RenderDir(IO.Path.GetDirectoryName(CType(lvFiles.SelectedItems(0).Tag, ZIP.FileSystemEntry).Name))
   End Sub
   Private Sub mnuContextFileProperties_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuContextFileProperties.Click
@@ -468,8 +468,8 @@
     mnuContextViewSortType.Checked = mnuViewSortType.Checked
     mnuContextViewSortSize.Checked = mnuViewSortSize.Checked
     mnuContextViewSortOrder.Checked = mnuViewSortOrder.Checked
-    mnuContextViewTree.Checked = Settings.TreeView
-    mnuContextViewFlat.Checked = Settings.FlatView
+    mnuContextViewTree.Checked = cSettings.TreeView
+    mnuContextViewFlat.Checked = cSettings.FlatView
     mnuContextViewGoRoot.Enabled = mnuViewGoRoot.Enabled
     mnuContextViewGoParent.Enabled = mnuViewGoParent.Enabled
     mnuContextViewProperties.Enabled = Not String.IsNullOrEmpty(sArchiveDir)
@@ -495,26 +495,26 @@
   End Sub
   Private Sub frmViewer_Shown(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Shown
     regHistory.Add("^.*$")
-    Me.Size = Settings.WindowSize
-    pnlMain.SplitterDistance = Settings.TreeWidth
-    Select Case Settings.IconMethod
+    Me.Size = cSettings.WindowSize
+    pnlMain.SplitterDistance = cSettings.TreeWidth
+    Select Case cSettings.IconMethod
       Case View.LargeIcon : mnuViewIconsLarge.PerformClick()
       Case View.SmallIcon : mnuViewIconsSmall.PerformClick()
       Case View.List : mnuViewIconsList.PerformClick()
       Case View.Details : mnuViewIconsDetails.PerformClick()
       Case View.Tile : mnuViewIconsTile.PerformClick()
     End Select
-    Select Case Settings.SortMethod
+    Select Case cSettings.SortMethod
       Case "Name" : mnuViewSortName.PerformClick()
       Case "Type" : mnuViewSortType.PerformClick()
       Case "Size" : mnuViewSortSize.PerformClick()
       Case "Order" : mnuViewSortOrder.PerformClick()
     End Select
-    mnuViewToolbar.Checked = Settings.ShowToolbar
+    mnuViewToolbar.Checked = cSettings.ShowToolbar
     tbNav.Visible = mnuViewToolbar.Checked
-    mnuViewFlat.Checked = Settings.FlatView
+    mnuViewFlat.Checked = cSettings.FlatView
     ToggleFlat()
-    mnuViewTree.Checked = Settings.TreeView
+    mnuViewTree.Checked = cSettings.TreeView
     ToggleTree(mnuViewTree.Checked)
     isLoaded = True
     If My.Application.CommandLineArgs.LongCount = 1 Then
@@ -535,7 +535,7 @@
   Private Sub frmViewer_ResizeEnd(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.ResizeEnd
     If Me.WindowState = FormWindowState.Maximized Then Return
     If Not isLoaded Then Return
-    Settings.WindowSize = Me.Size
+    cSettings.WindowSize = Me.Size
   End Sub
 #Region "Toolbar"
   Private Sub cmdBack_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdBack.Click
@@ -605,7 +605,7 @@
 #End Region
   Private Sub pnlMain_SplitterMoved(ByVal sender As System.Object, ByVal e As System.Windows.Forms.SplitterEventArgs) Handles pnlMain.SplitterMoved
     If Not isLoaded Then Return
-    Settings.TreeWidth = pnlMain.SplitterDistance
+    cSettings.TreeWidth = pnlMain.SplitterDistance
   End Sub
   Private Sub tvExplorer_AfterSelect(ByVal sender As System.Object, ByVal e As System.Windows.Forms.TreeViewEventArgs) Handles tvExplorer.AfterSelect
     If tBusy Then Return
@@ -720,7 +720,7 @@
     mnuContextFileCollapse.Visible = False
     mnuContextFileCollapseAll.Visible = False
     mnuContextFileSpace2.Visible = False
-    mnuContextFileGo.Visible = lvFiles.SelectedItems.Count = 1 AndAlso Settings.FlatView
+    mnuContextFileGo.Visible = lvFiles.SelectedItems.Count = 1 AndAlso cSettings.FlatView
     mnuContextFileProperties.Enabled = lvFiles.SelectedItems.Count = 1
     mnuContextFile.Tag = Nothing
     mnuContextFile.Show(lvFiles, e.Location)
@@ -876,7 +876,7 @@
     End If
     Dim sPath As String = sDir
     Dim addList As New List(Of ListViewItem)
-    If Settings.FlatView Then
+    If cSettings.FlatView Then
       Dim subDirPos As Integer = 1
       If Not sDir = IO.Path.DirectorySeparatorChar Then subDirPos = sDir.Length + 1
       For I As Long = 0 To zArchive.LongLength - 1
@@ -1198,7 +1198,7 @@
     Dim fType As FileCat = DetermineFileCategory(zFSE)
     Dim sEditor As String = Nothing
     If fType = FileCat.Text Then
-      sEditor = Settings.TextEditor
+      sEditor = cSettings.TextEditor
       If String.IsNullOrEmpty(sEditor) Then
         SuperMsgBox(Me, Microsoft.WindowsAPICodePack.Dialogs.TaskDialogStandardIcon.Information, "Select a Text Editor first.", "Please choose a Custom Text Editor from the Edit menu before using the Edit command.", Microsoft.WindowsAPICodePack.Dialogs.TaskDialogStandardButtons.Ok)
         Return
@@ -1208,7 +1208,7 @@
         Return
       End If
     ElseIf fType = FileCat.Image Then
-      sEditor = Settings.ImageEditor
+      sEditor = cSettings.ImageEditor
       If String.IsNullOrEmpty(sEditor) Then
         SuperMsgBox(Me, Microsoft.WindowsAPICodePack.Dialogs.TaskDialogStandardIcon.Information, "Select an Image Editor first.", "Please choose a Custom Image Editor from the Edit menu before using the Edit command.", Microsoft.WindowsAPICodePack.Dialogs.TaskDialogStandardButtons.Ok)
         Return
@@ -1218,7 +1218,7 @@
         Return
       End If
     Else
-      sEditor = Settings.BinaryEditor
+      sEditor = cSettings.BinaryEditor
       If String.IsNullOrEmpty(sEditor) Then
         SuperMsgBox(Me, Microsoft.WindowsAPICodePack.Dialogs.TaskDialogStandardIcon.Information, "Select a Binary Data Editor first.", "Please choose a Custom Binary Data Editor from the Edit menu before using the Edit command.", Microsoft.WindowsAPICodePack.Dialogs.TaskDialogStandardButtons.Ok)
         Return
@@ -1318,7 +1318,7 @@
     pbActivity.Style = ProgressBarStyle.Marquee
     lblSelCount.Text = "Extracting..."
     'extraction process is messier on flat view
-    If Settings.FlatView Then
+    If cSettings.FlatView Then
       Dim subDirPos As Integer = 1
       If Not sArchiveDir = IO.Path.DirectorySeparatorChar Then subDirPos = sArchiveDir.Length + 1
       For I As Integer = 0 To lvFiles.SelectedItems.Count - 1
