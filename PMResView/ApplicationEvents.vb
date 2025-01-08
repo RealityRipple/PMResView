@@ -10,6 +10,11 @@
           Return
         End If
       End If
+      If Environment.OSVersion.Version.Major < 6 Then
+        MsgBox(My.Application.Info.ProductName & " does not support the version of Windows your computer is running.", MsgBoxStyle.Critical, My.Application.Info.ProductName)
+        e.Cancel = True
+        Return
+      End If
       If e.CommandLine IsNot Nothing AndAlso e.CommandLine.Count > 0 Then
         If e.CommandLine.Contains("/uninstall") OrElse e.CommandLine.Contains("-uninstall") Then
           cSettings.RemoveAll()
