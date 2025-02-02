@@ -7,7 +7,7 @@
     Tls11 = &H300
     Tls12 = &HC00
   End Enum
-  Private Const VersionURL As String = "update.realityripple.com/PMResView/update.ver"
+  Private Const VersionURL As String = "update.realityripple.com/PMResView/update.ver?sha=512"
   Class ProgressEventArgs
     Inherits EventArgs
     Public BytesReceived As Long
@@ -199,7 +199,7 @@
     End Try
     Dim rsa As New Security.Cryptography.RSACryptoServiceProvider
     rsa.FromXmlString(My.Resources.pubkey)
-    Return rsa.VerifyData(bMsg, Security.Cryptography.CryptoConfig.MapNameToOID("SHA1"), bSig)
+    Return rsa.VerifyData(bMsg, Security.Cryptography.CryptoConfig.MapNameToOID("SHA512"), bSig)
   End Function
   Private Shared Function CompareVersions(ByVal sRemote As String) As Boolean
     Dim sLocal As String = Application.ProductVersion
