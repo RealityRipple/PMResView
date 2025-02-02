@@ -1,10 +1,10 @@
 # ![](https://realityripple.com/Software/Applications/PMResView/favicon-32x32.png) PMRes Viewer
 Archiving tool for viewing and extracting the contents of Pale Moon resource archives
 
-#### Version 2.0
+#### Version 2.1
 > Author: Andrew Sachen  
 > Created: January 21, 2024  
-> Updated: January 7, 2025  
+> Updated: February 2, 2025  
 
 Language: Visual Basic.NET  
 Compiler: Visual Studio 2010  
